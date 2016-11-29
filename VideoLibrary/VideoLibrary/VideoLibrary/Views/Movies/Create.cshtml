@@ -1,4 +1,4 @@
-﻿@model VideoLibrary.Models.Movie
+﻿@model VideoLibrary.BusinessEntities.Models.Model.Movie
 
 @{
     ViewBag.Title = "Create";
@@ -33,7 +33,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ActorId, "ActorId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ActorId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ActorId", (SelectList)ViewBag.ActorId, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ActorId, "", new { @class = "text-danger" })
             </div>
         </div>

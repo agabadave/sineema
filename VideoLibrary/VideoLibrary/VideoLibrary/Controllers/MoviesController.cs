@@ -1,51 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using VideoLibrary;
-using VideoLibrary.Models;
+using VideoLibrary.BusinessLogic.Services.ActorCrudService;
+using VideoLibrary.BusinessLogic.Services.MovieCrudService;
+using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.Controllers
 {
     [RoutePrefix("sineema")]
     public class MoviesController : Controller
     {
-        private VideoLibraryContext db = new VideoLibraryContext();
+        private readonly IMovieService _movieService;
+        private readonly IActorService _actorService;
+        
+        public MoviesController(IMovieService movieService, IActorService actorService)
+        {
+            _movieService = movieService;
+            _actorService = actorService;
+        }
 
         // GET: Movies
         [Route("")]
         public async Task<ActionResult> Index()
         {
-            var movies = db.Movies.Include(m => m.Actor);
-            return View(await movies.ToListAsync());
+            return View(await _movieService.GetMovies());
         }
 
         // GET: Movies/Details/5
         [Route("{id:int}/details")]
         public async Task<ActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Movie movie = await db.Movies.FindAsync(id);
-            if (movie == null)
-            {
-                return HttpNotFound();
-            }
-            return View(movie);
+            return View(await _movieService.GetMovieDetails(id));
         }
 
         // GET: Movies/Create
         [Route("add")]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            ViewBag.ActorId = new SelectList(db.Actors, "Id", "Name");
+            var actors = await _actorService.GetActors();
+            ViewBag.ActorId = new SelectList(actors, "Id", "Name");
             return View();
         }
 
@@ -59,12 +53,28 @@ namespace VideoLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Movies.Add(movie);
-                await db.SaveChangesAsync();
+
+
+                var actor = new Actor() { Name = "Kadoonya", IsActive = true, DateAdded = DateTime.Now, Id = 3};
+                var movieModel = new Movie()
+                {
+                    ActorId = 3,
+                    Actor = actor,
+                    DateAdded = DateTime.Now,
+                    Title = "Olutalo Lwa Pilaawo",
+                    Duration = 3
+                };
+
+                await _movieService.InsertMovie(movieModel);
+
+
+
+                //await _movieService.InsertMovie(movie);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ActorId = new SelectList(db.Actors, "Id", "Name", movie.ActorId);
+            var actors = await _actorService.GetActors();
+            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 
@@ -76,12 +86,16 @@ namespace VideoLibrary.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Movie movie = await db.Movies.FindAsync(id);
+
+            var movie = await _movieService.GetMovieDetails(id);
             if (movie == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ActorId = new SelectList(db.Actors, "Id", "Name", movie.ActorId);
+
+            var actors = await _actorService.GetActors();
+
+            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 
@@ -95,11 +109,13 @@ namespace VideoLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(movie).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await _movieService.UpdateMovie(movie);
                 return RedirectToAction("Index");
             }
-            ViewBag.ActorId = new SelectList(db.Actors, "Id", "Name", movie.ActorId);
+
+            var actors = await _actorService.GetActors();
+
+            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 
@@ -107,15 +123,11 @@ namespace VideoLibrary.Controllers
         [Route("{id:int}/delete")]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Movie movie = await db.Movies.FindAsync(id);
+            var movie = await _movieService.GetMovie(id);
+
             if (movie == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(movie);
         }
 
@@ -125,19 +137,10 @@ namespace VideoLibrary.Controllers
         [Route("{id:int}/confirm/delete")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Movie movie = await db.Movies.FindAsync(id);
-            db.Movies.Remove(movie);
-            await db.SaveChangesAsync();
+            await _movieService.DeleteMovie(id);
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

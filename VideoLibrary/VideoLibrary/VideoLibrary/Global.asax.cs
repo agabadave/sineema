@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using VideoLibrary.BusinessEntities;
 
 namespace VideoLibrary
 {
@@ -16,6 +14,18 @@ namespace VideoLibrary
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            #region DEBUG
+#if DEBUG
+            Database.SetInitializer(new Init());
+#endif
+            #endregion
+            using (var dbcontext = new LibraryContext())
+            {
+                dbcontext.Database.Initialize(false);
+            }
+
         }
+
     }
 }

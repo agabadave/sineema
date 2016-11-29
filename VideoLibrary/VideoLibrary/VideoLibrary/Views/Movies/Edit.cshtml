@@ -1,4 +1,4 @@
-﻿@model VideoLibrary.Models.Movie
+﻿@model VideoLibrary.BusinessEntities.Models.Model.Movie
 
 @{
     ViewBag.Title = "Edit";
@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Movie</h4>
         <hr />
