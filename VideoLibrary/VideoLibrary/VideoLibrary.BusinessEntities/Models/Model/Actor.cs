@@ -10,6 +10,10 @@ namespace VideoLibrary.BusinessEntities.Models.Model
     {
         public string Name { get; set; }
 
+        public DateTime DateOfBirth { get; set; }
+
         public virtual ICollection<Movie> Movies { get; set; }
     }
+
+
 }
