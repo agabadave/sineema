@@ -15,9 +15,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         {
             using (var db = new LibraryContext())
             {
-
-
-                return await db.Movies.Include(i => i.Actor).ToListAsync();
+                return await db.Movies.ToListAsync();
             }
         }
 
@@ -25,7 +23,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         {
             using (var db = new LibraryContext())
             {
-                return await db.Movies.Include(i => i.Actor).FirstOrDefaultAsync(p => p.Id == id);
+                return await db.Movies.FirstOrDefaultAsync(p => p.Id == id);
             }
         }
     }

@@ -11,11 +11,8 @@ namespace VideoLibrary.BusinessEntities.Models.Model
     {
         public string Title { get; set; }
         public int Duration { get; set; }
-        public long ActorId { get; set; }
         public Genre Genre { get; set; }
-
-
-        public virtual Actor Actor { get; set; }
+        
     }
 
 

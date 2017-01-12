@@ -13,12 +13,7 @@ namespace VideoLibrary.BusinessEntities.Models.ModelConfig
         public MovieMap()
         {
             Property(p => p.Title).IsRequired();
-            Property(p => p.ActorId).IsRequired();
            
-            
-            HasRequired(p => p.Actor).WithMany(p => p.Movies).HasForeignKey(f => f.ActorId);
-
-
         }
     }
 }
