@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -30,6 +31,9 @@ namespace VideoLibrary.Tests.ControllerTests
             _moqActorRepository = new Mock<IActorRepository>();
 
             _moviesController = new MoviesController(new MovieService(_moqMovieRepository.Object), new ActorService(_moqActorRepository.Object));
+
+            _moqMovieRepository.Setup(c => c.GetAll()).ReturnsAsync(new List<Movie>() { new Movie() { Id = 1, DateAdded = DateTime.Now, Genre = Genre.Kinigeria, Duration = 250, IsActive = true, Title = "Nigerian Movie" } });
+
         }
 
         [TearDown]
@@ -43,13 +47,22 @@ namespace VideoLibrary.Tests.ControllerTests
         public async Task Should_Call_GetMovies_Once()
         {
             //arrange...
-            _moqMovieRepository.Setup(c => c.GetAll()).ReturnsAsync(new List<Movie>() {new Movie() {Id = 1, DateAdded = DateTime.Now, Genre = Genre.Kinigeria, Duration = 250, IsActive = true, Title = "Nigerian Movie"} });
-
+            
             //act...
             await _moviesController.Index();
 
             //assert...
             _moqMovieRepository.Verify(x => x.GetAll(), Times.Once());
+        }
+
+        [Test]
+        public async Task Should_Have_Detail_View()
+        {
+            //act...
+            var result = (await _moviesController.Index()) as ViewResult;
+
+            //assert...
+            Assert.AreEqual(string.Empty, result.ViewName);
         }
     }
 }
