@@ -13,6 +13,8 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public DateTime DateOfBirth { get; set; }
 
         public virtual ICollection<Movie> Movies { get; set; }
+
+        public Gender Gender { get; set; }
     }
 
 

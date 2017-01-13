@@ -10,5 +10,7 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
     public interface IActorService
     {
         Task<List<Actor>> GetActors();
+
+        Task<List<Actor>> GetActors(Gender gender);
     }
 }

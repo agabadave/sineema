@@ -30,7 +30,7 @@ LOS.util = function(){
                     '@-ms-viewport{width:auto!important}'
                 )
             );
-            document.querySelector('head').appendChild(msViewportStyle)
+            document.querySelector('head')/*.appendChild(msViewportStyle)*/;
         }
     }
 
@@ -40,7 +40,7 @@ LOS.util = function(){
 
     return {
         init: init
-    }
+    };
 }();
 
 LOS.setHeadElement = function () {
@@ -78,7 +78,7 @@ LOS.setHeadElement = function () {
     return {
         init: init,
         publicFunc: publicFunc
-    }
+    };
 }();
 
 LOS.calculateGodwinAge = function () {
@@ -127,7 +127,7 @@ LOS.calculateGodwinAge = function () {
     return {
         init: init,
         calculator: calculator
-    }
+    };
 }();
 
 /***************************

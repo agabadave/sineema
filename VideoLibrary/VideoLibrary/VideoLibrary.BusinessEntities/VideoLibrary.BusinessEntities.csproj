@@ -74,6 +74,7 @@
     <Compile Include="Models\Model\Actor.cs" />
     <Compile Include="Models\Model\AuditTrail.cs" />
     <Compile Include="Models\Model\Client.cs" />
+    <Compile Include="Models\Model\Gender.cs" />
     <Compile Include="Models\Model\ModelBase.cs" />
     <Compile Include="Models\Model\Movie.cs" />
     <Compile Include="Models\PartialClasses\Client.cs" />

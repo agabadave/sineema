@@ -11,5 +11,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
     public interface IActorRepository : IRepositoryBase
     {
         Task<List<Actor>> GetAll();
+
+        Task<List<Actor>> GetAll(Gender gender);
     }
 }

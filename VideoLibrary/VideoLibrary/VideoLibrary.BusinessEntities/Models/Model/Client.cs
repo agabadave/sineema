@@ -14,12 +14,4 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public DateTime DateOfBirth { get; set; }
         public Gender Gender { get; set; }
     }
-
-    public enum Gender
-    {
-        Male,
-        Female,
-        Godwin,
-        Kenneth
-    }
 }
