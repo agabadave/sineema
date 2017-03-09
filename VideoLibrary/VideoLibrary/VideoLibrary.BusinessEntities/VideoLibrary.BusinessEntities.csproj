@@ -68,9 +68,9 @@
     <Compile Include="Migrations\201703091304022_CreateTables.Designer.cs">
       <DependentUpon>201703091304022_CreateTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703091248460_InitialCreate1.cs" />
-    <Compile Include="Migrations\201703091248460_InitialCreate1.Designer.cs">
-      <DependentUpon>201703091248460_InitialCreate1.cs</DependentUpon>
+    <Compile Include="Migrations\201703091344147_AddGenre.cs" />
+    <Compile Include="Migrations\201703091344147_AddGenre.Designer.cs">
+      <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ModelConfig\ClientMap.cs" />
@@ -96,8 +96,8 @@
     <EmbeddedResource Include="Migrations\201703091304022_CreateTables.resx">
       <DependentUpon>201703091304022_CreateTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703091248460_InitialCreate1.resx">
-      <DependentUpon>201703091248460_InitialCreate1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703091344147_AddGenre.resx">
+      <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
