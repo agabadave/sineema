@@ -13,7 +13,7 @@ namespace VideoLibrary.BusinessEntities.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201703091357322_AddedYearToMovie"; }
+            get { return "201703091412016_AddedYearToMovie"; }
         }
         
         string IMigrationMetadata.Source
