@@ -12,9 +12,7 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public string Title { get; set; }
         public int Duration { get; set; }
         public Genre Genre { get; set; }
-        
     }
-
 
     public enum Genre
     {

@@ -5,14 +5,12 @@ namespace VideoLibrary.BusinessEntities.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    public sealed class Configuration : DbMigrationsConfiguration<VideoLibrary.BusinessEntities.LibraryContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<VideoLibrary.BusinessEntities.LibraryContext>
     {
         public Configuration()
         {
-            AutomaticMigrationDataLossAllowed = true;
-            AutomaticMigrationsEnabled = true;
-            
-            ContextKey = "VideoLibrary.BusinessEntities.LibraryContext";
+            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(VideoLibrary.BusinessEntities.LibraryContext context)

@@ -17,7 +17,7 @@ namespace VideoLibrary
 
             #region DEBUG
 #if DEBUG
-            Database.SetInitializer(new Init());
+            //Database.SetInitializer(new Init());
 #endif
             #endregion
             using (var dbcontext = new LibraryContext())

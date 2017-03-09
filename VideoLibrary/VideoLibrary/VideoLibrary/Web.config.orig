@@ -10,7 +10,11 @@
   <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 --></configSections>
 
   <connectionStrings>
+<<<<<<< HEAD
     <add name="VideoLibraryContext" connectionString="Data Source=(LocalDB)\v11.0; Initial Catalog=VideoLibraryDatabase; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|VideoLibraryDatabase.mdf" providerName="System.Data.SqlClient" />
+=======
+    <add name="VideoLibraryContext" connectionString="Data Source=(Localdb)\v11.0; Initial Catalog=VideoLibraryDatabase; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|VideoLibraryDatabase.mdf" providerName="System.Data.SqlClient" />
+>>>>>>> 4b65505ed85c43f095ac42970f9b15a3cf2e9a5c
   </connectionStrings>
   
   <appSettings>
