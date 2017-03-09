@@ -9,8 +9,8 @@ namespace VideoLibrary.BusinessEntities.Migrations
     {
         public Configuration()
         {
+            AutomaticMigrationDataLossAllowed = false;
             AutomaticMigrationsEnabled = false;
-            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(VideoLibrary.BusinessEntities.LibraryContext context)
