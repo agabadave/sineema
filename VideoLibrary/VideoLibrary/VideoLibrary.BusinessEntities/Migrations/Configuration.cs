@@ -9,8 +9,8 @@ namespace VideoLibrary.BusinessEntities.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationDataLossAllowed = true;
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationsEnabled = false;
             
             ContextKey = "VideoLibrary.BusinessEntities.LibraryContext";
         }
