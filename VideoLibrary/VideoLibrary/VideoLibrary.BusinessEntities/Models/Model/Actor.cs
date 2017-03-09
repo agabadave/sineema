@@ -15,6 +15,8 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public virtual ICollection<Movie> Movies { get; set; }
 
         public Gender Gender { get; set; }
+
+        public String Genre { get; set; }
     }
 
 
