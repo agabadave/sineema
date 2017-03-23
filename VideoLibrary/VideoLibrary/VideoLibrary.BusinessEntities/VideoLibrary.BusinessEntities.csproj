@@ -72,9 +72,9 @@
     <Compile Include="Migrations\201703091344147_AddGenre.Designer.cs">
       <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703091412016_AddedYearToMovie.cs" />
-    <Compile Include="Migrations\201703091412016_AddedYearToMovie.Designer.cs">
-      <DependentUpon>201703091412016_AddedYearToMovie.cs</DependentUpon>
+    <Compile Include="Migrations\201703091355203_AddLeadActor.cs" />
+    <Compile Include="Migrations\201703091355203_AddLeadActor.Designer.cs">
+      <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ModelConfig\ClientMap.cs" />
@@ -103,8 +103,8 @@
     <EmbeddedResource Include="Migrations\201703091344147_AddGenre.resx">
       <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703091412016_AddedYearToMovie.resx">
-      <DependentUpon>201703091412016_AddedYearToMovie.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703091355203_AddLeadActor.resx">
+      <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

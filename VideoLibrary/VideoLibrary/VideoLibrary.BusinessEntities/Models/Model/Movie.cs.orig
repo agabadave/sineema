@@ -13,9 +13,13 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public int Duration { get; set; }
         public Genre Genre { get; set; }
 
+<<<<<<< HEAD
+        public int Year { get; set; }
+=======
         public long LeadActorId { get; set; }
 
         public Actor Actor { get; set; }
+>>>>>>> d90442a29bf1304f6a3bd1567b2e06af959391ee
     }
 
     public enum Genre

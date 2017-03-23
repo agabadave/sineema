@@ -24,11 +24,16 @@ namespace VideoLibrary.BusinessEntities.Models.Model
             get { return _dateCreated ?? DateTime.Now; }
             set { _dateCreated = value; }
         }
-        
-        public int? AddedBy { get; set; }
+
+        public int? AddedBy
+        {
+            get { return _addedBy ?? 1; }
+            set { _addedBy = value; }
+        }
 
 
         private DateTime? _dateCreated;
         private Boolean? _isActive;
+        private int? _addedBy;
     }
 }
