@@ -81,6 +81,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActorRepository\ActorRepository.cs" />
     <Compile Include="Repositories\ActorRepository\IActorRepository.cs" />
+    <Compile Include="Repositories\ClientRepository\ClientRepository.cs" />
     <Compile Include="Repositories\MovieRepository\IMovieRepository.cs" />
     <Compile Include="Repositories\MovieRepository\MovieRepository.cs" />
     <Compile Include="Services\ActorCrudService\ActorService.cs" />
