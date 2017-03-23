@@ -13,7 +13,7 @@ namespace VideoLibrary.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly IActorService _actorService;
-        
+
         public MoviesController(IMovieService movieService, IActorService actorService)
         {
             _movieService = movieService;
@@ -38,8 +38,9 @@ namespace VideoLibrary.Controllers
         [Route("add")]
         public async Task<ActionResult> Create()
         {
+            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
             var actors = await _actorService.GetActors();
-            //ViewBag.ActorId = new SelectList(actors, "Id", "Name");
+
             return View();
         }
 
@@ -49,7 +50,7 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Duration,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace VideoLibrary.Controllers
                 //await _movieService.InsertMovie(movie);
                 return RedirectToAction("Index");
             }
-            
+
             return View(movie);
         }
 
@@ -79,7 +80,7 @@ namespace VideoLibrary.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             return View(movie);
         }
 
@@ -96,7 +97,7 @@ namespace VideoLibrary.Controllers
                 await _movieService.UpdateMovie(movie);
                 return RedirectToAction("Index");
             }
-            
+
             return View(movie);
         }
 
