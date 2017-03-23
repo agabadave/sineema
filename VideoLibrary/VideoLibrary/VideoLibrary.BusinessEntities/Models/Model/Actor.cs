@@ -18,6 +18,7 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public Gender Gender { get; set; }
 
         public String Genre { get; set; }
+        public int NumberOfMovies { get; set; } 
     }
 
 

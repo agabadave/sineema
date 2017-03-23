@@ -76,6 +76,10 @@
     <Compile Include="Migrations\201703091355203_AddLeadActor.Designer.cs">
       <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.cs" />
+    <Compile Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.Designer.cs">
+      <DependentUpon>201703231214081_AddedNumberOfMoviesToActorModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ModelConfig\ClientMap.cs" />
     <Compile Include="Models\ModelConfig\MovieMap.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703091355203_AddLeadActor.resx">
       <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.resx">
+      <DependentUpon>201703231214081_AddedNumberOfMoviesToActorModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
