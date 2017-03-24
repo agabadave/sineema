@@ -82,10 +82,13 @@
     <Compile Include="Repositories\ActorRepository\ActorRepository.cs" />
     <Compile Include="Repositories\ActorRepository\IActorRepository.cs" />
     <Compile Include="Repositories\ClientRepository\ClientRepository.cs" />
+    <Compile Include="Repositories\ClientRepository\IClientRepository.cs" />
     <Compile Include="Repositories\MovieRepository\IMovieRepository.cs" />
     <Compile Include="Repositories\MovieRepository\MovieRepository.cs" />
     <Compile Include="Services\ActorCrudService\ActorService.cs" />
     <Compile Include="Services\ActorCrudService\IActorService.cs" />
+    <Compile Include="Services\ClientCrudService\ClientCrudService.cs" />
+    <Compile Include="Services\ClientCrudService\IClientCrudService.cs" />
     <Compile Include="Services\MovieCrudService\IMovieService.cs" />
     <Compile Include="Services\MovieCrudService\MovieService.cs" />
   </ItemGroup>

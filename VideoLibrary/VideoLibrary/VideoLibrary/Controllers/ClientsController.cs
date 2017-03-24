@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
+using VideoLibrary.BusinessLogic.Services.ClientCrudService;
 
 namespace VideoLibrary.Controllers
 {
@@ -16,10 +17,17 @@ namespace VideoLibrary.Controllers
     {
         private LibraryContext db = new LibraryContext();
 
+        private readonly IClientCrudService _clientCrudService;
+
+        public ClientsController(IClientCrudService clientCrudService)
+        {
+            _clientCrudService = clientCrudService;
+        }
+
         // GET: Clients
         public async Task<ActionResult> Index()
         {
-            return View(await db.Clients.ToListAsync());
+            return View(_clientCrudService.GetAllClients());
         }
 
         // GET: Clients/Details/5

@@ -25,6 +25,7 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
 
         public async Task<List<Actor>> GetActors(Gender gender)
         {
+          
             return await _actorRepository.GetAll(gender);
         }
 
