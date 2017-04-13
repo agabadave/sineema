@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace VideoLibrary.BusinessEntities
 {
-    //public class Init : MigrateDatabaseToLatestVersion<LibraryContext, Migrations.Configuration> { }
+    public class Init : MigrateDatabaseToLatestVersion<LibraryContext, Migrations.Configuration> { }
 }
