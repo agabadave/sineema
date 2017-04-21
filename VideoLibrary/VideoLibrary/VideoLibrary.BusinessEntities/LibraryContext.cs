@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 
@@ -15,16 +13,14 @@ namespace VideoLibrary.BusinessEntities
     {
         public LibraryContext() : base("Name=VideoLibraryContext")
         {
-            //If i want to out put the excuted sql to vs output window
+            // If i want to out put the excuted sql to vs output window
             Database.Log = sql => Debug.Write(sql);
         }
 
         public DbSet<AuditTrail> Audit { get; set; }
-
         public DbSet<Client> Clients { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
-
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,7 +28,6 @@ namespace VideoLibrary.BusinessEntities
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-
 
             base.OnModelCreating(modelBuilder);
         }

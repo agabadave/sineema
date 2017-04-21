@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Mvc;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.Controllers;

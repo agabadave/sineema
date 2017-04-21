@@ -4,9 +4,7 @@ using VideoLibrary.BusinessEntities.Models.Model;
 namespace VideoLibrary.BusinessEntities.Migrations
 {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     public sealed class Configuration : DbMigrationsConfiguration<VideoLibrary.BusinessEntities.LibraryContext>
     {
@@ -30,7 +28,7 @@ namespace VideoLibrary.BusinessEntities.Migrations
             //  new Actor { Name = "Rowan Miller" }
             //);
 
-            SeedData(5);//Seed actors and momies
+            SeedData(10);//Seed actors and momies
         }
 
         private void SeedData(long count)
