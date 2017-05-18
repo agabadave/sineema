@@ -22,7 +22,6 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         public async Task<Movie> GetMovieDetails(long? id)
         {
             return await _movieRepository.Get(id);
-
         }
 
         public async Task<Movie> DeleteMovie(long? id)

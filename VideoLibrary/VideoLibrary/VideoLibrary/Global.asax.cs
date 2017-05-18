@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using VideoLibrary.BusinessEntities;
@@ -17,7 +16,7 @@ namespace VideoLibrary
 
             #region DEBUG
 #if DEBUG
-            Database.SetInitializer(new Init());
+            //Database.SetInitializer(new Init());
 #endif
             #endregion
             using (var dbcontext = new LibraryContext())

@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VideoLibrary.BusinessEntities.Models.Model
 {
@@ -10,6 +7,15 @@ namespace VideoLibrary.BusinessEntities.Models.Model
     {
         public string Name { get; set; }
 
+        public DateTime DateOfBirth { get; set; }
+
         public virtual ICollection<Movie> Movies { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public String Genre { get; set; }
+        public int NumberOfMovies { get; set; } 
     }
+
+
 }

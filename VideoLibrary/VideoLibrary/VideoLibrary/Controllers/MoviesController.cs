@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Net;
 using System.Web.Mvc;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
@@ -13,7 +12,7 @@ namespace VideoLibrary.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly IActorService _actorService;
-        
+
         public MoviesController(IMovieService movieService, IActorService actorService)
         {
             _movieService = movieService;
@@ -38,8 +37,9 @@ namespace VideoLibrary.Controllers
         [Route("add")]
         public async Task<ActionResult> Create()
         {
+            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
             var actors = await _actorService.GetActors();
-            ViewBag.ActorId = new SelectList(actors, "Id", "Name");
+
             return View();
         }
 
@@ -49,23 +49,12 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie movie)
         {
             if (ModelState.IsValid)
             {
 
-
-                var actor = new Actor() { Name = "Kadoonya", IsActive = true, DateAdded = DateTime.Now, Id = 3};
-                var movieModel = new Movie()
-                {
-                    ActorId = 3,
-                    Actor = actor,
-                    DateAdded = DateTime.Now,
-                    Title = "Olutalo Lwa Pilaawo",
-                    Duration = 3
-                };
-
-                await _movieService.InsertMovie(movieModel);
+                await _movieService.InsertMovie(movie);
 
 
 
@@ -73,8 +62,6 @@ namespace VideoLibrary.Controllers
                 return RedirectToAction("Index");
             }
 
-            var actors = await _actorService.GetActors();
-            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 
@@ -93,9 +80,6 @@ namespace VideoLibrary.Controllers
                 return HttpNotFound();
             }
 
-            var actors = await _actorService.GetActors();
-
-            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 
@@ -113,9 +97,6 @@ namespace VideoLibrary.Controllers
                 return RedirectToAction("Index");
             }
 
-            var actors = await _actorService.GetActors();
-
-            ViewBag.ActorId = new SelectList(actors, "Id", "Name", movie.ActorId);
             return View(movie);
         }
 

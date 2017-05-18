@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
@@ -16,6 +14,14 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
             using (var db = new LibraryContext())
             {
                 return await db.Actors.ToListAsync();
+            }
+        }
+
+        public async Task<List<Actor>> GetAll(Gender gender)
+        {
+            using(var db = new LibraryContext())
+            {
+                return await db.Actors.Where(x => x.Gender == gender).ToListAsync();
             }
         }
     }

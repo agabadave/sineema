@@ -16,7 +16,20 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
 
         public async Task<List<Actor>> GetActors()
         {
+            
             return await _actorRepository.GetAll();
+        }
+
+        public async Task<List<Actor>> GetActors(Gender gender)
+        {
+          
+            return await _actorRepository.GetAll(gender);
+        }
+
+
+        public async Task SaveActor(Actor model)
+        {
+            await _actorRepository.InsertAsync(model);
         }
     }
 }
