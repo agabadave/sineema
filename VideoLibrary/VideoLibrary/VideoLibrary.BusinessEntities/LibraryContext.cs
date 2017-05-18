@@ -22,6 +22,8 @@ namespace VideoLibrary.BusinessEntities
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
 
+        public DbSet<MovieActor> MovieActors { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());

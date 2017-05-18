@@ -1,5 +1,6 @@
 using VideoLibrary.BusinessLogic.Repositories.ActorRepository;
 using VideoLibrary.BusinessLogic.Repositories.ClientRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
 using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.BusinessLogic.Services.ClientCrudService;
@@ -74,6 +75,7 @@ namespace VideoLibrary.App_Start
             kernel.Bind<IMovieService>().To<MovieService>();
             kernel.Bind<IClientRepository>().To<ClientRepository>();
             kernel.Bind<IClientCrudService>().To<ClientCrudService>();
+            kernel.Bind<IMovieActorRepository>().To<MovieActorRepository>();
         }        
     }
 }

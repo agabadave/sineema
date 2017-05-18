@@ -22,6 +22,7 @@ namespace VideoLibrary.Controllers
         {
             // ReSharper disable once JoinDeclarationAndInitializer
             List<Movie> movies;
+/*
 
             #region Loading related entities
             
@@ -108,6 +109,7 @@ namespace VideoLibrary.Controllers
             movies = _db.Database.SqlQuery<Movie>("select * from movies m join actors a on m.actorId = a.id").ToList();
 
             #endregion
+*/
 
             return View();
         }

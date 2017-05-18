@@ -1,4 +1,6 @@
-﻿namespace VideoLibrary.BusinessEntities.Models.Model
+﻿using System.Collections.Generic;
+
+namespace VideoLibrary.BusinessEntities.Models.Model
 {
     public class Movie : ModelBase
     {
@@ -9,6 +11,9 @@
         public long LeadActorId { get; set; }
 
         public Actor Actor { get; set; }
+
+        public ICollection<MovieActor> MovieActors { get; set; }
+
     }
 
     public enum Genre

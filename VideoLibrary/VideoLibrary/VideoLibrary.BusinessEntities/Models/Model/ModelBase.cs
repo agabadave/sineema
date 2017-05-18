@@ -15,6 +15,7 @@ namespace VideoLibrary.BusinessEntities.Models.Model
             set { _isActive = value; }
         }
 
+        [UIHint("Date")]
         public DateTime DateAdded
         {
             get { return _dateCreated ?? DateTime.Now; }

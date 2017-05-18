@@ -83,6 +83,8 @@
     <Compile Include="Repositories\ActorRepository\IActorRepository.cs" />
     <Compile Include="Repositories\ClientRepository\ClientRepository.cs" />
     <Compile Include="Repositories\ClientRepository\IClientRepository.cs" />
+    <Compile Include="Repositories\MovieActorRepository\IMovieActorRepository.cs" />
+    <Compile Include="Repositories\MovieActorRepository\MovieActorRepository.cs" />
     <Compile Include="Repositories\MovieRepository\IMovieRepository.cs" />
     <Compile Include="Repositories\MovieRepository\MovieRepository.cs" />
     <Compile Include="Services\ActorCrudService\ActorService.cs" />
