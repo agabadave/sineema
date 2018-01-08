@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoLibrary", "VideoLibrary\VideoLibrary.csproj", "{47FD98CD-E4F7-4AA7-B865-2F35228D433B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoLibrary.BusinessEntities", "VideoLibrary.BusinessEntities\VideoLibrary.BusinessEntities.csproj", "{8ADC0E4D-5571-4A85-BECB-33D8489E824B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoLibrary.BusinessLogic", "VideoLibrary.BusinessLogic\VideoLibrary.BusinessLogic.csproj", "{B4DF69ED-EAFA-4880-A943-C8EEF8C6BC78}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIFirstExample", "UIFirstExample\UIFirstExample.csproj", "{F8A0F628-6DB3-4874-9DED-1B43B24BF206}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoLibrary.Tests", "VideoLibrary.Tests\VideoLibrary.Tests.csproj", "{F9B8B121-D626-425C-8744-14CB1325AF29}"
 EndProject
@@ -73,22 +71,6 @@ Global
 		{B4DF69ED-EAFA-4880-A943-C8EEF8C6BC78}.Release|x64.Build.0 = Release|Any CPU
 		{B4DF69ED-EAFA-4880-A943-C8EEF8C6BC78}.Release|x86.ActiveCfg = Release|Any CPU
 		{B4DF69ED-EAFA-4880-A943-C8EEF8C6BC78}.Release|x86.Build.0 = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|ARM.Build.0 = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|x64.Build.0 = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Debug|x86.Build.0 = Debug|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|ARM.ActiveCfg = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|ARM.Build.0 = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|x64.ActiveCfg = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|x64.Build.0 = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|x86.ActiveCfg = Release|Any CPU
-		{F8A0F628-6DB3-4874-9DED-1B43B24BF206}.Release|x86.Build.0 = Release|Any CPU
 		{F9B8B121-D626-425C-8744-14CB1325AF29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9B8B121-D626-425C-8744-14CB1325AF29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B8B121-D626-425C-8744-14CB1325AF29}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -108,5 +90,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F400721-D858-42D6-A7FD-16890CA2CE90}
 	EndGlobalSection
 EndGlobal
