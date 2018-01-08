@@ -1,2 +1,0 @@
-# sineema
-Sineema Application Library
