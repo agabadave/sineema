@@ -22,7 +22,7 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index(string sort)
+        public async Task<ActionResult> Index(string sort, string btnAction, string search)
         {
             ViewData["TitleSortParam"] = string.IsNullOrWhiteSpace(sort) ? "title_desc" : string.Empty;
             ViewData["DurationSortParam"] = sort == "duration" ? "duration_desc" : "duration";
@@ -30,6 +30,18 @@ namespace VideoLibrary.Controllers
             ViewData["DateAddedSortParam"] = sort == "date" ? "date_desc" : "date";
 
             var moviesList = await _movieService.GetMovies();
+
+            switch (btnAction)
+            {
+                case "search":
+                    if (!string.IsNullOrWhiteSpace(search))
+                    {
+                        moviesList = moviesList.Where(l => l.Title.ToLower().Contains(search.ToLower())).ToList();
+                    }
+                    break;
+                case "filter":
+                    break;
+            }
 
             switch (sort)
             {
