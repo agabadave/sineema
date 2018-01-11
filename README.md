@@ -6,3 +6,10 @@ The application is developed in ASP.NET MVC 5 framework and MS SQL Database. Ent
 
 Any changes made shall be approved before they are integrated in the project. 
 
+# Development
+To start contributing to the project, you need to fork this repository and then clone the fork. When your changes are done, you need to create pull requests which you will share with Laboremus Uganda. After these pull requests are verified, they will be merged into the main code base.
+
+https://help.github.com/articles/creating-a-pull-request-from-a-fork/
+
+https://help.github.com/articles/fork-a-repo/
+
