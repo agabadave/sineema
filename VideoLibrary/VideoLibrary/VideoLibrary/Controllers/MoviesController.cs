@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.BusinessLogic.Services.MovieCrudService;
 using VideoLibrary.BusinessEntities.Models.Model;
+using System.Linq;
 
 namespace VideoLibrary.Controllers
 {
@@ -21,9 +22,52 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sort)
         {
-            return View(await _movieService.GetMovies());
+            ViewData["TitleSortParam"] = string.IsNullOrWhiteSpace(sort) ? "title_desc" : string.Empty;
+            ViewData["DurationSortParam"] = sort == "duration" ? "duration_desc" : "duration";
+            ViewData["GenreSortParam"] = sort == "genre" ? "genre_desc" : "genre";
+            ViewData["DateAddedSortParam"] = sort == "date" ? "date_desc" : "date";
+
+            var moviesList = await _movieService.GetMovies();
+
+            switch (sort)
+            {
+                case "title_desc":
+                    ViewData["SortParam"] = "title";
+                    moviesList = moviesList.OrderByDescending(l => l.Title).ToList();
+                    break;
+                case "duration":
+                    ViewData["SortParam"] = "duration";
+                    moviesList = moviesList.OrderBy(l => l.Duration).ToList();
+                    break;
+                case "duration_desc":
+                    ViewData["SortParam"] = "duration";
+                    moviesList = moviesList.OrderByDescending(l => l.Duration).ToList();
+                    break;
+                case "genre":
+                    ViewData["SortParam"] = "genre";
+                    moviesList = moviesList.OrderBy(l => l.Genre).ToList();
+                    break;
+                case "genre_desc":
+                    ViewData["SortParam"] = "genre";
+                    moviesList = moviesList.OrderByDescending(l => l.Genre).ToList();
+                    break;
+                case "date":
+                    ViewData["SortParam"] = "date";
+                    moviesList = moviesList.OrderBy(l => l.DateAdded).ToList();
+                    break;
+                case "date_desc":
+                    ViewData["SortParam"] = "date";
+                    moviesList = moviesList.OrderByDescending(l => l.DateAdded).ToList();
+                    break;
+                default:
+                    ViewData["SortParam"] = "title";
+                    moviesList = moviesList.OrderBy(l => l.Title).ToList();
+                    break;
+            }
+
+            return View(moviesList);
         }
 
         // GET: Movies/Details/5

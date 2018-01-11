@@ -19,10 +19,10 @@ namespace VideoLibrary.BusinessEntities.Models.Model
     public enum Genre
     {
         Christian,
-        Tteke,
-        Masasi,
+        Kinayuganda,
         Kinigeria,
         Kiyindi,
-        Kinayuganda
+        Masasi,
+        Tteke
     }
 }

@@ -1,25 +1,79 @@
 ﻿@model IEnumerable<VideoLibrary.BusinessEntities.Models.Model.Movie>
-
-<table class="table movies-list">
+<table class="table table-striped table-bordered table-condensed movies-list">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @if (ViewData["SortParam"].ToString() == "title")
+            {
+                if (ViewData["TitleSortParam"].ToString() == "title_desc")
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["TitleSortParam"].ToString()})"><i class="fa fa-sort-alpha-asc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Title)</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["TitleSortParam"].ToString()})"><i class="fa fa-sort-alpha-desc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Title)</a>
+                }
+            }
+            else
+            {
+                <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["TitleSortParam"].ToString()})">@Html.DisplayNameFor(model => model.Title)</a>
+            }
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Duration)
+            @if (ViewData["SortParam"].ToString() == "duration")
+            {
+                if (ViewData["DurationSortParam"].ToString() == "duration_desc")
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DurationSortParam"].ToString()})"><i class="fa fa-sort-numeric-asc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Duration)</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DurationSortParam"].ToString()})"><i class="fa fa-sort-numeric-desc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Duration)</a>
+                }
+            }
+            else
+            {
+                <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DurationSortParam"].ToString()})">@Html.DisplayNameFor(model => model.Duration)</a>
+            }
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genre)
+            @if (ViewData["SortParam"].ToString() == "genre")
+            {
+                if (ViewData["GenreSortParam"].ToString() == "genre_desc")
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["GenreSortParam"].ToString()})"><i class="fa fa-sort-alpha-asc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Genre)</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["GenreSortParam"].ToString()})"><i class="fa fa-sort-alpha-desc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.Genre)</a>
+                }
+            }
+            else
+            {
+                <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["GenreSortParam"].ToString()})">@Html.DisplayNameFor(model => model.Genre)</a>
+            }
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateAdded)
+            @if (ViewData["SortParam"].ToString() == "date")
+            {
+                if (ViewData["DateAddedSortParam"].ToString() == "date_desc")
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DateAddedSortParam"].ToString()})"><i class="fa fa-sort-amount-asc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.DateAdded)</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DateAddedSortParam"].ToString()})"><i class="fa fa-sort-amount-desc"></i>&nbsp;&nbsp;@Html.DisplayNameFor(model => model.DateAdded)</a>
+                }
+            }
+            else
+            {
+                <a href="@Url.RouteUrl(routeValues: new { action = "index", sort = ViewData["DateAddedSortParam"].ToString()})">@Html.DisplayNameFor(model => model.DateAdded)</a>
+            }
         </th>
         <th>
             @Html.DisplayNameFor(model => model.AddedBy)
         </th>
         <th></th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
@@ -45,5 +99,4 @@
             </td>
         </tr>
     }
-
 </table>
