@@ -22,7 +22,7 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index(string sort, string btnAction, string search)
+        public async Task<ActionResult> Index(string sort, string btnAction, string search, string actorFilter, string genreFilter, string yearFilter)
         {
             ViewData["TitleSortParam"] = string.IsNullOrWhiteSpace(sort) ? "title_desc" : string.Empty;
             ViewData["DurationSortParam"] = sort == "duration" ? "duration_desc" : "duration";

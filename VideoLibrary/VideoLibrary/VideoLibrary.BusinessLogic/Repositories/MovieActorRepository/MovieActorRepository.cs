@@ -20,7 +20,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
             }
         }
 
-        public async Task<List<MovieActor>> ActorsForMovies(int movieId)
+        public async Task<List<MovieActor>> ActorsForMovies(Guid movieId)
         {
             using (var db = new LibraryContext())
             {

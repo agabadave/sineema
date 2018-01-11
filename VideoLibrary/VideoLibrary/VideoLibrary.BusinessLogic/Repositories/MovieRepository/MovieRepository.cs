@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,134 +8,117 @@ using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
 {
-    public class MovieRepository : RepositoryBase<LibraryContext>, IMovieRepository
+    public class MovieRepository : IMovieRepository
     {
-        public async Task<List<Movie>> GetAll()
+        private readonly LibraryContext _db;
+
+        public MovieRepository(LibraryContext context)
         {
-            using (var db = new LibraryContext())
-            {
-                return await db.Movies.ToListAsync();
-            }
+            _db = context;
         }
 
-        public async Task<Movie> Get(long? id)
+        /// <summary>
+        /// Add movie actor.
+        /// </summary>
+        /// <param name="movieId">Id of the movie.</param>
+        /// <param name="actorId">Id of the actor.</param>
+        /// <param name="role">Role of the actor in the movie.</param>
+        /// <param name="leadActor">Actor is the lead.</param>
+        /// <returns>Task result.</returns>
+        public async Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor = false)
         {
-            using (var db = new LibraryContext())
+            using (_db)
             {
-                return await db.Movies.Include(q => q.Actor).FirstOrDefaultAsync(p => p.Id == id);
-            }
-        }
-
-        public List<Movie> GetMovies()
-        {
-            using (var db = new LibraryContext())
-            {
-                List<Movie> movies;
-
-                #region Loading related entities
-
-                // Lazy loading
-                movies = db.Movies.ToList(); // First get all the movies
-                foreach (var mov in movies)
+                _db.MovieActors.Add(new MovieActor
                 {
-                    var actor = mov.Actor; // Database query is executed every time this line is hit
-                    actor = db.Actors.Find(mov.LeadActorId); // This is unacceptable :)
-                }
-
-                // Eager loading
-                movies = db.Movies.Include(m => m.Actor).ToList(); // All data loaded from database
-
-                #endregion
-
-                #region Minimise the Data Requested
-                // Dont do this:
-                movies = db.Movies.Include(q => q.Actor).ToList(); // Do you really need all the columns?
-
-                // Do this instead
-                movies = db.Movies.Include(q => q.Actor).Select(m => new Movie
-                {
-                    Id = m.Id,
-                    Title = m.Title,
-                    Actor = new Actor
-                    {
-                        Id = m.Actor.Id,
-                        Name = m.Actor.Name
-                    }
-                }).ToList();
-                #endregion
-
-                #region Filter Before ToList()
-
-                movies = db.Movies.ToList().Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed too early
-                movies = db.Movies.Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed last
-
-                #endregion
-
-                #region Don’t Rely on Entity Framework Exclusively For Data Access
-
-                movies = db.Database.SqlQuery<Movie>("select * from movies m join actors a on m.actorId = a.id").ToList();
-
-                #endregion
-
-                return movies;
+                    ActorId = actorId,
+                    LeadActor = leadActor,
+                    MovieId = movieId,
+                    Role = role
+                });
+                await _db.SaveChangesAsync();
             }
         }
 
-        public int CountMovies()
+        /// <summary>
+        /// Add new movie.
+        /// </summary>
+        /// <param name="movie">Movie to add.</param>
+        /// <returns>Movie added.</returns>
+        public async Task<Movie> AddMovieAsync(Movie movie)
         {
-            using (var db = new LibraryContext())
+            using (_db)
             {
-                #region Do Not Count After Query Execution
+                var newMovie = _db.Movies.Add(movie);
+                await _db.SaveChangesAsync();
 
-                int count = 0;
-                count = db.Movies.Where(m => m.IsActive).ToList().Count; // returns all matching employees and then executes a count
-                count = db.Movies.Count(m => m.IsActive); //only executes a SQL COUNT
-
-                return count;
-
-                #endregion
-
+                return newMovie;
             }
         }
 
-        public Movie GetMovie(int id)
+        /// <summary>
+        /// Get all the movies.
+        /// </summary>
+        /// <returns>List of movies.</returns>
+        public IQueryable<Movie> GetAllMovies()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public string SqlQuery()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DeleteMovie(int id)
-        {
-            using (var db = new LibraryContext())
+            using (_db)
             {
-                #region Don’t Load Entities To Delete Them
-
-                // Executes a second hit to the database
-                var movie = db.Movies.Find(id);
-                if (movie != null)
-                {
-                    db.Movies.Remove(movie);
-                    db.SaveChangesAsync();
-                }
-
-                // Executes a single hit to the database
-                movie = new Movie { Id = id };
-                db.Movies.Attach(movie);
-                db.Movies.Remove(movie);
-                db.SaveChanges();
-
-                #endregion
+                return _db.Movies;
             }
         }
-    }
 
+        /// <summary>
+        /// Get all movies by actor.
+        /// </summary>
+        /// <param name="actorId">Actor Id.</param>
+        /// <returns>List of movies.</returns>
+        public async Task<IEnumerable<Movie>> GetMoviesByActorAsync(Guid actorId)
+        {
+            using (_db)
+            {
+                return await _db.MovieActors.Include(ma => ma.Movie).Where(ma => ma.ActorId == actorId)
+                    .Select(ma => ma.Movie).ToListAsync();
+            }
+        }
 
-    public class MovieProjection
-    {
-        public string Title { get; set; }
+        /// <summary>
+        /// Get movies by the date added.
+        /// </summary>
+        /// <param name="dateAdded">Date when the movie was added.</param>
+        /// <returns>List of movies.</returns>
+        public async Task<IEnumerable<Movie>> GetMoviesByDateAddedAsync(DateTime dateAdded)
+        {
+            return await GetAllMovies().Where(m => m.DateAdded == dateAdded).ToListAsync();
+        }
+        /// <summary>
+        /// Get movies by genre.
+        /// </summary>
+        /// <param name="genreId">Id of genre.</param>
+        /// <returns>List of movies.</returns>
+        public async Task<IEnumerable<Movie>> GetMoviesByGenreAsync(Guid genreId)
+        {
+            return await GetAllMovies().Where(m => m.GenreId == genreId).ToListAsync();
+        }
+
+        /// <summary>
+        /// Get movies by the year they were added.
+        /// </summary>
+        /// <param name="yearAdded">Year</param>
+        /// <returns>List of movies.</returns>
+        public async Task<IEnumerable<Movie>> GetMoviesByYearAddedAsync(int yearAdded)
+        {
+            return await GetAllMovies().Where(m => m.DateAdded.Year == yearAdded).ToListAsync();
+        }
+
+        public Task RemoveMovieAsync(Guid movieId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateMovieAsync(Movie movie)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

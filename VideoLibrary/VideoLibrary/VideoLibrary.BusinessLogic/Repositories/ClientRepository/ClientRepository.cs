@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
@@ -15,7 +16,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
             }
         }
 
-        public Client GetClient(long clientId)
+        public Client GetClient(Guid clientId)
         {
             using (var db = new LibraryContext())
             {

@@ -1,20 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
 {
-    public interface IMovieRepository: IRepositoryBase
+    public interface IMovieRepository
     {
-        Task<List<Movie>> GetAll();
-        Task<Movie> Get(long? id);
-
-        List<Movie> GetMovies();
-        int CountMovies();
-        Movie GetMovie(int id);
-        string SqlQuery();
-
-        void DeleteMovie(int id);
+        IQueryable<Movie> GetAllMovies();
+        Task<IEnumerable<Movie>> GetMoviesByGenreAsync(Guid genreId);
+        Task<IEnumerable<Movie>> GetMoviesByActorAsync(Guid actorId);
+        Task<IEnumerable<Movie>> GetMoviesByDateAddedAsync(DateTime dateAdded);
+        Task<IEnumerable<Movie>> GetMoviesByYearAddedAsync(int yearAdded);
+        Task<Movie> AddMovieAsync(Movie movie);
+        Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor false);
+        Task UpdateMovieAsync(Movie movie);
+        Task RemoveMovieAsync(Guid movieId);
     }
 }
