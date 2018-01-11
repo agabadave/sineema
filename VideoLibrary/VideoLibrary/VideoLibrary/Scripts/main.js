@@ -62,7 +62,7 @@ VideoLib.setHeadElement = function () {
     }
 
     function privateFunc() {
-        h1Ele.html("Today!");
+        h1Ele.html("Dashboard");
     }
 
     // public function to be called like VideoLib.changeMe.publicFunc();
