@@ -1,28 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoLibrary.BusinessEntities.Models.Model
 {
+    [Table("Movie")]
     public class Movie : ModelBase
     {
         public string Title { get; set; }
+
         public int Duration { get; set; }
+
+        public Guid? GenreId { get; set; }
+
+        [ForeignKey("GenreId")]
         public Genre Genre { get; set; }
 
-        public long LeadActorId { get; set; }
-
-        public Actor Actor { get; set; }
-
-        public ICollection<MovieActor> MovieActors { get; set; }
-
-    }
-
-    public enum Genre
-    {
-        Christian,
-        Kinayuganda,
-        Kinigeria,
-        Kiyindi,
-        Masasi,
-        Tteke
     }
 }

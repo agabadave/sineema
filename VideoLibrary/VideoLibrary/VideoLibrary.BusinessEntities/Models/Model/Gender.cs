@@ -1,7 +1,10 @@
-﻿namespace VideoLibrary.BusinessEntities.Models.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace VideoLibrary.BusinessEntities.Models.Model
 {
-    public enum Gender
+    [Table("Gender")]
+    public class Gender : ModelBase
     {
-        Female, Male
+        public string Description { get; set; }
     }
 }

@@ -21,18 +21,24 @@ namespace VideoLibrary.BusinessEntities
         public DbSet<Client> Clients { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
-
         public DbSet<MovieActor> MovieActors { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
-
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-
             base.OnModelCreating(modelBuilder);
         }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
+
+        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        //    modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
+        //    base.OnModelCreating(modelBuilder);
+        //}
 
         private AuditTrailFactory _auditFactory;
         private List<AuditTrail> auditList = new List<AuditTrail>();
