@@ -72,9 +72,9 @@
     <Compile Include="Init.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="LibraryContext.cs" />
-    <Compile Include="Migrations\201801122252405_SchemaChange_JGS.cs" />
-    <Compile Include="Migrations\201801122252405_SchemaChange_JGS.Designer.cs">
-      <DependentUpon>201801122252405_SchemaChange_JGS.cs</DependentUpon>
+    <Compile Include="Migrations\201801122309361_InitialSchemaChange_JGS.cs" />
+    <Compile Include="Migrations\201801122309361_InitialSchemaChange_JGS.Designer.cs">
+      <DependentUpon>201801122309361_InitialSchemaChange_JGS.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Model\Actor.cs" />
@@ -97,8 +97,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801122252405_SchemaChange_JGS.resx">
-      <DependentUpon>201801122252405_SchemaChange_JGS.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801122309361_InitialSchemaChange_JGS.resx">
+      <DependentUpon>201801122309361_InitialSchemaChange_JGS.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

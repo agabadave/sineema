@@ -7,13 +7,13 @@ namespace VideoLibrary.BusinessEntities.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SchemaChange_JGS : IMigrationMetadata
+    public sealed partial class InitialSchemaChange_JGS : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SchemaChange_JGS));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialSchemaChange_JGS));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801122252405_SchemaChange_JGS"; }
+            get { return "201801122309361_InitialSchemaChange_JGS"; }
         }
         
         string IMigrationMetadata.Source

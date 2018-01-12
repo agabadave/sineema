@@ -3,7 +3,7 @@ namespace VideoLibrary.BusinessEntities.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class SchemaChange_JGS : DbMigration
+    public partial class InitialSchemaChange_JGS : DbMigration
     {
         public override void Up()
         {
@@ -52,17 +52,17 @@ namespace VideoLibrary.BusinessEntities.Migrations
                 .PrimaryKey(t => t.GenreId);
             
             CreateTable(
-                "dbo.AuditTrails",
+                "dbo.AuditTrail",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        TableName = c.String(),
-                        UserName = c.String(),
-                        Actions = c.String(),
-                        OldData = c.String(),
-                        NewData = c.String(),
-                        ChangedColums = c.String(),
-                        TableIdValue = c.String(),
+                        TableName = c.String(maxLength: 256, unicode: false),
+                        UserName = c.String(maxLength: 256, unicode: false),
+                        Actions = c.String(maxLength: 256, unicode: false),
+                        OldData = c.String(maxLength: 256, unicode: false),
+                        NewData = c.String(maxLength: 256, unicode: false),
+                        ChangedColums = c.String(maxLength: 256, unicode: false),
+                        TableIdValue = c.String(maxLength: 256, unicode: false),
                         IsActive = c.Boolean(nullable: false),
                         DateAdded = c.DateTime(nullable: false, storeType: "date"),
                         AddedBy = c.Int(nullable: false),
@@ -165,7 +165,7 @@ namespace VideoLibrary.BusinessEntities.Migrations
             DropTable("dbo.Movie");
             DropTable("dbo.Client");
             DropTable("dbo.BorrowedMovie");
-            DropTable("dbo.AuditTrails");
+            DropTable("dbo.AuditTrail");
             DropTable("dbo.Genre");
             DropTable("dbo.Gender");
             DropTable("dbo.Actor");
