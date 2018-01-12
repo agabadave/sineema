@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
 {
     public interface IClientCrudService
     {
-        List<Client> GetAllClients();
+        Task<IEnumerable<Client>> GetAllClientsAsync();
 
-        Client GetClient(long clientId);
+        Task<Client> GetClientByIdAsync(Guid clientId);
     }
 }
