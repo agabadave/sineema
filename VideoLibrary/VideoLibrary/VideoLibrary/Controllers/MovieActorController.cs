@@ -21,39 +21,39 @@ namespace VideoLibrary.Controllers
             _movieActorRepository = movieActorRepository;
         }
         // GET: MovieActor
-        public ActionResult Index(int id)
-        {
-            var movieActors = Task.Run(() => _movieActorRepository.ActorsForMovies(id)).Result;
-            return View(movieActors);
-        }
+        //public async Task<ActionResult> Index(int id)
+        //{
+        //    var movieActors = Task.Run(() => _movieActorRepository.ActorsForMovies(id)).Result;
+        //    return View(movieActors);
+        //}
 
-        public async Task<ActionResult> AddActorOnMovie(int id)
-        {
+        //public async Task<ActionResult> AddActorOnMovie(int id)
+        //{
             
-            var movieActor = new MovieActor()
-            {
-                MovieId =  id
-            };
+        //    var movieActor = new MovieActor()
+        //    {
+        //        MovieId =  id
+        //    };
 
-            var actors = (await _actorService.GetActors()).Select(x => new SelectListItem()
-            {
-                Text = x.Name, Value = x.Id.ToString()
-            }).ToList();
-            ViewBag.ActorOptions = actors;
+        //    var actors = (await _actorService.GetActorsAsync()).Select(x => new SelectListItem()
+        //    {
+        //        Text = x.Name, Value = x.Id.ToString()
+        //    }).ToList();
+        //    ViewBag.ActorOptions = actors;
 
-            return View(movieActor);
-        }
+        //    return View(movieActor);
+        //}
 
-        [HttpPost]
-        public async Task<ActionResult> AddActorOnMovie(MovieActor model)
-        {
-            if (ModelState.IsValid)
-            {
-                await _movieActorRepository.AddMovieActor(model);
-                return RedirectToAction("Details", "Movies");
-            }
-            ModelState.AddModelError("", "Could not save changes, something went wrong.");
-            return View(model);
-        } 
+        //[HttpPost]
+        //public async Task<ActionResult> AddActorOnMovie(MovieActor model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _movieActorRepository.AddMovieActor(model);
+        //        return RedirectToAction("Details", "Movies");
+        //    }
+        //    ModelState.AddModelError("", "Could not save changes, something went wrong.");
+        //    return View(model);
+        //} 
     }
 }
