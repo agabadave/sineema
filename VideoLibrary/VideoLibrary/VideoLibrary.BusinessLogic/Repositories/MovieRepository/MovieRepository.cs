@@ -75,7 +75,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>Movie</returns>
         public async Task<Movie> GetMovieByIdAsync(Guid movieId)
         {
-            return await GetAllMovies().SingleOrDefaultAsync(movie => movie.Id == movieId);
+            return await GetAllMovies().SingleOrDefaultAsync(movie => movie.MovieId == movieId);
         }
 
         /// <summary>
@@ -149,11 +149,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>Task result.</returns>
         public async Task<Movie> UpdateMovieAsync(Movie movie)
         {
-            var movieToUpdate = await GetMovieByIdAsync(movie.Id);
+            var movieToUpdate = await GetMovieByIdAsync(movie.MovieId);
 
             if (movieToUpdate == null)
             {
-                throw new KeyNotFoundException($"Movie with Id {movie.Id} was not found.");
+                throw new KeyNotFoundException($"Movie with Id {movie.MovieId} was not found.");
             }
 
             movieToUpdate.Duration = movie.Duration;

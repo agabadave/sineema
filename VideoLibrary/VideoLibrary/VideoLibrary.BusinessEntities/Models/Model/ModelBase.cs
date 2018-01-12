@@ -6,13 +6,13 @@ namespace VideoLibrary.BusinessEntities.Models.Model
 {
     public class ModelBase
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
+        [Required, Column(TypeName = "bit")]
         public bool IsActive { get; set; }
 
+        [Required, Column(TypeName = "date")]
         public DateTime DateAdded { get; set; }
-        
+
+        [Required, Column(TypeName = "int")]
         public int AddedBy { get; set; }
     }
 }

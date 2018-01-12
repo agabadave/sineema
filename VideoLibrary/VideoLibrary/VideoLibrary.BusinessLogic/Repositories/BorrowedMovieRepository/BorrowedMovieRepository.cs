@@ -64,7 +64,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         {
             using (_db)
             {
-                var movieToRemove = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.Id == borrowedMovieId);
+                var movieToRemove = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovieId);
 
                 if (movieToRemove == null)
                 {
@@ -85,11 +85,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         {
             using (_db)
             {
-                var movieToUpdate = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.Id == borrowedMovie.Id);
+                var movieToUpdate = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovie.BorrowedMovieId);
 
                 if (movieToUpdate == null)
                 {
-                    throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovie.Id} was not found.");
+                    throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovie.BorrowedMovieId} was not found.");
                 }
 
                 movieToUpdate.ActualReturnDate = borrowedMovie.ActualReturnDate;

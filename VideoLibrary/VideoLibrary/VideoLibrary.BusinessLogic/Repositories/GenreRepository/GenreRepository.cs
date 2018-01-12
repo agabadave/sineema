@@ -51,7 +51,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// <returns>Genre</returns>
         public async Task<Genre> GetGenreById(Guid genreId)
         {
-            return await GetAllGenres().SingleOrDefaultAsync(g => g.Id == genreId);
+            return await GetAllGenres().SingleOrDefaultAsync(g => g.GenreId == genreId);
         }
 
         /// <summary>
@@ -61,11 +61,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// <returns>Task result.</returns>
         public async Task UpdateGenreAsync(Genre genre)
         {
-            var genreToUpdate = await GetGenreById(genre.Id);
+            var genreToUpdate = await GetGenreById(genre.GenreId);
 
             if (genreToUpdate == null)
             {
-                throw new KeyNotFoundException($"Genre with Id {genre.Id} was not found.");
+                throw new KeyNotFoundException($"Genre with Id {genre.GenreId} was not found.");
             }
 
             genreToUpdate.Title = genre.Title;

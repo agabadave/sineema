@@ -52,7 +52,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Client</returns>
         public async Task<Client> GetClientByIdAsync(Guid clientId)
         {
-            return await GetAllClients().SingleOrDefaultAsync(client => client.Id == clientId);
+            return await GetAllClients().SingleOrDefaultAsync(client => client.ClientId == clientId);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Task result.</returns>
         public async Task RemoveClientAsync(Guid clientId)
         {
-            var clientToRemove = await GetAllClients().SingleOrDefaultAsync(client => client.Id == clientId);
+            var clientToRemove = await GetAllClients().SingleOrDefaultAsync(client => client.ClientId == clientId);
 
             if (clientToRemove == null)
             {
@@ -124,11 +124,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Task result.</returns>
         public async Task UpdateClientAsync(Client client)
         {
-            var clientToUpdate = await GetAllClients().SingleOrDefaultAsync(c => c.Id == client.Id);
+            var clientToUpdate = await GetAllClients().SingleOrDefaultAsync(c => c.ClientId == client.ClientId);
 
             if (clientToUpdate == null)
             {
-                throw new KeyNotFoundException($"Client with Id {client.Id} was not found.");
+                throw new KeyNotFoundException($"Client with Id {client.ClientId} was not found.");
             }
 
             clientToUpdate.DateOfBirth = client.DateOfBirth;

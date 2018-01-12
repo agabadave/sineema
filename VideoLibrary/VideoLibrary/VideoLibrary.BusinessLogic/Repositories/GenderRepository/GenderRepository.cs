@@ -51,7 +51,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// <returns>Gender.</returns>
         public async Task<Gender> GetGenderById(Guid genderId)
         {
-            return await GetAllGenders().SingleOrDefaultAsync(g => g.Id == genderId);
+            return await GetAllGenders().SingleOrDefaultAsync(g => g.GenderId == genderId);
         }
 
         /// <summary>
@@ -82,11 +82,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// <returns>Task result.</returns>
         public async Task UpdateGenderAsync(Gender gender)
         {
-            var genderToUpdate = await GetGenderById(gender.Id);
+            var genderToUpdate = await GetGenderById(gender.GenderId);
 
             if (genderToUpdate == null)
             {
-                throw new KeyNotFoundException($"Gender with Id {gender.Id} was not found.");
+                throw new KeyNotFoundException($"Gender with Id {gender.GenderId} was not found.");
             }
 
             genderToUpdate.Description = gender.Description;

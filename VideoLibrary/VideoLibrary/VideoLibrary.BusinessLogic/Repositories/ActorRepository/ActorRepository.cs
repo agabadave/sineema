@@ -41,7 +41,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         public async Task<Actor> GetActorByIdAsync(Guid actorId)
         {
             return await GetAllActors()
-                .SingleOrDefaultAsync(a => a.Id == actorId);
+                .SingleOrDefaultAsync(a => a.ActorId == actorId);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Task result.</returns>
         public async Task RemoveActorAsync(Guid actorId)
         {
-            var actorToRemove = await GetAllActors().SingleOrDefaultAsync(actor => actor.Id == actorId);
+            var actorToRemove = await GetAllActors().SingleOrDefaultAsync(actor => actor.ActorId == actorId);
 
             if (actorToRemove == null)
             {
@@ -94,11 +94,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Task results.</returns>
         public async Task UpdateActorAsync(Actor actor)
         {
-            var actorToUpdate = await GetAllActors().SingleOrDefaultAsync(a => a.Id == actor.Id);
+            var actorToUpdate = await GetAllActors().SingleOrDefaultAsync(a => a.ActorId == actor.ActorId);
 
             if (actorToUpdate == null)
             {
-                throw new KeyNotFoundException($"Actor with Id {actor.Id} was not found.");
+                throw new KeyNotFoundException($"Actor with Id {actor.ActorId} was not found.");
             }
 
             actorToUpdate.DateOfBirth = actor.DateOfBirth;
