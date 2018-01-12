@@ -24,6 +24,7 @@ namespace VideoLibrary.BusinessEntities
         public DbSet<MovieActor> MovieActors { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<BorrowedMovie> BorrowedMovies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
