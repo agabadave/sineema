@@ -147,7 +147,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// </summary>
         /// <param name="movie">Movie update details.</param>
         /// <returns>Task result.</returns>
-        public async Task UpdateMovieAsync(Movie movie)
+        public async Task<Movie> UpdateMovieAsync(Movie movie)
         {
             var movieToUpdate = await GetMovieByIdAsync(movie.Id);
 
@@ -165,6 +165,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 _db.Entry(movieToUpdate).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
+
+            return movieToUpdate;
         }
     }
 }

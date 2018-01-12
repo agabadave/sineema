@@ -17,7 +17,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         Task<Movie> GetMovieByIdAsync(Guid movieId);
         Task<Movie> AddMovieAsync(Movie movie);
         Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor);
-        Task UpdateMovieAsync(Movie movie);
+        Task<Movie> UpdateMovieAsync(Movie movie);
         Task RemoveMovieAsync(Guid movieId);
     }
 }
