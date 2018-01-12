@@ -14,8 +14,9 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         Task<IEnumerable<Movie>> GetMoviesByActorAsync(Guid actorId);
         Task<IEnumerable<Movie>> GetMoviesByDateAddedAsync(DateTime dateAdded);
         Task<IEnumerable<Movie>> GetMoviesByYearAddedAsync(int yearAdded);
+        Task<Movie> GetMovieByIdAsync(Guid movieId);
         Task<Movie> AddMovieAsync(Movie movie);
-        Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor false);
+        Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor);
         Task UpdateMovieAsync(Movie movie);
         Task RemoveMovieAsync(Guid movieId);
     }

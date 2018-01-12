@@ -69,6 +69,16 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         }
 
         /// <summary>
+        /// Get movie by Id.
+        /// </summary>
+        /// <param name="movieId">Id of the movie.</param>
+        /// <returns>Movie</returns>
+        public async Task<Movie> GetMovieByIdAsync(Guid movieId)
+        {
+            return await GetAllMovies().SingleOrDefaultAsync(movie => movie.Id == movieId);
+        }
+
+        /// <summary>
         /// Get all movies by actor.
         /// </summary>
         /// <param name="actorId">Actor Id.</param>
@@ -111,14 +121,50 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
             return await GetAllMovies().Where(m => m.DateAdded.Year == yearAdded).ToListAsync();
         }
 
-        public Task RemoveMovieAsync(Guid movieId)
+        /// <summary>
+        /// Remove movie.
+        /// </summary>
+        /// <param name="movieId">Id of the movie.</param>
+        /// <returns>Task result.</returns>
+        public async Task RemoveMovieAsync(Guid movieId)
         {
-            throw new NotImplementedException();
+            var movieToRemove = await GetMovieByIdAsync(movieId);
+
+            if (movieToRemove == null)
+            {
+                throw new KeyNotFoundException($"Movie with Id {movieId} was not found");
+            }
+
+            using (_db)
+            {
+                _db.Movies.Remove(movieToRemove);
+                await _db.SaveChangesAsync();
+            }
         }
 
-        public Task UpdateMovieAsync(Movie movie)
+        /// <summary>
+        /// Update movie details.
+        /// </summary>
+        /// <param name="movie">Movie update details.</param>
+        /// <returns>Task result.</returns>
+        public async Task UpdateMovieAsync(Movie movie)
         {
-            throw new NotImplementedException();
+            var movieToUpdate = await GetMovieByIdAsync(movie.Id);
+
+            if (movieToUpdate == null)
+            {
+                throw new KeyNotFoundException($"Movie with Id {movie.Id} was not found.");
+            }
+
+            movieToUpdate.Duration = movie.Duration;
+            movieToUpdate.GenreId = movie.GenreId;
+            movieToUpdate.Title = movie.Title;
+
+            using (_db)
+            {
+                _db.Entry(movieToUpdate).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+            }
         }
     }
 }
