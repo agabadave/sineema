@@ -21,44 +21,44 @@ namespace VideoLibrary.Tests.ControllerTests
 
         private MoviesController _moviesController;
 
-        [SetUp]
-        public void SetUp()
-        {
-            _moqMovieRepository = new Mock<IMovieRepository>();
-            _moqActorRepository = new Mock<IActorRepository>();
+        //[SetUp]
+        //public void SetUp()
+        //{
+        //    _moqMovieRepository = new Mock<IMovieRepository>();
+        //    _moqActorRepository = new Mock<IActorRepository>();
 
-            _moviesController = new MoviesController(new MovieService(_moqMovieRepository.Object), new ActorService(_moqActorRepository.Object));
+        //    _moviesController = new MoviesController(new MovieService(_moqMovieRepository.Object), new ActorService(_moqActorRepository.Object));
 
-            _moqMovieRepository.Setup(c => c.GetAll()).ReturnsAsync(new List<Movie>() { new Movie() { Id = 1, DateAdded = DateTime.Now, Genre = Genre.Kinigeria, Duration = 250, IsActive = true, Title = "Nigerian Movie" } });
+        //    _moqMovieRepository.Setup(c => c.GetAll()).ReturnsAsync(new List<Movie>() { new Movie() { Id = 1, DateAdded = DateTime.Now, Genre = Genre.Kinigeria, Duration = 250, IsActive = true, Title = "Nigerian Movie" } });
 
-        }
+        //}
 
-        [TearDown]
-        public void TearDown()
-        {
-            _moqActorRepository = null;
-            _moqMovieRepository = null;
-        }
+        //[TearDown]
+        //public void TearDown()
+        //{
+        //    _moqActorRepository = null;
+        //    _moqMovieRepository = null;
+        //}
 
-        [Test]
-        public async Task Should_Call_GetMovies_Once()
-        {
-            //arrange...
+        //[Test]
+        //public async Task Should_Call_GetMovies_Once()
+        //{
+        //    //arrange...
 
-            //act...
+        //    //act...
 
-            //assert...
-            Assert.True(true);
-        }
+        //    //assert...
+        //    Assert.True(true);
+        //}
 
-        [Test]
-        public async Task Should_Have_Detail_View()
-        {
-            //act...
-            var result = (await _moviesController.Index()) as ViewResult;
+        //[Test]
+        //public async Task Should_Have_Detail_View()
+        //{
+        //    //act...
+        //    var result = (await _moviesController.Index()) as ViewResult;
 
-            //assert...
-            Assert.AreEqual(string.Empty, result.ViewName);
-        }
+        //    //assert...
+        //    Assert.AreEqual(string.Empty, result.ViewName);
+        //}
     }
 }
