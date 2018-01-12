@@ -2,7 +2,7 @@ namespace VideoLibrary.BusinessEntities.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class InitialSchemaChange_JGS : DbMigration
     {
         public override void Up()
@@ -10,139 +10,139 @@ namespace VideoLibrary.BusinessEntities.Migrations
             CreateTable(
                 "dbo.Actor",
                 c => new
-                    {
-                        ActorId = c.Guid(nullable: false, identity: true),
-                        Firstname = c.String(maxLength: 50, unicode: false),
-                        Lastname = c.String(maxLength: 50, unicode: false),
-                        DateOfBirth = c.DateTime(storeType: "date"),
-                        GenderId = c.Guid(),
-                        GenreId = c.Guid(),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    ActorId = c.Guid(nullable: false, identity: true),
+                    Firstname = c.String(maxLength: 50, unicode: false),
+                    Lastname = c.String(maxLength: 50, unicode: false),
+                    DateOfBirth = c.DateTime(storeType: "date"),
+                    GenderId = c.Guid(),
+                    GenreId = c.Guid(),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.ActorId)
                 .ForeignKey("dbo.Gender", t => t.GenderId)
                 .ForeignKey("dbo.Genre", t => t.GenreId)
                 .Index(t => t.GenderId)
                 .Index(t => t.GenreId);
-            
+
             CreateTable(
                 "dbo.Gender",
                 c => new
-                    {
-                        GenderId = c.Guid(nullable: false, identity: true),
-                        Description = c.String(maxLength: 20, unicode: false),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    GenderId = c.Guid(nullable: false, identity: true),
+                    Description = c.String(maxLength: 20, unicode: false),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.GenderId);
-            
+
             CreateTable(
                 "dbo.Genre",
                 c => new
-                    {
-                        GenreId = c.Guid(nullable: false, identity: true),
-                        Title = c.String(maxLength: 50, unicode: false),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    GenreId = c.Guid(nullable: false, identity: true),
+                    Title = c.String(maxLength: 50, unicode: false),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.GenreId);
-            
+
             CreateTable(
                 "dbo.AuditTrail",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        TableName = c.String(maxLength: 256, unicode: false),
-                        UserName = c.String(maxLength: 256, unicode: false),
-                        Actions = c.String(maxLength: 256, unicode: false),
-                        OldData = c.String(maxLength: 256, unicode: false),
-                        NewData = c.String(maxLength: 256, unicode: false),
-                        ChangedColums = c.String(maxLength: 256, unicode: false),
-                        TableIdValue = c.String(maxLength: 256, unicode: false),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    TableName = c.String(maxLength: 256, unicode: false),
+                    UserName = c.String(maxLength: 256, unicode: false),
+                    Actions = c.String(maxLength: 256, unicode: false),
+                    OldData = c.String(maxLength: 256, unicode: false),
+                    NewData = c.String(maxLength: 256, unicode: false),
+                    ChangedColums = c.String(maxLength: 256, unicode: false),
+                    TableIdValue = c.String(maxLength: 256, unicode: false),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             CreateTable(
                 "dbo.BorrowedMovie",
                 c => new
-                    {
-                        BorrowedMovieId = c.Guid(nullable: false, identity: true),
-                        MovieId = c.Guid(),
-                        ClientId = c.Guid(),
-                        DateBorrowed = c.DateTime(storeType: "date"),
-                        ExpectedReturnDate = c.DateTime(storeType: "date"),
-                        ActualReturnDate = c.DateTime(storeType: "date"),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    BorrowedMovieId = c.Guid(nullable: false, identity: true),
+                    MovieId = c.Guid(),
+                    ClientId = c.Guid(),
+                    DateBorrowed = c.DateTime(storeType: "date"),
+                    ExpectedReturnDate = c.DateTime(storeType: "date"),
+                    ActualReturnDate = c.DateTime(storeType: "date"),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.BorrowedMovieId)
                 .ForeignKey("dbo.Client", t => t.ClientId)
                 .ForeignKey("dbo.Movie", t => t.MovieId)
                 .Index(t => t.MovieId)
                 .Index(t => t.ClientId);
-            
+
             CreateTable(
                 "dbo.Client",
                 c => new
-                    {
-                        ClientId = c.Guid(nullable: false, identity: true),
-                        FirstName = c.String(maxLength: 50, unicode: false),
-                        LastName = c.String(maxLength: 50, unicode: false),
-                        DateOfBirth = c.DateTime(storeType: "date"),
-                        GenderId = c.Guid(),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    ClientId = c.Guid(nullable: false, identity: true),
+                    FirstName = c.String(maxLength: 50, unicode: false),
+                    LastName = c.String(maxLength: 50, unicode: false),
+                    DateOfBirth = c.DateTime(storeType: "date"),
+                    GenderId = c.Guid(),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.ClientId)
                 .ForeignKey("dbo.Gender", t => t.GenderId)
                 .Index(t => t.GenderId);
-            
+
             CreateTable(
                 "dbo.Movie",
                 c => new
-                    {
-                        MovieId = c.Guid(nullable: false, identity: true),
-                        Title = c.String(maxLength: 100, unicode: false),
-                        Duration = c.Int(),
-                        GenreId = c.Guid(),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    MovieId = c.Guid(nullable: false, identity: true),
+                    Title = c.String(maxLength: 100, unicode: false),
+                    Duration = c.Int(),
+                    GenreId = c.Guid(),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.MovieId)
                 .ForeignKey("dbo.Genre", t => t.GenreId)
                 .Index(t => t.GenreId);
-            
+
             CreateTable(
                 "dbo.MovieActor",
                 c => new
-                    {
-                        MovieActorId = c.Guid(nullable: false, identity: true),
-                        Role = c.String(maxLength: 50, unicode: false),
-                        LeadActor = c.Boolean(),
-                        ActorId = c.Guid(),
-                        MovieId = c.Guid(),
-                        IsActive = c.Boolean(nullable: false),
-                        DateAdded = c.DateTime(nullable: false, storeType: "date"),
-                        AddedBy = c.Int(nullable: false),
-                    })
+                {
+                    MovieActorId = c.Guid(nullable: false, identity: true),
+                    Role = c.String(maxLength: 50, unicode: false),
+                    LeadActor = c.Boolean(),
+                    ActorId = c.Guid(),
+                    MovieId = c.Guid(),
+                    IsActive = c.Boolean(nullable: false, defaultValueSql: "1"),
+                    DateAdded = c.DateTime(nullable: false, storeType: "date", defaultValueSql: "GETDATE()"),
+                    AddedBy = c.Int(nullable: false, defaultValueSql: "1"),
+                })
                 .PrimaryKey(t => t.MovieActorId)
                 .ForeignKey("dbo.Actor", t => t.ActorId)
                 .ForeignKey("dbo.Movie", t => t.MovieId)
                 .Index(t => t.ActorId)
                 .Index(t => t.MovieId);
-            
+
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.MovieActor", "MovieId", "dbo.Movie");
