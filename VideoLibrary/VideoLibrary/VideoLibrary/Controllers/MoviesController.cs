@@ -159,8 +159,23 @@ namespace VideoLibrary.Controllers
             {
                 return HttpNotFound();
             }
+            var model = new EditMovieViewModel
+            {
+                MovieId = movie.MovieId,
+                Title = movie.Title,
+                Duration = movie.Duration??0,
+                GenreId = movie.GenreId??Guid.Empty,
+                GenreSelectList = (await _genreRepository.GetAllGenres()).Select(g => new SelectListItem
+                {
+                    Text = g.Title,
+                    Value = g.GenreId.ToString()
+                }),
+                IsActive = movie.IsActive,
+                DateAdded = movie.DateAdded,
+                AddedBy = movie.AddedBy
+            };
 
-            return View(movie);
+            return View(model);
         }
 
         // POST: Movies/Edit/5
@@ -169,15 +184,24 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("{id:guid}/update")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include = "MovieId,Title,Duration,ActorId,GenreId,DateAdded,AddedBy")] EditMovieViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                await _movieService.UpdateMovie(movie);
+                await _movieService.UpdateMovie(new Movie
+                {
+                    AddedBy = formData.AddedBy,
+                    DateAdded = formData.DateAdded,
+                    Duration = formData.Duration,
+                    GenreId = formData.GenreId,
+                    IsActive = formData.IsActive,
+                    MovieId = formData.MovieId,
+                    Title = formData.Title
+                });
                 return RedirectToAction("Index");
             }
 
-            return View(movie);
+            return View(formData);
         }
 
         // GET: Movies/Delete/5
