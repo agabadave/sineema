@@ -27,17 +27,14 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>Task result.</returns>
         public async Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor = false)
         {
-            using (_db)
+            _db.MovieActors.Add(new MovieActor
             {
-                _db.MovieActors.Add(new MovieActor
-                {
-                    ActorId = actorId,
-                    LeadActor = leadActor,
-                    MovieId = movieId,
-                    Role = role
-                });
-                await _db.SaveChangesAsync();
-            }
+                ActorId = actorId,
+                LeadActor = leadActor,
+                MovieId = movieId,
+                Role = role
+            });
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -47,13 +44,10 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>Movie added.</returns>
         public async Task<Movie> AddMovieAsync(Movie movie)
         {
-            using (_db)
-            {
-                var newMovie = _db.Movies.Add(movie);
-                await _db.SaveChangesAsync();
+            var newMovie = _db.Movies.Add(movie);
+            await _db.SaveChangesAsync();
 
-                return newMovie;
-            }
+            return newMovie;
         }
 
         /// <summary>
@@ -62,10 +56,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>List of movies.</returns>
         public IQueryable<Movie> GetAllMovies()
         {
-            using (_db)
-            {
-                return _db.Movies;
-            }
+            return _db.Movies;
         }
 
         /// <summary>
@@ -85,11 +76,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>List of movies.</returns>
         public async Task<IEnumerable<Movie>> GetMoviesByActorAsync(Guid actorId)
         {
-            using (_db)
-            {
-                return await _db.MovieActors.Include(ma => ma.Movie).Where(ma => ma.ActorId == actorId)
+            return await _db.MovieActors.Include(ma => ma.Movie).Where(ma => ma.ActorId == actorId)
                     .Select(ma => ma.Movie).ToListAsync();
-            }
         }
 
         /// <summary>
@@ -135,11 +123,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 throw new KeyNotFoundException($"Movie with Id {movieId} was not found");
             }
 
-            using (_db)
-            {
-                _db.Movies.Remove(movieToRemove);
-                await _db.SaveChangesAsync();
-            }
+            _db.Movies.Remove(movieToRemove);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -160,11 +145,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
             movieToUpdate.GenreId = movie.GenreId;
             movieToUpdate.Title = movie.Title;
 
-            using (_db)
-            {
-                _db.Entry(movieToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+            _db.Entry(movieToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
 
             return movieToUpdate;
         }

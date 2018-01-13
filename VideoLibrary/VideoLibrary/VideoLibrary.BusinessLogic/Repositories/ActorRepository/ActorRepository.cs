@@ -24,13 +24,10 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Actor added</returns>
         public async Task<Actor> AddActorAsync(Actor actor)
         {
-            using (_db)
-            {
-                var newActor = _db.Actors.Add(actor);
-                await _db.SaveChangesAsync();
+            var newActor = _db.Actors.Add(actor);
+            await _db.SaveChangesAsync();
 
-                return newActor;
-            }
+            return newActor;
         }
 
         /// <summary>
@@ -50,10 +47,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>List of actors.</returns>
         public IQueryable<Actor> GetAllActors()
         {
-            using (_db)
-            {
-                return _db.Actors;
-            }
+            return _db.Actors;
         }
 
         /// <summary>
@@ -81,11 +75,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
                 throw new KeyNotFoundException($"Actor with Id {actorId} was not found.");
             }
 
-            using (_db)
-            {
-                _db.Actors.Remove(actorToRemove);
-                await _db.SaveChangesAsync();
-            }
+            _db.Actors.Remove(actorToRemove);
+            await _db.SaveChangesAsync();
         }
         /// <summary>
         /// Update actor given the update details.
@@ -107,11 +98,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
             actorToUpdate.GenderId = actor.GenderId;
             actorToUpdate.GenreId = actor.GenreId;
 
-            using (_db)
-            {
-                _db.Entry(actorToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+            _db.Entry(actorToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

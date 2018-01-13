@@ -25,11 +25,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// <returns>Task result.</returns>
         public async Task AddGenderAsync(Gender gender)
         {
-            using (_db)
-            {
-                _db.Genders.Add(gender);
-                await _db.SaveChangesAsync();
-            }
+            _db.Genders.Add(gender);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -38,10 +35,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// <returns>List of genders.</returns>
         public IQueryable<Gender> GetAllGenders()
         {
-            using (_db)
-            {
-                return _db.Genders;
-            }
+            return _db.Genders;
         }
 
         /// <summary>
@@ -68,11 +62,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
                 throw new KeyNotFoundException($"Gender with Id {genderId} was not found.");
             }
 
-            using (_db)
-            {
-                _db.Genders.Remove(genderToRemove);
-                await _db.SaveChangesAsync();
-            }
+            _db.Genders.Remove(genderToRemove);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -91,11 +82,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
 
             genderToUpdate.Description = gender.Description;
 
-            using (_db)
-            {
-                _db.Entry(genderToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+            _db.Entry(genderToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

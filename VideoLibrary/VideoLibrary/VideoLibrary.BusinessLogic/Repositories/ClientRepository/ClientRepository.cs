@@ -24,13 +24,10 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Client added.</returns>
         public async Task<Client> AddClientAsync(Client client)
         {
-            using (_db)
-            {
-                var newClient = _db.Clients.Add(client);
-                await _db.SaveChangesAsync();
+            var newClient = _db.Clients.Add(client);
+            await _db.SaveChangesAsync();
 
-                return newClient;
-            }
+            return newClient;
         }
 
         /// <summary>
@@ -39,10 +36,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>List of clients.</returns>
         public IQueryable<Client> GetAllClients()
         {
-            using (_db)
-            {
-                return _db.Clients;
-            }
+            return _db.Clients;
         }
 
         /// <summary>
@@ -73,10 +67,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>List of clients.</returns>
         public IQueryable<Client> GetClientsBorrowedMovie()
         {
-            using (_db)
-            {
-                return _db.BorrowedMovies.Include(b => b.Client).Select(b => b.Client);
-            }
+            return _db.BorrowedMovies.Include(b => b.Client).Select(b => b.Client);
         }
 
         /// <summary>
@@ -86,14 +77,11 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>List of clients.</returns>
         public async Task<IEnumerable<Client>> GetClientsBorrowedMovieAsync(Guid movieId)
         {
-            using (_db)
-            {
-                return await _db.BorrowedMovies
+            return await _db.BorrowedMovies
                     .Include(b => b.Client)
                     .Where(b => b.MovieId == movieId)
                     .Select(b => b.Client)
                     .ToListAsync();
-            }
         }
 
         /// <summary>
@@ -110,11 +98,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
                 throw new KeyNotFoundException($"Client with Id {clientId} was not found.");
             }
 
-            using (_db)
-            {
-                _db.Clients.Remove(clientToRemove);
-                await _db.SaveChangesAsync();
-            }
+            _db.Clients.Remove(clientToRemove);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -136,11 +121,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
             clientToUpdate.LastName = client.LastName;
             clientToUpdate.GenderId = client.GenderId;
 
-            using (_db)
-            {
-                _db.Entry(clientToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+            _db.Entry(clientToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

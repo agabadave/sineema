@@ -25,5 +25,11 @@ namespace VideoLibrary.Tests.Services.ActorService
             _mockActorRepo = null;
             _actorService = null;
         }
+
+        [Test]
+        public void TestMethod1()
+        {
+            Assert.True(true);
+        }
     }
 }

@@ -25,11 +25,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// <returns>Task result.</returns>
         public async Task AddGenreAsync(Genre genre)
         {
-            using (_db)
-            {
-                _db.Genres.Add(genre);
-                await _db.SaveChangesAsync();
-            }
+            _db.Genres.Add(genre);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -38,10 +35,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// <returns>List of genres.</returns>
         public IQueryable<Genre> GetAllGenres()
         {
-            using (_db)
-            {
-                return _db.Genres;
-            }
+            return _db.Genres;
         }
 
         /// <summary>
@@ -70,11 +64,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
 
             genreToUpdate.Title = genre.Title;
 
-            using (_db)
-            {
-                _db.Entry(genreToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-            }
+            _db.Entry(genreToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }

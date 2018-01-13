@@ -11,13 +11,16 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
 {
     public class MovieActorRepository : IMovieActorRepository
     {
+        private LibraryContext _db;
+
+        public MovieActorRepository(LibraryContext context)
+        {
+            _db = context;
+        }
 
         public IQueryable<MovieActor> GetMovieActors(Guid movieId)
         {
-            using (var db = new LibraryContext())
-            {
-                return db.MovieActors.Where(x => x.MovieId == movieId);
-            }
+            return _db.MovieActors.Where(x => x.MovieId == movieId);
         } 
     }
 }

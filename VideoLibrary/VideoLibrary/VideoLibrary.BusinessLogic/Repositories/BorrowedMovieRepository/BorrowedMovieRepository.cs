@@ -25,11 +25,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         /// <returns>Task result.</returns>
         public async Task AddBorrowedMovieAsync(BorrowedMovie borrowedMovie)
         {
-            using (_db)
-            {
-                _db.BorrowedMovies.Add(borrowedMovie);
-                await _db.SaveChangesAsync();
-            }
+            _db.BorrowedMovies.Add(borrowedMovie);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -38,10 +35,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         /// <returns>List of borrowed movies.</returns>
         public IQueryable<BorrowedMovie> GetAllBorrowedMovies()
         {
-            using (_db)
-            {
-                return _db.BorrowedMovies;
-            }
+            return _db.BorrowedMovies;
         }
 
         /// <summary>
@@ -62,18 +56,15 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         /// <returns>Task result.</returns>
         public async Task RemoveBorrowedMovieAsync(Guid borrowedMovieId)
         {
-            using (_db)
+            var movieToRemove = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovieId);
+
+            if (movieToRemove == null)
             {
-                var movieToRemove = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovieId);
-
-                if (movieToRemove == null)
-                {
-                    throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovieId} was not found.");
-                }
-
-                _db.BorrowedMovies.Remove(movieToRemove);
-                await _db.SaveChangesAsync();
+                throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovieId} was not found.");
             }
+
+            _db.BorrowedMovies.Remove(movieToRemove);
+            await _db.SaveChangesAsync();
         }
 
         /// <summary>
@@ -83,22 +74,19 @@ namespace VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository
         /// <returns>Task result.</returns>
         public async Task UpdateBorrowedMovieAsync(BorrowedMovie borrowedMovie)
         {
-            using (_db)
+            var movieToUpdate = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovie.BorrowedMovieId);
+
+            if (movieToUpdate == null)
             {
-                var movieToUpdate = await _db.BorrowedMovies.SingleOrDefaultAsync(m => m.BorrowedMovieId == borrowedMovie.BorrowedMovieId);
-
-                if (movieToUpdate == null)
-                {
-                    throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovie.BorrowedMovieId} was not found.");
-                }
-
-                movieToUpdate.ActualReturnDate = borrowedMovie.ActualReturnDate;
-                movieToUpdate.DateBorrowed = borrowedMovie.DateBorrowed;
-                movieToUpdate.ExpectedReturnDate = borrowedMovie.ExpectedReturnDate;
-
-                _db.Entry(movieToUpdate).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
+                throw new KeyNotFoundException($"Borrowed movie with Id {borrowedMovie.BorrowedMovieId} was not found.");
             }
+
+            movieToUpdate.ActualReturnDate = borrowedMovie.ActualReturnDate;
+            movieToUpdate.DateBorrowed = borrowedMovie.DateBorrowed;
+            movieToUpdate.ExpectedReturnDate = borrowedMovie.ExpectedReturnDate;
+
+            _db.Entry(movieToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
         }
     }
 }
