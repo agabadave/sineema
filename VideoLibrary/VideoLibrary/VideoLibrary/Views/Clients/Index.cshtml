@@ -1,69 +1,84 @@
 ﻿
 @model IEnumerable<VideoLibrary.BusinessEntities.Models.Model.Client>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Clients";
 }
-<h2>Index</h2>
+<h2>Clients List</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="@Url.RouteUrl(routeValues: new { action = "create"})" class="btn btn-default"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add clients</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateAdded)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AddedBy)
-        </th>
-        <th></th>
-    </tr>
-    @if (Model != null)
-    {
-        foreach (var item in Model)
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        @using (Html.BeginForm("index", "clients", FormMethod.Get))
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfBirth)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateAdded)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AddedBy)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ClientId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ClientId })
-                </td>
-            </tr>
+            <div>
+                <div class="form-group">
+                    <label class="control-label" for="exampleInputEmail">Search</label>
+                    <input type="text" name="search" class="form-control" placeholder="Enter search text">
+                </div>
+                <button type="submit" name="btnAction" value="search" class="btn btn-default"><i class="fa fa-search"></i> Search</button>
+            </div>
         }
-    }
-</table>
+    </div>
+    <table class="table table-condensed table-striped table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedBy)
+            </th>
+            <th></th>
+        </tr>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedBy)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ClientId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ClientId })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
