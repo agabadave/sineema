@@ -100,7 +100,16 @@ namespace VideoLibrary.Controllers
         [Route("{id:guid}/details")]
         public async Task<ActionResult> Details(Guid id)
         {
-            return View(await _movieService.GetMovieDetails(id));
+            var movie = await _movieService.GetMovieDetails(id);
+            
+            return View(new MovieDetailsViewModel
+            {
+                Duration = movie.Duration??0,
+                Genre = movie.Genre.Title,
+                GenreId = movie.GenreId??Guid.Empty,
+                MovieId = movie.MovieId,
+                Title = movie.Title
+            });
         }
 
         // GET: Movies/Create
