@@ -33,9 +33,9 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// List all genres.
         /// </summary>
         /// <returns>List of genres.</returns>
-        public IQueryable<Genre> GetAllGenres()
+        public async Task<IEnumerable<Genre>> GetAllGenres()
         {
-            return _db.Genres;
+            return await _db.Genres.ToListAsync();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         /// <returns>Genre</returns>
         public async Task<Genre> GetGenreById(Guid genreId)
         {
-            return await GetAllGenres().SingleOrDefaultAsync(g => g.GenreId == genreId);
+            return (await GetAllGenres()).SingleOrDefault(g => g.GenreId == genreId);
         }
 
         /// <summary>

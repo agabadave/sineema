@@ -6,6 +6,8 @@ using VideoLibrary.BusinessLogic.Services.MovieCrudService;
 using VideoLibrary.BusinessEntities.Models.Model;
 using System.Linq;
 using System;
+using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
+using VideoLibrary.Models.ViewModels;
 
 namespace VideoLibrary.Controllers
 {
@@ -14,11 +16,13 @@ namespace VideoLibrary.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly IActorService _actorService;
+        private readonly IGenreRepository _genreRepository;
 
-        public MoviesController(IMovieService movieService, IActorService actorService)
+        public MoviesController(IMovieService movieService, IActorService actorService, IGenreRepository genreRepository)
         {
             _movieService = movieService;
             _actorService = actorService;
+            _genreRepository = genreRepository;
         }
 
         // GET: Movies
@@ -30,7 +34,16 @@ namespace VideoLibrary.Controllers
             ViewData["GenreSortParam"] = sort == "genre" ? "genre_desc" : "genre";
             ViewData["DateAddedSortParam"] = sort == "date" ? "date_desc" : "date";
 
-            var moviesList = await _movieService.GetMovies();
+            var moviesList = (await _movieService.GetMovies()).Select(m => new MovieListViewModel
+            {
+                AddedBy = m.AddedBy,
+                DateAdded = m.DateAdded.ToString("dd MMM yyyy"),
+                Duration = m.Duration??0,
+                Genre = m.Genre.Title,
+                IsActive = m.IsActive,
+                MovieId = m.MovieId,
+                Title = m.Title
+            });
 
             switch (btnAction)
             {
@@ -94,10 +107,16 @@ namespace VideoLibrary.Controllers
         [Route("add")]
         public async Task<ActionResult> Create()
         {
-            ViewBag.ActorId = new SelectList(await _actorService.GetActorsAsync(), "Id", "Name");
-            var actors = await _actorService.GetActorsAsync();
+            var model = new AddMovieViewModel
+            {
+                GenreSelectList = (await _genreRepository.GetAllGenres()).Select(g => new SelectListItem
+                {
+                    Text = g.Title,
+                    Value = g.GenreId.ToString()
+                })
+            };
 
-            return View();
+            return View(model);
         }
 
         // POST: Movies/Create
@@ -106,20 +125,24 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add")]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie movie)
+        public async Task<ActionResult> Create([Bind(Include = "Title,Duration,GenreId,GenreSelectList")] AddMovieViewModel formData)
         {
             if (ModelState.IsValid)
             {
 
-                await _movieService.InsertMovie(movie);
-
-
-
-                //await _movieService.InsertMovie(movie);
-                return RedirectToAction("Index");
+                await _movieService.InsertMovie(new Movie
+                {
+                    Duration = formData.Duration,
+                    GenreId = formData.GenreId,
+                    Title = formData.Title,
+                    IsActive = true,
+                    DateAdded = DateTime.Now,
+                    AddedBy = 1
+                });
+                return RedirectToAction("index");
             }
 
-            return View(movie);
+            return View(formData);
         }
 
         // GET: Movies/Edit/5

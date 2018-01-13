@@ -56,7 +56,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
         /// <returns>List of movies.</returns>
         public IQueryable<Movie> GetAllMovies()
         {
-            return _db.Movies;
+            return _db.Movies.Include(m => m.Genre);
         }
 
         /// <summary>

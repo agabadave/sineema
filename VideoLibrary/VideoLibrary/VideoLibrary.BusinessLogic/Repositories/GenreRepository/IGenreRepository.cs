@@ -12,6 +12,6 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenreRepository
         Task AddGenreAsync(Genre genre);
         Task UpdateGenreAsync(Genre genre);
         Task<Genre> GetGenreById(Guid genreId);
-        IQueryable<Genre> GetAllGenres();
+        Task<IEnumerable<Genre>> GetAllGenres();
     }
 }
