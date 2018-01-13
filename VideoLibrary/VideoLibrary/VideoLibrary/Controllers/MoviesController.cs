@@ -38,7 +38,7 @@ namespace VideoLibrary.Controllers
             {
                 AddedBy = m.AddedBy,
                 DateAdded = m.DateAdded.ToString("dd MMM yyyy"),
-                Duration = m.Duration??0,
+                Duration = m.Duration ?? 0,
                 Genre = m.Genre.Title,
                 IsActive = m.IsActive,
                 MovieId = m.MovieId,
@@ -101,12 +101,12 @@ namespace VideoLibrary.Controllers
         public async Task<ActionResult> Details(Guid id)
         {
             var movie = await _movieService.GetMovieDetails(id);
-            
+
             return View(new MovieDetailsViewModel
             {
-                Duration = movie.Duration??0,
+                Duration = movie.Duration ?? 0,
                 Genre = movie.Genre.Title,
-                GenreId = movie.GenreId??Guid.Empty,
+                GenreId = movie.GenreId ?? Guid.Empty,
                 MovieId = movie.MovieId,
                 Title = movie.Title
             });
@@ -172,8 +172,8 @@ namespace VideoLibrary.Controllers
             {
                 MovieId = movie.MovieId,
                 Title = movie.Title,
-                Duration = movie.Duration??0,
-                GenreId = movie.GenreId??Guid.Empty,
+                Duration = movie.Duration ?? 0,
+                GenreId = movie.GenreId ?? Guid.Empty,
                 GenreSelectList = (await _genreRepository.GetAllGenres()).Select(g => new SelectListItem
                 {
                     Text = g.Title,
@@ -234,9 +234,7 @@ namespace VideoLibrary.Controllers
         }
 
         // POST: Movies/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [Route("{id:guid}/confirm/delete")]
+        [Route("movies/delete/{id:guid}/confirmed")]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             await _movieService.DeleteMovie(id);
