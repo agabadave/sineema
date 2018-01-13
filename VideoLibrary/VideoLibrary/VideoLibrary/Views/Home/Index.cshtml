@@ -1,1 +1,34 @@
-﻿<h1>Dashboard</h1>
+﻿
+
+@{
+    ViewBag.Title = "DashBoard";
+}
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<h1>Video Library Dash Board</h1>
+
+<div class="col-md-4 col-sm-4 box0">
+    <div class="box1">
+        <span class="li_stack"></span>
+        <h3>@ViewBag.Movies</h3>
+    </div>
+    <p>The Number of Movies in the Video Library Database.</p>
+</div>
+<div class="col-md-4 col-sm-4 box0">
+    <div class="box1">
+        <span class="li_stack"></span>
+        <h3>@ViewBag.Actors</h3>
+    </div>
+    <p>The Number of Actors in hosted in the Video Library.</p>
+</div>
+<div class="col-md-4 col-sm-4 box0">
+    <div class="box1">
+        <span class="li_stack"></span>
+        <h3>23</h3>
+    </div>
+    <p>The Number of System Users.</p>
+</div>
+
+
