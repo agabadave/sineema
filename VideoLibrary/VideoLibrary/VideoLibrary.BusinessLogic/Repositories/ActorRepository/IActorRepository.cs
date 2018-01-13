@@ -9,7 +9,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
 {
     public interface IActorRepository
     {
-        IQueryable<Actor> GetAllActors();
+        Task<IEnumerable<Actor>> GetAllActorsAsync();
         Task<Actor> GetActorByIdAsync(Guid actorId);
         Task<IEnumerable<Actor>> GetAllActorsByGenderAsync(Guid genderId);
         Task<Actor> AddActorAsync(Actor actor);

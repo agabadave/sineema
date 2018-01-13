@@ -29,6 +29,11 @@ namespace VideoLibrary.Tests.ControllerTests
         [Test]
         public void TestsMethod()
         {
+            // arrange
+
+            // act
+
+            // assert
             Assert.True(true);
         }
 

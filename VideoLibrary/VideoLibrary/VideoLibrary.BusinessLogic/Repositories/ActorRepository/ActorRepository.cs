@@ -37,17 +37,17 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Actor</returns>
         public async Task<Actor> GetActorByIdAsync(Guid actorId)
         {
-            return await GetAllActors()
-                .SingleOrDefaultAsync(a => a.ActorId == actorId);
+            var actors = await GetAllActorsAsync();
+            return actors.ToList().SingleOrDefault(a => a.ActorId == actorId);
         }
 
         /// <summary>
         /// Get all actors.
         /// </summary>
         /// <returns>List of actors.</returns>
-        public IQueryable<Actor> GetAllActors()
+        public async Task<IEnumerable<Actor>> GetAllActorsAsync()
         {
-            return _db.Actors;
+            return await _db.Actors.ToListAsync();
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>List of actors.</returns>
         public async Task<IEnumerable<Actor>> GetAllActorsByGenderAsync(Guid genderId)
         {
-            return await GetAllActors()
-                .Where(actor => actor.GenderId == genderId).ToListAsync();
+            var actors = await GetAllActorsAsync();
+            return actors.Where(actor => actor.GenderId == genderId).ToList();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Task result.</returns>
         public async Task RemoveActorAsync(Guid actorId)
         {
-            var actorToRemove = await GetAllActors().SingleOrDefaultAsync(actor => actor.ActorId == actorId);
+            var actorToRemove = (await GetAllActorsAsync()).SingleOrDefault(actor => actor.ActorId == actorId);
 
             if (actorToRemove == null)
             {
@@ -85,7 +85,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>Task results.</returns>
         public async Task UpdateActorAsync(Actor actor)
         {
-            var actorToUpdate = await GetAllActors().SingleOrDefaultAsync(a => a.ActorId == actor.ActorId);
+            var actorToUpdate = (await GetAllActorsAsync()).SingleOrDefault(a => a.ActorId == actor.ActorId);
 
             if (actorToUpdate == null)
             {

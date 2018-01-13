@@ -9,7 +9,7 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
     {
         Task<IEnumerable<Actor>> GetActorsAsync();
 
-        Task<IEnumerable<Actor>> GetActorByIdAsync(Guid gender);
+        Task<Actor> GetActorByIdAsync(Guid gender);
 
         Task SaveActorAsync(Actor model);
     }

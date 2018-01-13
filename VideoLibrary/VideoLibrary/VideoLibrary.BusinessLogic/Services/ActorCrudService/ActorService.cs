@@ -18,12 +18,12 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
 
         public async Task<IEnumerable<Actor>> GetActorsAsync()
         {
-            return await _actorRepository.GetAllActors().ToListAsync();
+            return await _actorRepository.GetAllActorsAsync();
         }
 
-        public async Task<IEnumerable<Actor>> GetActorByIdAsync(Guid gender)
+        public async Task<Actor> GetActorByIdAsync(Guid actorId)
         {
-            return await _actorRepository.GetAllActorsByGenderAsync(gender);
+            return await _actorRepository.GetActorByIdAsync(actorId);
         }
 
 
