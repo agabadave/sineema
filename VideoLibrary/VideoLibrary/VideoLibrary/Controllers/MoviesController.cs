@@ -222,7 +222,15 @@ namespace VideoLibrary.Controllers
             if (movie == null)
                 return HttpNotFound();
 
-            return View(movie);
+            var model = new DeleteMovieViewModel
+            {
+                MovieId = movie.MovieId,
+                Duration = movie.Duration ?? 0,
+                Genre = movie.Genre.Title,
+                Title = movie.Title
+            };
+
+            return View(model);
         }
 
         // POST: Movies/Delete/5
