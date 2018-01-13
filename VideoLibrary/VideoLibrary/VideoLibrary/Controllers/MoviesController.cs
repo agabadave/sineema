@@ -5,6 +5,7 @@ using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.BusinessLogic.Services.MovieCrudService;
 using VideoLibrary.BusinessEntities.Models.Model;
 using System.Linq;
+using System;
 
 namespace VideoLibrary.Controllers
 {
@@ -22,7 +23,7 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index(string sort, string btnAction, string search)
+        public async Task<ActionResult> Index(string sort, string btnAction, string search, string actorFilter, string genreFilter, string yearFilter)
         {
             ViewData["TitleSortParam"] = string.IsNullOrWhiteSpace(sort) ? "title_desc" : string.Empty;
             ViewData["DurationSortParam"] = sort == "duration" ? "duration_desc" : "duration";
@@ -83,8 +84,8 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Movies/Details/5
-        [Route("{id:int}/details")]
-        public async Task<ActionResult> Details(int? id)
+        [Route("{id:guid}/details")]
+        public async Task<ActionResult> Details(Guid id)
         {
             return View(await _movieService.GetMovieDetails(id));
         }
@@ -93,8 +94,8 @@ namespace VideoLibrary.Controllers
         [Route("add")]
         public async Task<ActionResult> Create()
         {
-            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
-            var actors = await _actorService.GetActors();
+            ViewBag.ActorId = new SelectList(await _actorService.GetActorsAsync(), "Id", "Name");
+            var actors = await _actorService.GetActorsAsync();
 
             return View();
         }
@@ -122,8 +123,8 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Movies/Edit/5
-        [Route("{id:int}/update")]
-        public async Task<ActionResult> Edit(int? id)
+        [Route("{id:guid}/update")]
+        public async Task<ActionResult> Edit(Guid id)
         {
             if (id == null)
             {
@@ -144,7 +145,7 @@ namespace VideoLibrary.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("{id:int}/update")]
+        [Route("{id:guid}/update")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
         {
             if (ModelState.IsValid)
@@ -157,10 +158,10 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Movies/Delete/5
-        [Route("{id:int}/delete")]
-        public async Task<ActionResult> Delete(int? id)
+        [Route("{id:guid}/delete")]
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var movie = await _movieService.GetMovie(id);
+            var movie = await _movieService.GetMovieDetails(id);
 
             if (movie == null)
                 return HttpNotFound();
@@ -171,8 +172,8 @@ namespace VideoLibrary.Controllers
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Route("{id:int}/confirm/delete")]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        [Route("{id:guid}/confirm/delete")]
+        public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             await _movieService.DeleteMovie(id);
 

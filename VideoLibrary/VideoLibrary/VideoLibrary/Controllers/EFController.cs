@@ -21,7 +21,7 @@ namespace VideoLibrary.Controllers
         public ActionResult Index()
         {
             // ReSharper disable once JoinDeclarationAndInitializer
-            List<Movie> movies;
+            //List<Movie> movies;
 /*
 
             #region Loading related entities

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.ClientRepository;
 
@@ -13,14 +16,14 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
             _clientRepository = clientRepository;
         }
 
-        public List<Client> GetAllClients()
+        public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
-            return _clientRepository.GetAll();
+            return await _clientRepository.GetAllClients().ToListAsync();
         }
 
-        public Client GetClient(long clientId)
+        public async Task<Client> GetClientByIdAsync(Guid clientId)
         {
-            return _clientRepository.GetClient(clientId);
+            return await _clientRepository.GetClientByIdAsync(clientId);
         }
     }
 }

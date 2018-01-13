@@ -22,7 +22,7 @@ namespace VideoLibrary.Controllers
         // GET: Clients
         public async Task<ActionResult> Index()
         {
-            return View(_clientCrudService.GetAllClients());
+            return View(await _clientCrudService.GetAllClientsAsync());
         }
 
         // GET: Clients/Details/5

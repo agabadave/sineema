@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<VideoLibrary.BusinessEntities.Models.Model.Movie>
 <div class="panel-body">
     <div class="row">
-        @foreach (var modelItem in Model)
+        @if (Model != null)
         {
+            foreach (var modelItem in Model)
+            {
             <div class="col-md-3">
                 <div class="thumbnail text-center">
                     <div class="text-center">
@@ -12,13 +14,14 @@
                     <div class="caption">
                         <p>@modelItem.Title</p>
                         <p>
-                            @Html.ActionLink("Edit", "Edit", new { id = modelItem.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = modelItem.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = modelItem.Id })
+                            @Html.ActionLink("Edit", "Edit", new { id = modelItem.MovieId }) |
+                            @Html.ActionLink("Details", "Details", new { id = modelItem.MovieId }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = modelItem.MovieId })
                         </p>
                     </div>
                 </div>
             </div>
+            }
         }
     </div>
 </div>

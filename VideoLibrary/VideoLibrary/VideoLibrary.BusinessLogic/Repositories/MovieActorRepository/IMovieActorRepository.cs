@@ -10,8 +10,6 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
 {
     public interface IMovieActorRepository
     {
-        Task AddMovieActor(MovieActor movieActor);
-
-        Task<List<MovieActor>> ActorsForMovies(int movieId);
+        IQueryable<MovieActor> GetMovieActors(Guid movieId);
     }
 }

@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
 {
-    public interface IActorRepository : IRepositoryBase
+    public interface IActorRepository
     {
-        Task<List<Actor>> GetAll();
-
-        Task<List<Actor>> GetAll(Gender gender);
+        Task<IEnumerable<Actor>> GetAllActorsAsync();
+        Task<Actor> GetActorByIdAsync(Guid actorId);
+        Task<IEnumerable<Actor>> GetAllActorsByGenderAsync(Guid genderId);
+        Task<Actor> AddActorAsync(Actor actor);
+        Task UpdateActorAsync(Actor actor);
+        Task RemoveActorAsync(Guid actorId);
     }
 }

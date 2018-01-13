@@ -1,22 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VideoLibrary.BusinessEntities.Models.Model
 {
+    [Table("Actor")]
     public class Actor: ModelBase
     {
-        public string Name { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid ActorId { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        [MaxLength(50), Column(TypeName = "varchar")]
+        public string Firstname { get; set; }
 
-        public virtual ICollection<Movie> Movies { get; set; }
+        [MaxLength(50), Column(TypeName = "varchar")]
+        public string Lastname { get; set; }
 
+        [Column(TypeName = "date")]
+        public DateTime? DateOfBirth { get; set; }
+
+        public Guid? GenderId { get; set; }
+
+        public Guid? GenreId { get; set; }
+
+        [ForeignKey("GenderId")]
         public Gender Gender { get; set; }
 
-        public String Genre { get; set; }
-        public int NumberOfMovies { get; set; }
+        [ForeignKey("GenreId")]
+        public Genre Genre { get; set; }
 
-        public ICollection<MovieActor> MovieActors { get; set; }
+        [NotMapped]
+        public string Fullname { get { return $"{Firstname} {Lastname}"; } }
     }
 
 

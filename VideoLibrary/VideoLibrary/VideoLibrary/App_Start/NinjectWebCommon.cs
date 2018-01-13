@@ -18,6 +18,7 @@ namespace VideoLibrary.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using VideoLibrary.BusinessEntities;
 
     public static class NinjectWebCommon 
     {
@@ -76,6 +77,7 @@ namespace VideoLibrary.App_Start
             kernel.Bind<IClientRepository>().To<ClientRepository>();
             kernel.Bind<IClientCrudService>().To<ClientCrudService>();
             kernel.Bind<IMovieActorRepository>().To<MovieActorRepository>();
+            kernel.Bind<LibraryContext>().ToSelf();
         }        
     }
 }

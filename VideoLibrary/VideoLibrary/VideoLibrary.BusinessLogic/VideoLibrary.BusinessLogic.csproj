@@ -81,8 +81,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ActorRepository\ActorRepository.cs" />
     <Compile Include="Repositories\ActorRepository\IActorRepository.cs" />
+    <Compile Include="Repositories\BorrowedMovieRepository\BorrowedMovieRepository.cs" />
+    <Compile Include="Repositories\BorrowedMovieRepository\IBorrowedMovieRepository.cs" />
     <Compile Include="Repositories\ClientRepository\ClientRepository.cs" />
     <Compile Include="Repositories\ClientRepository\IClientRepository.cs" />
+    <Compile Include="Repositories\GenderRepository\GenderRepository.cs" />
+    <Compile Include="Repositories\GenderRepository\IGenderRepository.cs" />
+    <Compile Include="Repositories\GenreRepository\GenreRepository.cs" />
+    <Compile Include="Repositories\GenreRepository\IGenreRepository.cs" />
     <Compile Include="Repositories\MovieActorRepository\IMovieActorRepository.cs" />
     <Compile Include="Repositories\MovieActorRepository\MovieActorRepository.cs" />
     <Compile Include="Repositories\MovieRepository\IMovieRepository.cs" />
