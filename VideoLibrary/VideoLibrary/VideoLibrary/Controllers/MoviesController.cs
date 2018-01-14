@@ -301,7 +301,7 @@ namespace VideoLibrary.Controllers
             {
                 MovieId = movie.MovieId,
                 MovieTitle = movie.Title,
-                MovieActors = (await _movieActorRepository.GetMovieActors(id))
+                MovieActors = (await _movieActorRepository.GetMovieActorsAsync(id))
                     .Select(ma => new MovieActorListViewModel
                     {
                         ActorId = Guid.Parse(ma.ActorId.ToString()),

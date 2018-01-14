@@ -34,9 +34,8 @@
                         <td class="col-sm-3">@movieActor.Role</td>
                         <td class="col-sm-3">@movieActor.LeadActor</td>
                         <td class="col-sm-3">
-                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                            <a href="@Url.RouteUrl(new { action = "editmovieactor", controller = "movieactor", movie = Model.MovieId, movieactor = movieActor.MovieActorId } )" class="btn btn-default btn-sm"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                             <a href="#" class="btn btn-default btn-sm"><i class="fa fa-user-circle"></i>&nbsp;Profile</a>
-                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-trash"></i>&nbsp;Delete</a>
                         </td>
                     </tr>
                 }

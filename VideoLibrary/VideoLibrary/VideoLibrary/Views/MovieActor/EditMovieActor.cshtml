@@ -1,0 +1,67 @@
+﻿@model VideoLibrary.Models.ViewModels.EditMovieActorViewModel
+
+@{
+    ViewBag.Title = "Edit Movie Actor";
+}
+
+<h2>Edit Movie Actor</h2>
+<hr />
+
+@using (Html.BeginForm("editmovieactor", "movieactor", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ActorFullname)
+    @Html.HiddenFor(model => model.ActorId)
+    @Html.HiddenFor(model => model.MovieActorId)
+    @Html.HiddenFor(model => model.MovieId)
+    @Html.HiddenFor(model => model.MovieTitle)
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MovieTitle, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.MovieTitle, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ActorFullname, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.ActorFullname, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeadActor, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.CheckBoxFor(model => model.LeadActor, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <a href="@Url.RouteUrl(new { action = "movieactors", controller = "movies", id = Model.MovieId})" class="btn btn-default"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to movie actors</a>
+                    <input type="submit" class="btn btn-primary" value="Save changes" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
