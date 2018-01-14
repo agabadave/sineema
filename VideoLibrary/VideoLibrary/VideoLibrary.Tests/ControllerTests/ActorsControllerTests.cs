@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
+using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.Controllers;
 
 namespace VideoLibrary.Tests.ControllerTests
@@ -17,7 +18,8 @@ namespace VideoLibrary.Tests.ControllerTests
         public void SetUp()
         {
             _mockClient = new Mock<Client>();
-            _actorsController = new ActorsController();
+            var _mockActorsService = new Mock<IActorService>();
+            _actorsController = new ActorsController(_mockActorsService.Object);
         }
 
         [TearDown]

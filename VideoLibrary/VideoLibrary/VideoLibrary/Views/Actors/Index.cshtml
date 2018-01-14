@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VideoLibrary.BusinessEntities.Models.Model.Actor>
+﻿@model IEnumerable<VideoLibrary.Models.ViewModels.ActorViewModel>
 @{
     ViewBag.Title = "Actors";
 }
@@ -21,56 +21,38 @@
     </div>
     <table class="table table-condensed table-striped table-bordered table-responsive">
         <tr>
-            <th>
+            <th class="col-sm-3">
                 @Html.DisplayNameFor(model => model.Fullname)
             </th>
-            <th>
+            <th class="col-sm-3">
                 @Html.DisplayNameFor(model => model.DateOfBirth)
             </th>
-            <th>
+            <th class="col-sm-1">
                 @Html.DisplayNameFor(model => model.Gender)
             </th>
-            <th>
+            <th class="col-sm-3">
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedBy)
-            </th>
-            <th></th>
+            <th class="col-sm-2"></th>
         </tr>
         @if (Model != null)
         {
             foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td class="col-sm-3">
                         @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
-                    <td>
+                    <td class="col-sm-3">
                         @Html.DisplayFor(modelItem => item.DateOfBirth)
                     </td>
-                    <td>
+                    <td class="col-sm-1">
                         @Html.DisplayFor(modelItem => item.Gender)
                     </td>
-                    <td>
+                    <td class="col-sm-3">
                         @Html.DisplayFor(modelItem => item.Genre)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateAdded)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedBy)
-                    </td>
-                    <td>
+                    <td class="col-sm-2">
                         @Html.ActionLink("Edit", "Edit", new { id = item.ActorId }) |
                         @Html.ActionLink("Details", "Details", new { id = item.ActorId }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.ActorId })

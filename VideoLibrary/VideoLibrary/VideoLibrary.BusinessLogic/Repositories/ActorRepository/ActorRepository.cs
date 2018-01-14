@@ -47,7 +47,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
         /// <returns>List of actors.</returns>
         public async Task<IEnumerable<Actor>> GetAllActorsAsync()
         {
-            return await _db.Actors.ToListAsync();
+            return await _db.Actors.Include(actor => actor.Gender).Include(actor => actor.Genre).ToListAsync();
         }
 
         /// <summary>
