@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace VideoLibrary.BusinessEntities.Models.Model
 {
     public class Movie : ModelBase
     {
+        [Required]
         public string Title { get; set; }
         public int Duration { get; set; }
         public Genre Genre { get; set; }

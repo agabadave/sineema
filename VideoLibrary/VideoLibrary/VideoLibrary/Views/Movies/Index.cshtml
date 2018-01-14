@@ -28,3 +28,14 @@
 <div class="movies-grid">
     @Html.Partial("_Grid", Model)
 </div>
+@section Scripts{
+    <script type="text/javascript">
+        (function ($) {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+                placement: "top",
+                trigger: "hover"
+            })
+        }(jQuery))
+    </script>
+}

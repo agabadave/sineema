@@ -4,6 +4,10 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.BusinessLogic.Services.MovieCrudService;
 using VideoLibrary.BusinessEntities.Models.Model;
+using System.Collections.Generic;
+using PagedList;
+using System.Linq;
+using System;
 
 namespace VideoLibrary.Controllers
 {
@@ -21,9 +25,65 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? page, string title, string orderBy, string orderDirection = "ASC")
         {
-            return View(await _movieService.GetMovies());
+            List<Movie> movies;
+            if (!String.IsNullOrEmpty(title))
+            {
+                movies = await _movieService.GetMovieByTitle(title);
+            }
+            else
+            {
+                movies = await _movieService.GetMovies();
+            }
+
+            if (orderDirection == "ASC")
+            {
+                if(orderBy == "genre")
+                {
+                    movies = movies.OrderBy(m => m.Genre).ToList();
+                }
+                else if(orderBy == "title")
+                {
+                    movies = movies.OrderBy(m => m.Title).ToList();
+                }
+                else if (orderBy == "duration")
+                {
+                    movies = movies.OrderBy(m => m.Duration).ToList();
+                }
+                else
+                {
+                    //Order by Date by default
+                    movies = movies.OrderBy(m => m.DateAdded).ToList();
+                }
+
+            }
+            else
+            {
+                if (orderBy == "genre")
+                {
+                    movies = movies.OrderByDescending(m => m.Genre).ToList();
+                }
+                else if (orderBy == "title")
+                {
+                    movies = movies.OrderByDescending(m => m.Title).ToList();
+                }
+                else if (orderBy == "duration")
+                {
+                    movies = movies.OrderByDescending(m => m.Duration).ToList();
+                }
+                else
+                {
+                    movies = movies.OrderByDescending(m => m.DateAdded).ToList();
+                }
+            }
+            int pageNumber = page ?? 1;
+            int pageSize = 20;
+            ViewBag.page = pageNumber;
+            ViewBag.orderBy = orderBy;
+            ViewBag.orderDirection = orderDirection;
+            ViewBag.movieTitle = title;
+            return View(movies.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: Movies/Details/5
@@ -37,8 +97,8 @@ namespace VideoLibrary.Controllers
         [Route("add")]
         public async Task<ActionResult> Create()
         {
-            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
-            var actors = await _actorService.GetActors();
+            ViewBag.LeadActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
+            //var actors = await _actorService.GetActors();
 
             return View();
         }
@@ -56,12 +116,12 @@ namespace VideoLibrary.Controllers
 
                 await _movieService.InsertMovie(movie);
 
-
+                TempData["SuccessMessage"] = "Movie Added Successfully!";
 
                 //await _movieService.InsertMovie(movie);
                 return RedirectToAction("Index");
             }
-
+            ViewBag.LeadActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
             return View(movie);
         }
 
@@ -89,7 +149,7 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("{id:int}/update")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,LeadActorId,Genre,DateAdded,AddedBy")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +173,7 @@ namespace VideoLibrary.Controllers
         }
 
         // POST: Movies/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("ConfirmDelete")]
         [ValidateAntiForgeryToken]
         [Route("{id:int}/confirm/delete")]
         public async Task<ActionResult> DeleteConfirmed(int id)

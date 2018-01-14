@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
+using System.Linq;
+using VideoLibrary.BusinessEntities.Models;
 
 namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
 {
@@ -45,5 +47,33 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         {
             return await _movieRepository.UpdateAsync(model);
         }
+
+        public async Task<List<Movie>> GetMovieByTitle(string title)
+        {
+            return await _movieRepository.GetMoviesWhere((m) => m.Title.Contains(title));
+        }
+        #region todo
+        //Count by Genre
+        public List<MoviesPerGenre> GetCountPerGenre()
+        {
+            var moviesPerGenre = from m in _movieRepository.GetMovies()
+            group m by m.Genre into t
+            select new MoviesPerGenre { Count = t.Count(), Title = t.Key.ToString() };
+
+            return moviesPerGenre.ToList();
+        }
+        //Most Recent 5 movies
+        public List<Movie> GetRecentMovies(int number)
+        {
+           return _movieRepository.GetMovies().OrderByDescending(m => m.DateAdded).Take(number).ToList();
+        }
+        //Top five actors by movie count
+        #endregion
+    }
+
+    public class MoviesPerGenre
+    {
+        public string Title { get; set; }
+        public int Count { get; set; }
     }
 }

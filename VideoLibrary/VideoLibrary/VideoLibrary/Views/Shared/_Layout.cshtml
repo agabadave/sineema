@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Sineema</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/jqueryui")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -29,6 +30,10 @@
         </div>
     </div>
     <div class="container body-content">
+        @if (TempData.ContainsKey("SuccessMessage"))
+        {
+            <div class="alert alert-dismissable alert-success">@TempData["SuccessMessage"]</div>
+        }
         @RenderBody()
         <hr />
         <footer>
@@ -37,7 +42,19 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/highcharts")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[name^=Date]").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                inline: true
+            })
+        })
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
