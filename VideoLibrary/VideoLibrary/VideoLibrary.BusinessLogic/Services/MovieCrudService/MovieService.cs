@@ -31,6 +31,11 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
             await _movieRepository.RemoveMovieAsync(id);
         }
 
+        public async Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor = false)
+        {
+            await _movieRepository.AddMovieActorAsync(movieId, actorId, role, leadActor);
+        }
+
         public async Task<Movie> InsertMovie(Movie model)
         {
             return await _movieRepository.AddMovieAsync(model);

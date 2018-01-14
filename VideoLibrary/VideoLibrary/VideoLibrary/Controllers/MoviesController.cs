@@ -242,5 +242,41 @@ namespace VideoLibrary.Controllers
             return RedirectToAction("Index");
         }
 
+        [Route("{movieid:guid}/actors/add")]
+        public async Task<ActionResult> AddMovieActor(Guid movieid)
+        {
+            var movie = await _movieService.GetMovieDetails(movieid);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var model = new AddMovieActorViewModel
+            {
+                MovieId = movie.MovieId,
+                ActorSelectList = (await _actorService.GetActorsAsync()).Select(actor => new SelectListItem
+                {
+                    Text = actor.Fullname,
+                    Value = actor.ActorId.ToString()
+                })
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("{movieid:guid}/actors/add")]
+        public async Task<ActionResult> AddMovieActor(AddMovieActorViewModel formData)
+        {
+            if (ModelState.IsValid)
+            {
+                await _movieService.AddMovieActorAsync(formData.MovieId, formData.ActorId, formData.Role, formData.LeadActor);
+
+                return RedirectToAction("details", new { id = formData.MovieId });
+            }
+
+            return View(formData);
+        }
     }
 }

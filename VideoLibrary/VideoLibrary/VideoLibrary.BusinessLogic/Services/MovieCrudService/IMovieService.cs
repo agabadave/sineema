@@ -12,5 +12,6 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         Task DeleteMovie(Guid id);
         Task<Movie> InsertMovie(Movie model);
         Task<Movie> UpdateMovie(Movie model);
+        Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor = false);
     }
 }

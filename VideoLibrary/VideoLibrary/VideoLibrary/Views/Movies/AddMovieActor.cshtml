@@ -1,0 +1,58 @@
+﻿@model VideoLibrary.Models.ViewModels.AddMovieActorViewModel
+
+@{
+    ViewBag.Title = "Add Movie Actor";
+}
+
+<br />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Add Movie Actor</strong>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("addmovieactor", "movies", FormMethod.Post, new { @class = "form-horizontal"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.MovieId)
+            @Html.HiddenFor(model => model.ActorSelectList)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Movie, htmlAttributes: new { @class = "control-label col-sm-2"})
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Movie, new { htmlAttributes = new { @class = "form-control", @disabled = "true" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ActorId, htmlAttributes: new { @class = "control-label col-sm-2"})
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.ActorId, Model.ActorSelectList, htmlAttributes: new { @class = "form-control" } )
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-sm-2"})
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeadActor, htmlAttributes: new { @class = "control-label col-sm-2"})
+                <div class="col-sm-6 text-left">
+                    @Html.EditorFor(model => model.LeadActor, new { htmlAttributes = new { @class = "form-control pull-left" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
