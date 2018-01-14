@@ -254,6 +254,7 @@ namespace VideoLibrary.Controllers
 
             var model = new AddMovieActorViewModel
             {
+                Movie = movie.Title,
                 MovieId = movie.MovieId,
                 ActorSelectList = (await _actorService.GetActorsAsync()).Select(actor => new SelectListItem
                 {
@@ -276,6 +277,11 @@ namespace VideoLibrary.Controllers
                 return RedirectToAction("details", new { id = formData.MovieId });
             }
 
+            formData.ActorSelectList = (await _actorService.GetActorsAsync()).Select(actor => new SelectListItem
+            {
+                Text = actor.Fullname,
+                Value = actor.ActorId.ToString()
+            });
             return View(formData);
         }
     }

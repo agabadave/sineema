@@ -32,7 +32,10 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 ActorId = actorId,
                 LeadActor = leadActor,
                 MovieId = movieId,
-                Role = role
+                Role = role,
+                IsActive = true,
+                DateAdded = DateTime.Now,
+                AddedBy = 1
             });
             await _db.SaveChangesAsync();
         }

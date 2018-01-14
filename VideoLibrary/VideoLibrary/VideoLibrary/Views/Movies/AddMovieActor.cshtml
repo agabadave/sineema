@@ -16,7 +16,6 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(model => model.MovieId)
-            @Html.HiddenFor(model => model.ActorSelectList)
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Movie, htmlAttributes: new { @class = "control-label col-sm-2"})
@@ -42,13 +41,14 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.LeadActor, htmlAttributes: new { @class = "control-label col-sm-2"})
                 <div class="col-sm-6 text-left">
-                    @Html.EditorFor(model => model.LeadActor, new { htmlAttributes = new { @class = "form-control pull-left" } })
+                    @Html.CheckBoxFor(model => model.LeadActor, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-6">
-                    <input type="submit" value="Save" class="btn btn-default" />
+                    <a href="@Url.RouteUrl(new { action = "details", controller = "movies", id = Model.MovieId})" class="btn btn-default"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to Movie Details</a>
+                    <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
             </div>
         }
