@@ -8,6 +8,7 @@ using System.Linq;
 using System;
 using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 using VideoLibrary.Models.ViewModels;
+using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
 
 namespace VideoLibrary.Controllers
 {
@@ -17,12 +18,18 @@ namespace VideoLibrary.Controllers
         private readonly IMovieService _movieService;
         private readonly IActorService _actorService;
         private readonly IGenreRepository _genreRepository;
+        private readonly IMovieActorRepository _movieActorRepository;
 
-        public MoviesController(IMovieService movieService, IActorService actorService, IGenreRepository genreRepository)
+        public MoviesController(
+            IMovieService movieService, 
+            IActorService actorService, 
+            IGenreRepository genreRepository,
+            IMovieActorRepository movieActorRepository)
         {
             _movieService = movieService;
             _actorService = actorService;
             _genreRepository = genreRepository;
+            _movieActorRepository = movieActorRepository;
         }
 
         // GET: Movies
@@ -283,6 +290,29 @@ namespace VideoLibrary.Controllers
                 Value = actor.ActorId.ToString()
             });
             return View(formData);
+        }
+
+        [Route("movies/{id:guid}/actors")]
+        public async Task<ActionResult> MovieActors(Guid id)
+        {
+            var movie = await _movieService.GetMovieDetails(id);
+
+            var model = new MovieActorViewModel
+            {
+                MovieId = movie.MovieId,
+                MovieTitle = movie.Title,
+                MovieActors = (await _movieActorRepository.GetMovieActors(id))
+                    .Select(ma => new MovieActorListViewModel
+                    {
+                        ActorId = Guid.Parse(ma.ActorId.ToString()),
+                        Fullname = ma.Actor.Fullname,
+                        LeadActor = bool.Parse(ma.LeadActor.ToString()),
+                        MovieActorId = ma.MovieActorId,
+                        Role = ma.Role
+                    })
+            };
+
+            return View(model);
         }
     }
 }

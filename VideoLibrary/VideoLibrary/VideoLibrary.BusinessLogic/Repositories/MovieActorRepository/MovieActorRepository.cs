@@ -18,9 +18,12 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
             _db = context;
         }
 
-        public IQueryable<MovieActor> GetMovieActors(Guid movieId)
+        public async Task<IEnumerable<MovieActor>> GetMovieActors(Guid movieId)
         {
-            return _db.MovieActors.Where(x => x.MovieId == movieId);
+            return await _db.MovieActors
+                .Include(movieActor => movieActor.Actor)
+                .Include(movieActor => movieActor.Movie)
+                .Where(x => x.MovieId == movieId).ToListAsync();
         } 
     }
 }
