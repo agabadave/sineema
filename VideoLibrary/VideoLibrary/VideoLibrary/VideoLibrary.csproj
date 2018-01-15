@@ -165,6 +165,7 @@
     <Compile Include="Models\ViewModels\ClientDeleteViewModel.cs" />
     <Compile Include="Models\ViewModels\ClientDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\ClientListViewModel.cs" />
+    <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\DeleteMovieViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMovieActorViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMovieViewModel.cs" />
