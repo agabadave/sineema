@@ -265,6 +265,10 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
+# App_Data
+App_Data/*.mdf
+App_Data/*.ldf
+
 # Paket dependency manager
 .paket/paket.exe
 paket-files/
