@@ -14,5 +14,7 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
         Task AddClientAsync(Client client);
 
         Task UpdateClientAsync(Client client);
+
+        Task RemoveClientAsync(Guid clientId);
     }
 }

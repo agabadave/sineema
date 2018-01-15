@@ -143,29 +143,39 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Clients/Delete/5
-        public async Task<ActionResult> Delete(long? id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Client client = await db.Clients.FindAsync(id);
+            Client client = await _clientCrudService.GetClientByIdAsync(id);
             if (client == null)
             {
                 return HttpNotFound();
             }
-            return View(client);
+
+            var model = new ClientDeleteViewModel
+            {
+                ClientId = client.ClientId,
+                DateOfBirth = client.DateOfBirth == null ? string.Empty : DateTime.Parse(client.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                Firstname = client.FirstName,
+                Gender = client.Gender == null ? string.Empty : client.Gender.Description,
+                Fullname = client.Fullname,
+                Lastname = client.LastName
+            };
+
+            return View(model);
         }
 
         // POST: Clients/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
+        public async Task<ActionResult> Delete(ClientDeleteViewModel formData)
         {
-            Client client = await db.Clients.FindAsync(id);
-            db.Clients.Remove(client);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _clientCrudService.RemoveClientAsync(formData.ClientId);
+                return RedirectToAction("Index");
+            }
+            
+            return View(formData);
         }
     }
 }
