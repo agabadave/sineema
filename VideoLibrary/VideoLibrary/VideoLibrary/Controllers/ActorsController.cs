@@ -108,6 +108,73 @@ namespace VideoLibrary.Controllers
             return View(formData);
         }
 
+        [Route("actors/{id:guid}")]
+        public async Task<ActionResult> Details(Guid id)
+        {
+            var actor = await _actorService.GetActorByIdAsync(id);
+
+            var model = new ActorDetailsViewModel
+            {
+                ActorId = actor.ActorId,
+                DateOfBirth = actor.DateOfBirth,
+                Firstname = actor.Firstname,
+                GenderId = actor.GenderId ?? Guid.Empty,
+                GenreId = actor.GenreId ?? Guid.Empty,
+                Lastname = actor.Lastname,
+                Fullname = actor.Fullname,
+                GenderSelectList = (await _genderRepository.GetAllGenders()).
+                    Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    }),
+                GenreSelectList = (await _genreRepository.GetAllGenres())
+                    .Select(genre => new SelectListItem
+                    {
+                        Text = genre.Title,
+                        Value = genre.GenreId.ToString()
+                    })
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("actors/{id:guid}")]
+        public async Task<ActionResult> Details(ActorDetailsViewModel formData)
+        {
+            if (ModelState.IsValid)
+            {
+                await _actorService.UpdateActorAsync(new Actor
+                {
+                    ActorId = formData.ActorId,
+                    DateOfBirth = formData.DateOfBirth,
+                    Firstname = formData.Firstname,
+                    GenderId = formData.GenderId,
+                    GenreId = formData.GenreId,
+                    Lastname = formData.Lastname,
+                });
+
+                return RedirectToAction("index");
+            }
+
+            formData.GenderSelectList = (await _genderRepository.GetAllGenders()).
+                    Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    });
+            formData.GenreSelectList = (await _genreRepository.GetAllGenres())
+                .Select(genre => new SelectListItem
+                {
+                    Text = genre.Title,
+                    Value = genre.GenreId.ToString()
+                });
+
+            return View(formData);
+        }
+
         // GET: Actors/Details/5
         //public async Task<ActionResult> Details(long? id)
         //{

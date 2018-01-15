@@ -12,5 +12,7 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
         Task<Actor> GetActorByIdAsync(Guid gender);
 
         Task SaveActorAsync(Actor model);
+
+        Task UpdateActorAsync(Actor actor);
     }
 }

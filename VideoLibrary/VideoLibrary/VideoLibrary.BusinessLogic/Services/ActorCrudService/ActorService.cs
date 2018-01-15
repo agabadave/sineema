@@ -31,5 +31,10 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
         {
             await _actorRepository.AddActorAsync(model);
         }
+
+        public async Task UpdateActorAsync(Actor actor)
+        {
+            await _actorRepository.UpdateActorAsync(actor);
+        }
     }
 }

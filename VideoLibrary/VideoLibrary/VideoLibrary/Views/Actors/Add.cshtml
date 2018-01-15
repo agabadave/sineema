@@ -73,7 +73,9 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script>
         $(function () {
-            $('#DateOfBirth').datepicker().val('');
+            $('#DateOfBirth').datepicker({
+                dateFormat: 'yy-mm-dd'
+            }).val('');
         });
     </script>
 }
