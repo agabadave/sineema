@@ -23,7 +23,7 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Clients
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
             var model = (await _clientCrudService.GetAllClientsAsync())
                 .Select(client => new ClientListViewModel
@@ -33,6 +33,12 @@ namespace VideoLibrary.Controllers
                     Fullname = client.Fullname,
                     Gender = client.Gender.Description
                 });
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                model = model.Where(client => client.Fullname.ToLower().Contains(search.ToLower()));
+                ViewData["Search"] = search;
+            }
 
             return View(model);
         }
