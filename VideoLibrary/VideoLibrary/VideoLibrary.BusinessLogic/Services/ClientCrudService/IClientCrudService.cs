@@ -12,5 +12,7 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
         Task<Client> GetClientByIdAsync(Guid clientId);
 
         Task AddClientAsync(Client client);
+
+        Task UpdateClientAsync(Client client);
     }
 }

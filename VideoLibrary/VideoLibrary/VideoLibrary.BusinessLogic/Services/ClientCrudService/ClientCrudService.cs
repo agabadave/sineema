@@ -31,5 +31,10 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
         {
             return await _clientRepository.GetClientByIdAsync(clientId);
         }
+
+        public async Task UpdateClientAsync(Client client)
+        {
+            await _clientRepository.UpdateClientAsync(client);
+        }
     }
 }
