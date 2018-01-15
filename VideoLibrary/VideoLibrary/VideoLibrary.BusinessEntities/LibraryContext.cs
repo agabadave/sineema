@@ -41,38 +41,38 @@ namespace VideoLibrary.BusinessEntities
         //    base.OnModelCreating(modelBuilder);
         //}
 
-        private AuditTrailFactory _auditFactory;
-        private List<AuditTrail> auditList = new List<AuditTrail>();
+    //    private AuditTrailFactory _auditFactory;
+    //    private List<AuditTrail> auditList = new List<AuditTrail>();
 
-        public override Task<int> SaveChangesAsync()
-        {
+    //    public override Task<int> SaveChangesAsync()
+    //    {
 
-            auditList.Clear();
-            _auditFactory = new AuditTrailFactory(this);
+    //        auditList.Clear();
+    //        _auditFactory = new AuditTrailFactory(this);
 
-            var entityList = ChangeTracker.Entries().Where(p =>
-            p.State == EntityState.Added ||
-            p.State == EntityState.Deleted ||
-            p.State == EntityState.Modified ||
-            !(p.Entity is AuditTrail) ||
-            p.Entity != null);
+    //        var entityList = ChangeTracker.Entries().Where(p =>
+    //        p.State == EntityState.Added ||
+    //        p.State == EntityState.Deleted ||
+    //        p.State == EntityState.Modified ||
+    //        !(p.Entity is AuditTrail) ||
+    //        p.Entity != null);
 
-            foreach (var entity in entityList)
-            {
-                AuditTrail audit = _auditFactory.GetAudit(entity);
-                auditList.Add(audit);
-            }
+    //        foreach (var entity in entityList)
+    //        {
+    //            AuditTrail audit = _auditFactory.GetAudit(entity);
+    //            auditList.Add(audit);
+    //        }
 
-            //var retVal = base.SaveChanges();
+    //        //var retVal = base.SaveChanges();
 
-            if (auditList.Count > 0)
-            {
-                auditList.ForEach(p => { Audit.Add(p); });
+    //        if (auditList.Count > 0)
+    //        {
+    //            auditList.ForEach(p => { Audit.Add(p); });
 
-                //base.SaveChanges();
-            }
+    //            //base.SaveChanges();
+    //        }
 
-            return base.SaveChangesAsync();
-        }
+    //        return base.SaveChangesAsync();
+    //    //}
     }
 }

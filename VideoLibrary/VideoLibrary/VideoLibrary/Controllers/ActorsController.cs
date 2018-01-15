@@ -8,16 +8,22 @@ using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using System.Linq;
 using VideoLibrary.Models.ViewModels;
 using System;
+using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
+using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 
 namespace VideoLibrary.Controllers
 {
     public class ActorsController : Controller
     {
         private readonly IActorService _actorService;
+        private readonly IGenderRepository _genderRepository;
+        private readonly IGenreRepository _genreRepository;
 
-        public ActorsController(IActorService actorService)
+        public ActorsController(IActorService actorService, IGenderRepository genderRepository, IGenreRepository genreRepository)
         {
             _actorService = actorService;
+            _genderRepository = genderRepository;
+            _genreRepository = genreRepository;
         }
 
         // GET: Actors
@@ -36,6 +42,70 @@ namespace VideoLibrary.Controllers
                 });
 
             return View(model);
+        }
+
+        public async Task<ActionResult> Add()
+        {
+            var model = new AddActorViewModel
+            {
+                GenderSelectList = (await _genderRepository.GetAllGenders()).Select(gender => new SelectListItem
+                {
+                    Text = gender.Description,
+                    Value = gender.GenderId.ToString()
+                }),
+                GenreSelectList = (await _genreRepository.GetAllGenres()).Select(genre => new SelectListItem
+                {
+                    Text = genre.Title,
+                    Value = genre.GenreId.ToString()
+                })
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Add(AddActorViewModel formData)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _actorService.SaveActorAsync(new Actor
+                    {
+                        ActorId = Guid.NewGuid(),
+                        AddedBy = 1,
+                        DateAdded = DateTime.Now,
+                        DateOfBirth = formData.DateOfBirth,
+                        Firstname = formData.Firstname,
+                        GenderId = formData.GenderId,
+                        GenreId = formData.GenreId,
+                        IsActive = true,
+                        Lastname = formData.Lastname
+                    });
+
+                    return RedirectToAction("index");
+                }
+                catch (Exception error)
+                {
+                    ModelState.AddModelError("", "Error: Failed to add new actor.");
+                    return View(formData);
+                }
+            }
+
+            formData.GenderSelectList = (await _genderRepository.GetAllGenders()).Select(gender => new SelectListItem
+            {
+                Text = gender.Description,
+                Value = gender.GenderId.ToString()
+            });
+
+            formData.GenreSelectList = (await _genreRepository.GetAllGenres()).Select(genre => new SelectListItem
+            {
+                Text = genre.Title,
+                Value = genre.GenreId.ToString()
+            });
+
+            return View(formData);
         }
 
         // GET: Actors/Details/5

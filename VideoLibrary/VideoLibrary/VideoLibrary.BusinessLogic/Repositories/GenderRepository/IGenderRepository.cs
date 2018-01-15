@@ -17,6 +17,6 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
 
         Task<Gender> GetGenderById(Guid genderId);
 
-        IQueryable<Gender> GetAllGenders();
+        Task<IEnumerable<Gender>> GetAllGenders();
     }
 }

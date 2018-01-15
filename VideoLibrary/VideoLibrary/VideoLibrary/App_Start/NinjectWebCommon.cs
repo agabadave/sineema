@@ -19,6 +19,7 @@ namespace VideoLibrary.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using VideoLibrary.BusinessEntities;
+    using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
     using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 
     public static class NinjectWebCommon 
@@ -79,6 +80,7 @@ namespace VideoLibrary.App_Start
             kernel.Bind<IClientCrudService>().To<ClientCrudService>();
             kernel.Bind<IMovieActorRepository>().To<MovieActorRepository>();
             kernel.Bind<IGenreRepository>().To<GenreRepository>();
+            kernel.Bind<IGenderRepository>().To<GenderRepository>();
             kernel.Bind<LibraryContext>().ToSelf();
         }        
     }

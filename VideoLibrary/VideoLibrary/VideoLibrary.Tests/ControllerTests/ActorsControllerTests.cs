@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
+using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
+using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.Controllers;
 
@@ -19,7 +21,9 @@ namespace VideoLibrary.Tests.ControllerTests
         {
             _mockClient = new Mock<Client>();
             var _mockActorsService = new Mock<IActorService>();
-            _actorsController = new ActorsController(_mockActorsService.Object);
+            var _mockGenderRepository = new Mock<IGenderRepository>();
+            var _mockGenreRepository = new Mock<IGenreRepository>();
+            _actorsController = new ActorsController(_mockActorsService.Object, _mockGenderRepository.Object, _mockGenreRepository.Object);
         }
 
         [TearDown]

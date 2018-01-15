@@ -33,9 +33,9 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// List all genders.
         /// </summary>
         /// <returns>List of genders.</returns>
-        public IQueryable<Gender> GetAllGenders()
+        public async Task<IEnumerable<Gender>> GetAllGenders()
         {
-            return _db.Genders;
+            return await _db.Genders.ToListAsync();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.GenderRepository
         /// <returns>Gender.</returns>
         public async Task<Gender> GetGenderById(Guid genderId)
         {
-            return await GetAllGenders().SingleOrDefaultAsync(g => g.GenderId == genderId);
+            return (await GetAllGenders()).SingleOrDefault(g => g.GenderId == genderId);
         }
 
         /// <summary>
