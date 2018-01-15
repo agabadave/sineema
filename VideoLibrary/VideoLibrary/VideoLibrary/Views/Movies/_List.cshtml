@@ -46,11 +46,12 @@
                     <div class='list-group-item-text'>{1}</div>
                 </div>
                 <div class='list-group-item'>
-                    <div class='list-group-item-heading'>Actor</div>
+                    <div class='list-group-item-heading'>Lead Actor</div>
                     <div class='list-group-item-text'>{2}</div>
                 </div>
             </div>";
-            var movieDetails = String.Format(popOverTemplate,item.Title,item.Actor,item.Genre);
+            var actor = ""; 
+            var movieDetails = String.Format(popOverTemplate,item.Title,item.Genre, actor);
             <tr>
                 <td>
                     <a data-toggle="popover" role="button" tabindex="0" title="@item.Title" data-content="@movieDetails">@item.Title</a>

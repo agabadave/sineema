@@ -69,7 +69,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 #region Filter Before ToList()
 
                 //movies = db.Movies.ToList().Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed too early
-                movies = db.Movies.Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed last
+                //movies = db.Movies.Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed last
 
                 #endregion
 

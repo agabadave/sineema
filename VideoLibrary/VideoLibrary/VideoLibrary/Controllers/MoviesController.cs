@@ -25,7 +25,7 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index(int? page, string title, string orderBy, string orderDirection = "ASC")
+        public async Task<ActionResult> Index(string title, string orderBy, int? page,string orderDirection = "DESC")
         {
             List<Movie> movies;
             if (!String.IsNullOrEmpty(title))
@@ -139,7 +139,7 @@ namespace VideoLibrary.Controllers
             {
                 return HttpNotFound();
             }
-
+            ViewBag.LeadActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
             return View(movie);
         }
 

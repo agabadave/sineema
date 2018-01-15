@@ -56,11 +56,13 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         //Count by Genre
         public List<MoviesPerGenre> GetCountPerGenre()
         {
-            var moviesPerGenre = from m in _movieRepository.GetMovies()
+            var movies = Task.Run(()=>_movieRepository.GetAll()).Result;
+            var moviesPerGenre = from m in movies
             group m by m.Genre into t
             select new MoviesPerGenre { Count = t.Count(), Title = t.Key.ToString() };
 
-            return moviesPerGenre.ToList();
+            var result = moviesPerGenre.ToList();
+            return result;
         }
         //Most Recent 5 movies
         public List<Movie> GetRecentMovies(int number)

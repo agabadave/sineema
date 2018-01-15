@@ -8,6 +8,7 @@ using DotNet.Highcharts.Enums;
 using DotNet.Highcharts.Helpers;
 using DotNet.Highcharts.Options;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace VideoLibrary.Controllers
 {
@@ -21,12 +22,30 @@ namespace VideoLibrary.Controllers
             _movieService = movieService;
             _actorService = actorService;
         }
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            Highcharts pieChart = new Highcharts("MoviesPerGenre");
+            var countPerGenre = _movieService.GetCountPerGenre();
+            var movieCount = 0;
+            foreach (var item in countPerGenre)
+            {
+                movieCount += item.Count;
+            }
+            var movieShare = new List<object[]>();
 
-            ViewData["RecentMovies"] = _movieService.GetRecentMovies(10);
-            ViewData["CountPerGenre"] = _movieService.GetCountPerGenre();
+            foreach (var item in countPerGenre)
+            {
+                movieShare.Add(new object[] { item.Title,(item.Count * 100 / movieCount) });
+            }
+            Highcharts pieChart = new Highcharts("MoviesPerGenre");
+            pieChart.SetSeries(new Series
+            {
+                Type = ChartTypes.Pie,
+                Name = "Movie Share Per Genre",
+                Data = new Data(movieShare.ToArray())
+            });
+            pieChart.SetTitle(new Title { Text = "Movie Distribution Per Genre" });
+            ViewData["RecentMovies"] = _movieService.GetRecentMovies(5);
+            ViewData["CountPerGenreChart"] = pieChart;
 
             return View();
         }
