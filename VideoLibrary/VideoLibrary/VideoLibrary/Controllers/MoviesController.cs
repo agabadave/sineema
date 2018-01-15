@@ -9,6 +9,7 @@ using System;
 using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 using VideoLibrary.Models.ViewModels;
 using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
+using PagedList;
 
 namespace VideoLibrary.Controllers
 {
@@ -34,7 +35,7 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index(string sort, string btnAction, string search, string actorFilter, string genreFilter, string yearFilter)
+        public async Task<ActionResult> Index(string sort, string btnAction, string search, string actorFilter, string genreFilter, string yearFilter, int? page)
         {
             ViewData["TitleSortParam"] = string.IsNullOrWhiteSpace(sort) ? "title_desc" : string.Empty;
             ViewData["DurationSortParam"] = sort == "duration" ? "duration_desc" : "duration";
@@ -100,7 +101,11 @@ namespace VideoLibrary.Controllers
                     break;
             }
 
-            return View(moviesList);
+            var pageNumber = page ?? 1;
+
+            var model = moviesList.ToPagedList(pageNumber, 10);
+
+            return View(model);
         }
 
         // GET: Movies/Details/5
