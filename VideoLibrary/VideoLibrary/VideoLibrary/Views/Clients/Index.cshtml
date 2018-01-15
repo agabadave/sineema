@@ -1,11 +1,11 @@
 ﻿
-@model IEnumerable<VideoLibrary.BusinessEntities.Models.Model.Client>
+@model IEnumerable<VideoLibrary.Models.ViewModels.ClientListViewModel>
 @{
     ViewBag.Title = "Clients";
 }
 <h2>Clients List</h2>
 <p>
-    <a href="@Url.RouteUrl(routeValues: new { action = "create"})" class="btn btn-default"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add clients</a>
+    <a href="@Url.RouteUrl(routeValues: new { action = "create", controller = "clients" })" class="btn btn-default"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add clients</a>
 </p>
 
 <div class="panel panel-default">
@@ -24,25 +24,13 @@
     <table class="table table-condensed table-striped table-bordered">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.Fullname)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfBirth)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedBy)
             </th>
             <th></th>
         </tr>
@@ -52,25 +40,13 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
+                        @Html.DisplayFor(modelItem => item.Fullname)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DateOfBirth)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Gender)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateAdded)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedBy)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }) |

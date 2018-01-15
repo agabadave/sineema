@@ -5,6 +5,9 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Services.ClientCrudService;
+using System.Linq;
+using VideoLibrary.Models.ViewModels;
+using System;
 
 namespace VideoLibrary.Controllers
 {
@@ -22,7 +25,16 @@ namespace VideoLibrary.Controllers
         // GET: Clients
         public async Task<ActionResult> Index()
         {
-            return View(await _clientCrudService.GetAllClientsAsync());
+            var model = (await _clientCrudService.GetAllClientsAsync())
+                .Select(client => new ClientListViewModel
+                {
+                    ClientId = client.ClientId,
+                    DateOfBirth = client.DateOfBirth == null ? string.Empty : DateTime.Parse(client.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                    Fullname = client.Fullname,
+                    Gender = client.Gender.Description
+                });
+
+            return View(model);
         }
 
         // GET: Clients/Details/5

@@ -161,6 +161,7 @@
     <Compile Include="Models\ViewModels\AddActorViewModel.cs" />
     <Compile Include="Models\ViewModels\AddMovieActorViewModel.cs" />
     <Compile Include="Models\ViewModels\AddMovieViewModel.cs" />
+    <Compile Include="Models\ViewModels\ClientListViewModel.cs" />
     <Compile Include="Models\ViewModels\DeleteMovieViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMovieActorViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMovieViewModel.cs" />

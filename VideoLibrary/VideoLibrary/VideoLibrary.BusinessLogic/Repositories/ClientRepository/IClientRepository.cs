@@ -9,12 +9,12 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
 {
     public interface IClientRepository
     {
-        IQueryable<Client> GetAllClients();
+        Task<IEnumerable<Client>> GetAllClients();
         Task<Client> GetClientByIdAsync(Guid clientId);
         Task<Client> AddClientAsync(Client client);
         Task RemoveClientAsync(Guid clientId);
         Task UpdateClientAsync(Client client);
-        IQueryable<Client> GetClientsBorrowedMovie();
+        Task<IEnumerable<Client>> GetClientsBorrowedMovie();
         Task<IEnumerable<Client>> GetClientsBorrowedMovieAsync(Guid movieId);
         Task<IEnumerable<Client>> GetClientsBornOnDay(int month, int day);       
     }

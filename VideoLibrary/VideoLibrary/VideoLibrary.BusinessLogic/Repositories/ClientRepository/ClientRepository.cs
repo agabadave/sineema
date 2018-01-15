@@ -34,9 +34,9 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// List all the clients.
         /// </summary>
         /// <returns>List of clients.</returns>
-        public IQueryable<Client> GetAllClients()
+        public async Task<IEnumerable<Client>> GetAllClients()
         {
-            return _db.Clients;
+            return await _db.Clients.Include(client => client.Gender).ToListAsync();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Client</returns>
         public async Task<Client> GetClientByIdAsync(Guid clientId)
         {
-            return await GetAllClients().SingleOrDefaultAsync(client => client.ClientId == clientId);
+            return (await GetAllClients()).SingleOrDefault(client => client.ClientId == clientId);
         }
 
         /// <summary>
@@ -57,17 +57,17 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>List of clients.</returns>
         public async Task<IEnumerable<Client>> GetClientsBornOnDay(int month, int day)
         {
-            return await GetAllClients()
-                .Where(client => client.DateOfBirth.Value.Month == month && client.DateOfBirth.Value.Day == day).ToListAsync();
+            return (await GetAllClients())
+                .Where(client => client.DateOfBirth.Value.Month == month && client.DateOfBirth.Value.Day == day).ToList();
         }
 
         /// <summary>
         /// Get all clients that have borrowed a movie.
         /// </summary>
         /// <returns>List of clients.</returns>
-        public IQueryable<Client> GetClientsBorrowedMovie()
+        public async Task<IEnumerable<Client>> GetClientsBorrowedMovie()
         {
-            return _db.BorrowedMovies.Include(b => b.Client).Select(b => b.Client);
+            return await _db.BorrowedMovies.Include(b => b.Client).Select(b => b.Client).ToListAsync();
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Task result.</returns>
         public async Task RemoveClientAsync(Guid clientId)
         {
-            var clientToRemove = await GetAllClients().SingleOrDefaultAsync(client => client.ClientId == clientId);
+            var clientToRemove = (await GetAllClients()).SingleOrDefault(client => client.ClientId == clientId);
 
             if (clientToRemove == null)
             {
@@ -109,7 +109,7 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
         /// <returns>Task result.</returns>
         public async Task UpdateClientAsync(Client client)
         {
-            var clientToUpdate = await GetAllClients().SingleOrDefaultAsync(c => c.ClientId == client.ClientId);
+            var clientToUpdate = (await GetAllClients()).SingleOrDefault(c => c.ClientId == client.ClientId);
 
             if (clientToUpdate == null)
             {

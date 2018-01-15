@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.ClientRepository;
@@ -18,7 +19,7 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
 
         public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
-            return await _clientRepository.GetAllClients().ToListAsync();
+            return (await _clientRepository.GetAllClients()).ToList();
         }
 
         public async Task<Client> GetClientByIdAsync(Guid clientId)
