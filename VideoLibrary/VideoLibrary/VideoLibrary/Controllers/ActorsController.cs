@@ -10,6 +10,8 @@ using VideoLibrary.Models.ViewModels;
 using System;
 using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
 using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
 
 namespace VideoLibrary.Controllers
 {
@@ -18,12 +20,14 @@ namespace VideoLibrary.Controllers
         private readonly IActorService _actorService;
         private readonly IGenderRepository _genderRepository;
         private readonly IGenreRepository _genreRepository;
+        private readonly IMovieRepository _movieRepository;
 
-        public ActorsController(IActorService actorService, IGenderRepository genderRepository, IGenreRepository genreRepository)
+        public ActorsController(IActorService actorService, IGenderRepository genderRepository, IGenreRepository genreRepository, IMovieRepository movieRepository)
         {
             _actorService = actorService;
             _genderRepository = genderRepository;
             _genreRepository = genreRepository;
+            _movieRepository = movieRepository;
         }
 
         // GET: Actors
@@ -175,108 +179,40 @@ namespace VideoLibrary.Controllers
             return View(formData);
         }
 
-        // GET: Actors/Details/5
-        //public async Task<ActionResult> Details(long? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Actor actor = await db.Actors.FindAsync(id);
-        //    if (actor == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(actor);
-        //}
+        // GET: Actors/Delete/5
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            Actor actor = await _actorService.GetActorByIdAsync(id);
+            if (actor == null)
+            {
+                return HttpNotFound();
+            }
 
-        //// GET: Actors/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+            var model = new ActorViewModel
+            {
+                ActorId = actor.ActorId,
+                DateOfBirth = actor.DateOfBirth == null ? string.Empty : DateTime.Parse(actor.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                Fullname = actor.Fullname,
+                Gender = actor.Gender.Description,
+                GenderId = actor.GenderId,
+                Genre = actor.Genre.Title,
+                GenreId = actor.GenreId
+            };
+            return View(model);
+        }
 
-        //// POST: Actors/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create([Bind(Include = "Id,Name,DateOfBirth,Gender,Genre")] Actor actor)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Actors.Add(actor);
-        //        await db.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(actor);
-        //}
-
-        //// GET: Actors/Edit/5
-        //public async Task<ActionResult> Edit(long? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Actor actor = await db.Actors.FindAsync(id);
-        //    if (actor == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(actor);
-        //}
-
-        //// POST: Actors/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Edit([Bind(Include = "Id,Name,DateOfBirth,Gender,Genre,IsActive,DateAdded,AddedBy")] Actor actor)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(actor).State = EntityState.Modified;
-        //        await db.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(actor);
-        //}
-
-        //// GET: Actors/Delete/5
-        //public async Task<ActionResult> Delete(long? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Actor actor = await db.Actors.FindAsync(id);
-        //    if (actor == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(actor);
-        //}
-
-        //// POST: Actors/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> DeleteConfirmed(long id)
-        //{
-        //    Actor actor = await db.Actors.FindAsync(id);
-        //    db.Actors.Remove(actor);
-        //    await db.SaveChangesAsync();
-        //    return RedirectToAction("Index");
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        // POST: Actors/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(ActorViewModel formData)
+        {
+            if ((await _movieRepository.GetMoviesByActorAsync(formData.ActorId)).Any())
+            {
+                ModelState.AddModelError("", "Can not delete actor with movies.");
+                return View(formData);
+            }
+            await _actorService.DeleteActorAsync(formData.ActorId);
+            return RedirectToAction("index");
+        }
     }
 }

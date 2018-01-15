@@ -14,5 +14,7 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
         Task SaveActorAsync(Actor model);
 
         Task UpdateActorAsync(Actor actor);
+
+        Task DeleteActorAsync(Guid actorId);
     }
 }

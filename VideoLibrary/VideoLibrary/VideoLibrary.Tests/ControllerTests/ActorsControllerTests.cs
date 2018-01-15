@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
 using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.Controllers;
 
@@ -23,7 +25,8 @@ namespace VideoLibrary.Tests.ControllerTests
             var _mockActorsService = new Mock<IActorService>();
             var _mockGenderRepository = new Mock<IGenderRepository>();
             var _mockGenreRepository = new Mock<IGenreRepository>();
-            _actorsController = new ActorsController(_mockActorsService.Object, _mockGenderRepository.Object, _mockGenreRepository.Object);
+            var _mockMovieRepository = new Mock<IMovieRepository>();
+            _actorsController = new ActorsController(_mockActorsService.Object, _mockGenderRepository.Object, _mockGenreRepository.Object, _mockMovieRepository.Object);
         }
 
         [TearDown]
