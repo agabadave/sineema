@@ -31,7 +31,7 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Actors
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
             var model = (await _actorService.GetActorsAsync())
                 .Select(actor => new ActorViewModel
@@ -44,6 +44,12 @@ namespace VideoLibrary.Controllers
                     Genre = actor.Genre.Title,
                     GenreId = actor.GenreId ?? Guid.Empty
                 });
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                model = model.Where(actor => actor.Fullname.ToLower().Contains(search.ToLower()));
+                ViewData["Search"] = search;
+            }
 
             return View(model);
         }
