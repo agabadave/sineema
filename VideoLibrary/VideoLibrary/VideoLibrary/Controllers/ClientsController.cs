@@ -8,6 +8,7 @@ using VideoLibrary.BusinessLogic.Services.ClientCrudService;
 using System.Linq;
 using VideoLibrary.Models.ViewModels;
 using System;
+using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
 
 namespace VideoLibrary.Controllers
 {
@@ -16,10 +17,12 @@ namespace VideoLibrary.Controllers
         private LibraryContext db = new LibraryContext();
 
         private readonly IClientCrudService _clientCrudService;
+        private readonly IGenderRepository _genderRepository;
 
-        public ClientsController(IClientCrudService clientCrudService)
+        public ClientsController(IClientCrudService clientCrudService, IGenderRepository genderRepository)
         {
             _clientCrudService = clientCrudService;
+            _genderRepository = genderRepository;
         }
 
         // GET: Clients
@@ -59,9 +62,19 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Clients/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var model = new AddClientViewModel
+            {
+                GenderSelectList = (await _genderRepository.GetAllGenders())
+                    .Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    })
+            };
+
+            return View(model);
         }
 
         // POST: Clients/Create
@@ -69,16 +82,30 @@ namespace VideoLibrary.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,DateOfBirth,Gender")] Client client)
+        public async Task<ActionResult> Create([Bind(Include = "Firstname,Lastname,DateOfBirth,GenderId")] AddClientViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                db.Clients.Add(client);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _clientCrudService.AddClientAsync(new Client
+                {
+                    ClientId = Guid.NewGuid(),
+                    DateOfBirth = formData.DateOfBirth,
+                    FirstName = formData.Firstname,
+                    GenderId = formData.GenderId,
+                    LastName = formData.Lastname
+                });
+
+                return RedirectToAction("index");
             }
 
-            return View(client);
+            formData.GenderSelectList = (await _genderRepository.GetAllGenders())
+                    .Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    });
+
+            return View(formData);
         }
 
         // GET: Clients/Edit/5

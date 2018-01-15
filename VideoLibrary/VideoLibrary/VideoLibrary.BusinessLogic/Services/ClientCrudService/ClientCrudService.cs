@@ -17,6 +17,11 @@ namespace VideoLibrary.BusinessLogic.Services.ClientCrudService
             _clientRepository = clientRepository;
         }
 
+        public async Task AddClientAsync(Client client)
+        {
+            await _clientRepository.AddClientAsync(client);
+        }
+
         public async Task<IEnumerable<Client>> GetAllClientsAsync()
         {
             return (await _clientRepository.GetAllClients()).ToList();

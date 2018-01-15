@@ -159,6 +159,7 @@
     <Compile Include="Models\ViewModels\ActorDetailsViewModel.cs" />
     <Compile Include="Models\ViewModels\ActorViewModel.cs" />
     <Compile Include="Models\ViewModels\AddActorViewModel.cs" />
+    <Compile Include="Models\ViewModels\AddClientViewModel.cs" />
     <Compile Include="Models\ViewModels\AddMovieActorViewModel.cs" />
     <Compile Include="Models\ViewModels\AddMovieViewModel.cs" />
     <Compile Include="Models\ViewModels\ClientListViewModel.cs" />
