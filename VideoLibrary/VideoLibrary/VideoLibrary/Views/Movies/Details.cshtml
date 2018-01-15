@@ -1,68 +1,46 @@
-﻿@model VideoLibrary.BusinessEntities.Models.Model.Movie
-
+﻿@model VideoLibrary.Models.ViewModels.MovieDetailsViewModel
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Movie Details";
 }
-
-<h2>Details</h2>
-
+<h2>Movie Details</h2>
+<p>
+    <a href="@Url.RouteUrl(new { action = "index"})" class="btn btn-default"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to List</a>
+    <a href="@Url.RouteUrl(new { id = Model.MovieId, action = "edit" })" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp;&nbsp;Edit</a>
+    <a href="@Url.RouteUrl(new { action = "addmovieactor", movieid = Model.MovieId})" class="btn btn-default"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add movie actor</a>
+    <a href="@Url.RouteUrl(new { action = "movieactors", id = Model.MovieId })" class="btn btn-default"><i class="fa fa-group"></i>&nbsp;&nbsp;View movie actors</a>
+    <a href="@Url.RouteUrl(new { id = Model.MovieId, action = "delete" })" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</a>
+</p>
 <div class="row">
     <div class="col-md-6">
-        <div>
-            <h4>Movie</h4>
-            <hr />
-            <dl class="dl-horizontal">
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Duration)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Duration)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Genre)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Genre)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.DateAdded)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.DateAdded)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.AddedBy)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.AddedBy)
-                </dd>
-
-            </dl>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Movie Details</h4>
+            </div>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Duration)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Duration)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Genre)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Genre)
+                    </dd>
+                </dl>
+            </div>
         </div>
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index") |
-            @Html.ActionLink("Add Actor", "AddActorOnMovie", "MovieActor", new { id = Model.Id }, null)
-        </p>
     </div>
-    <div class="col-md-6">
-        @Html.Action("Index", "MovieActor", new { id = Model.Id })
-@*        @{Html.RenderAction("Index", "MovieActor", new {id = Model.Id});}*@
-    </div>
+    @*<div class="col-md-6">
+            @Html.Action("Index", "MovieActor", new { id = Model.MovieId })
+        </div>*@
 </div>

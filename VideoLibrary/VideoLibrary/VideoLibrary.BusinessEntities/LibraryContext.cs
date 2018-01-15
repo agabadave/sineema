@@ -21,51 +21,58 @@ namespace VideoLibrary.BusinessEntities
         public DbSet<Client> Clients { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
-
         public DbSet<MovieActor> MovieActors { get; set; }
+        public DbSet<Gender> Genders { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<BorrowedMovie> BorrowedMovies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
-
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-
             base.OnModelCreating(modelBuilder);
         }
 
-        private AuditTrailFactory _auditFactory;
-        private List<AuditTrail> auditList = new List<AuditTrail>();
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Configurations.AddFromAssembly(Assembly.GetExecutingAssembly());
 
-        public override Task<int> SaveChangesAsync()
-        {
+        //    modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        //    modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
 
-            auditList.Clear();
-            _auditFactory = new AuditTrailFactory(this);
+        //    base.OnModelCreating(modelBuilder);
+        //}
 
-            var entityList = ChangeTracker.Entries().Where(p =>
-            p.State == EntityState.Added ||
-            p.State == EntityState.Deleted ||
-            p.State == EntityState.Modified ||
-            !(p.Entity is AuditTrail) ||
-            p.Entity != null);
+    //    private AuditTrailFactory _auditFactory;
+    //    private List<AuditTrail> auditList = new List<AuditTrail>();
 
-            foreach (var entity in entityList)
-            {
-                AuditTrail audit = _auditFactory.GetAudit(entity);
-                auditList.Add(audit);
-            }
+    //    public override Task<int> SaveChangesAsync()
+    //    {
 
-            //var retVal = base.SaveChanges();
+    //        auditList.Clear();
+    //        _auditFactory = new AuditTrailFactory(this);
 
-            if (auditList.Count > 0)
-            {
-                auditList.ForEach(p => { Audit.Add(p); });
+    //        var entityList = ChangeTracker.Entries().Where(p =>
+    //        p.State == EntityState.Added ||
+    //        p.State == EntityState.Deleted ||
+    //        p.State == EntityState.Modified ||
+    //        !(p.Entity is AuditTrail) ||
+    //        p.Entity != null);
 
-                //base.SaveChanges();
-            }
+    //        foreach (var entity in entityList)
+    //        {
+    //            AuditTrail audit = _auditFactory.GetAudit(entity);
+    //            auditList.Add(audit);
+    //        }
 
-            return base.SaveChangesAsync();
-        }
+    //        //var retVal = base.SaveChanges();
+
+    //        if (auditList.Count > 0)
+    //        {
+    //            auditList.ForEach(p => { Audit.Add(p); });
+
+    //            //base.SaveChanges();
+    //        }
+
+    //        return base.SaveChangesAsync();
+    //    //}
     }
 }

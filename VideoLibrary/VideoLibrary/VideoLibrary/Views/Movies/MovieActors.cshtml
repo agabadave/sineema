@@ -1,0 +1,45 @@
+﻿@model VideoLibrary.Models.ViewModels.MovieActorViewModel
+
+@{
+    ViewBag.Title = "Movie Actors";
+}
+
+<h2>Movie Actors</h2>
+<hr />
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong>Movie: @Model.MovieTitle</strong>
+    </div>
+    <div class="panel-body">
+        <h4>Actors</h4>
+        <a href="@Url.RouteUrl(new { action = "addmovieactor", controller = "movies", movieid = Model.MovieId})" class="btn btn-default"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Add movie actor</a>
+    </div>
+    <table class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th class="col-sm-3">Actor</th>
+                <th class="col-sm-3">Role</th>
+                <th class="col-sm-3">Lead actor</th>
+                <th class="col-sm-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.MovieActors != null)
+            {
+                foreach (var movieActor in Model.MovieActors)
+                {
+                    <tr>
+                        <td class="col-sm-3">@movieActor.Fullname</td>
+                        <td class="col-sm-3">@movieActor.Role</td>
+                        <td class="col-sm-3">@movieActor.LeadActor</td>
+                        <td class="col-sm-3">
+                            <a href="@Url.RouteUrl(new { action = "editmovieactor", controller = "movieactor", movie = Model.MovieId, movieactor = movieActor.MovieActorId } )" class="btn btn-default btn-sm"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-user-circle"></i>&nbsp;Profile</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

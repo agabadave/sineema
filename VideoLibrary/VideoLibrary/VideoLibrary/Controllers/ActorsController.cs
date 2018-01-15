@@ -4,121 +4,221 @@ using System.Net;
 using System.Web.Mvc;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
+using VideoLibrary.BusinessLogic.Services.ActorCrudService;
+using System.Linq;
+using VideoLibrary.Models.ViewModels;
+using System;
+using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
+using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
+using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
 
 namespace VideoLibrary.Controllers
 {
     public class ActorsController : Controller
     {
-        private LibraryContext db = new LibraryContext();
+        private readonly IActorService _actorService;
+        private readonly IGenderRepository _genderRepository;
+        private readonly IGenreRepository _genreRepository;
+        private readonly IMovieRepository _movieRepository;
+
+        public ActorsController(IActorService actorService, IGenderRepository genderRepository, IGenreRepository genreRepository, IMovieRepository movieRepository)
+        {
+            _actorService = actorService;
+            _genderRepository = genderRepository;
+            _genreRepository = genreRepository;
+            _movieRepository = movieRepository;
+        }
 
         // GET: Actors
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
-            return View(await db.Actors.ToListAsync());
-        }
+            var model = (await _actorService.GetActorsAsync())
+                .Select(actor => new ActorViewModel
+                {
+                    ActorId = actor.ActorId,
+                    DateOfBirth = actor.DateOfBirth == null ? string.Empty : DateTime.Parse(actor.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                    Fullname = actor.Fullname,
+                    Gender = actor.Gender.Description,
+                    GenderId = actor.GenderId ?? Guid.Empty,
+                    Genre = actor.Genre.Title,
+                    GenreId = actor.GenreId ?? Guid.Empty
+                });
 
-        // GET: Actors/Details/5
-        public async Task<ActionResult> Details(long? id)
-        {
-            if (id == null)
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                model = model.Where(actor => actor.Fullname.ToLower().Contains(search.ToLower()));
+                ViewData["Search"] = search;
             }
-            Actor actor = await db.Actors.FindAsync(id);
-            if (actor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(actor);
+
+            return View(model);
         }
 
-        // GET: Actors/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Add()
         {
-            return View();
+            var model = new AddActorViewModel
+            {
+                GenderSelectList = (await _genderRepository.GetAllGenders()).Select(gender => new SelectListItem
+                {
+                    Text = gender.Description,
+                    Value = gender.GenderId.ToString()
+                }),
+                GenreSelectList = (await _genreRepository.GetAllGenres()).Select(genre => new SelectListItem
+                {
+                    Text = genre.Title,
+                    Value = genre.GenreId.ToString()
+                })
+            };
+
+            return View(model);
         }
 
-        // POST: Actors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,DateOfBirth,Gender,Genre")] Actor actor)
+        public async Task<ActionResult> Add(AddActorViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                db.Actors.Add(actor);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                try
+                {
+                    await _actorService.SaveActorAsync(new Actor
+                    {
+                        ActorId = Guid.NewGuid(),
+                        AddedBy = 1,
+                        DateAdded = DateTime.Now,
+                        DateOfBirth = formData.DateOfBirth,
+                        Firstname = formData.Firstname,
+                        GenderId = formData.GenderId,
+                        GenreId = formData.GenreId,
+                        IsActive = true,
+                        Lastname = formData.Lastname
+                    });
+
+                    return RedirectToAction("index");
+                }
+                catch (Exception error)
+                {
+                    ModelState.AddModelError("", "Error: Failed to add new actor.");
+                    return View(formData);
+                }
             }
 
-            return View(actor);
+            formData.GenderSelectList = (await _genderRepository.GetAllGenders()).Select(gender => new SelectListItem
+            {
+                Text = gender.Description,
+                Value = gender.GenderId.ToString()
+            });
+
+            formData.GenreSelectList = (await _genreRepository.GetAllGenres()).Select(genre => new SelectListItem
+            {
+                Text = genre.Title,
+                Value = genre.GenreId.ToString()
+            });
+
+            return View(formData);
         }
 
-        // GET: Actors/Edit/5
-        public async Task<ActionResult> Edit(long? id)
+        [Route("actors/{id:guid}")]
+        public async Task<ActionResult> Details(Guid id)
         {
-            if (id == null)
+            var actor = await _actorService.GetActorByIdAsync(id);
+
+            var model = new ActorDetailsViewModel
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Actor actor = await db.Actors.FindAsync(id);
-            if (actor == null)
-            {
-                return HttpNotFound();
-            }
-            return View(actor);
+                ActorId = actor.ActorId,
+                DateOfBirth = actor.DateOfBirth,
+                Firstname = actor.Firstname,
+                GenderId = actor.GenderId ?? Guid.Empty,
+                GenreId = actor.GenreId ?? Guid.Empty,
+                Lastname = actor.Lastname,
+                Fullname = actor.Fullname,
+                GenderSelectList = (await _genderRepository.GetAllGenders()).
+                    Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    }),
+                GenreSelectList = (await _genreRepository.GetAllGenres())
+                    .Select(genre => new SelectListItem
+                    {
+                        Text = genre.Title,
+                        Value = genre.GenreId.ToString()
+                    })
+            };
+
+            return View(model);
         }
 
-        // POST: Actors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,DateOfBirth,Gender,Genre,IsActive,DateAdded,AddedBy")] Actor actor)
+        [Route("actors/{id:guid}")]
+        public async Task<ActionResult> Details(ActorDetailsViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(actor).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _actorService.UpdateActorAsync(new Actor
+                {
+                    ActorId = formData.ActorId,
+                    DateOfBirth = formData.DateOfBirth,
+                    Firstname = formData.Firstname,
+                    GenderId = formData.GenderId,
+                    GenreId = formData.GenreId,
+                    Lastname = formData.Lastname,
+                });
+
+                return RedirectToAction("index");
             }
-            return View(actor);
+
+            formData.GenderSelectList = (await _genderRepository.GetAllGenders()).
+                    Select(gender => new SelectListItem
+                    {
+                        Text = gender.Description,
+                        Value = gender.GenderId.ToString()
+                    });
+            formData.GenreSelectList = (await _genreRepository.GetAllGenres())
+                .Select(genre => new SelectListItem
+                {
+                    Text = genre.Title,
+                    Value = genre.GenreId.ToString()
+                });
+
+            return View(formData);
         }
 
         // GET: Actors/Delete/5
-        public async Task<ActionResult> Delete(long? id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Actor actor = await db.Actors.FindAsync(id);
+            Actor actor = await _actorService.GetActorByIdAsync(id);
             if (actor == null)
             {
                 return HttpNotFound();
             }
-            return View(actor);
+
+            var model = new ActorViewModel
+            {
+                ActorId = actor.ActorId,
+                DateOfBirth = actor.DateOfBirth == null ? string.Empty : DateTime.Parse(actor.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                Fullname = actor.Fullname,
+                Gender = actor.Gender.Description,
+                GenderId = actor.GenderId,
+                Genre = actor.Genre.Title,
+                GenreId = actor.GenreId
+            };
+            return View(model);
         }
 
         // POST: Actors/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
+        public async Task<ActionResult> Delete(ActorViewModel formData)
         {
-            Actor actor = await db.Actors.FindAsync(id);
-            db.Actors.Remove(actor);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            if ((await _movieRepository.GetMoviesByActorAsync(formData.ActorId)).Any())
             {
-                db.Dispose();
+                ModelState.AddModelError("", "Can not delete actor with movies.");
+                return View(formData);
             }
-            base.Dispose(disposing);
+            await _actorService.DeleteActorAsync(formData.ActorId);
+            return RedirectToAction("index");
         }
     }
 }

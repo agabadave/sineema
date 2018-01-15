@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
@@ -14,36 +16,34 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
             _movieRepository = movieRepository;
         }
 
-        public Task<List<Movie>> GetMovies()
+        public async Task<IEnumerable<Movie>> GetMovies()
         {
-            return _movieRepository.GetAll();
+            return await _movieRepository.GetAllMovies().ToListAsync();
         }
 
-        public async Task<Movie> GetMovieDetails(long? id)
+        public async Task<Movie> GetMovieDetails(Guid id)
         {
-            return await _movieRepository.Get(id);
+            return await _movieRepository.GetMovieByIdAsync(id);
         }
 
-        public async Task<Movie> DeleteMovie(long? id)
+        public async Task DeleteMovie(Guid id)
         {
-            var movie = await _movieRepository.Get(id);
-
-            return await _movieRepository.DeleteAsync(movie);
+            await _movieRepository.RemoveMovieAsync(id);
         }
 
-        public async Task<Movie> GetMovie(long? id)
+        public async Task AddMovieActorAsync(Guid movieId, Guid actorId, string role, bool leadActor = false)
         {
-            return await _movieRepository.Get(id);
+            await _movieRepository.AddMovieActorAsync(movieId, actorId, role, leadActor);
         }
 
         public async Task<Movie> InsertMovie(Movie model)
         {
-            return await _movieRepository.InsertAsync(model);
+            return await _movieRepository.AddMovieAsync(model);
         }
 
         public async Task<Movie> UpdateMovie(Movie model)
         {
-            return await _movieRepository.UpdateAsync(model);
+            return await _movieRepository.UpdateMovieAsync(model);
         }
     }
 }

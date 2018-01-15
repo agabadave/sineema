@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.MovieActorRepository;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
+using VideoLibrary.Models.ViewModels;
 
 namespace VideoLibrary.Controllers
 {
@@ -20,40 +21,49 @@ namespace VideoLibrary.Controllers
             _actorService = actorService;
             _movieActorRepository = movieActorRepository;
         }
-        // GET: MovieActor
-        public ActionResult Index(int id)
-        {
-            var movieActors = Task.Run(() => _movieActorRepository.ActorsForMovies(id)).Result;
-            return View(movieActors);
-        }
 
-        public async Task<ActionResult> AddActorOnMovie(int id)
+        [Route("movies/{movie:guid}/actors/{movieactor:guid}/edit")]
+        public async Task<ActionResult> EditMovieActor(Guid movie, Guid movieactor)
         {
-            
-            var movieActor = new MovieActor()
+            var movieActor = (await _movieActorRepository.GetMovieActorsAsync(movie)).FirstOrDefault(ma => ma.MovieActorId == movieactor);
+
+            if (movieActor == null)
             {
-                MovieId =  id
+                return HttpNotFound();
+            }
+
+            var model = new EditMovieActorViewModel
+            {
+                ActorFullname = movieActor.Actor.Fullname,
+                LeadActor = bool.Parse(movieActor.LeadActor.ToString()),
+                MovieActorId = movieActor.MovieActorId,
+                Role = movieActor.Role,
+                MovieId = Guid.Parse(movieActor.MovieId.ToString()),
+                ActorId = Guid.Parse(movieActor.ActorId.ToString()),
+                MovieTitle = movieActor.Movie.Title
             };
 
-            var actors = (await _actorService.GetActors()).Select(x => new SelectListItem()
-            {
-                Text = x.Name, Value = x.Id.ToString()
-            }).ToList();
-            ViewBag.ActorOptions = actors;
-
-            return View(movieActor);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddActorOnMovie(MovieActor model)
+        [ValidateAntiForgeryToken]
+        [Route("movies/{movie:guid}/actors/{actor:guid}/edit")]
+        public async Task<ActionResult> EditMovieActor(EditMovieActorViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                await _movieActorRepository.AddMovieActor(model);
-                return RedirectToAction("Details", "Movies");
+                await _movieActorRepository.UpdateMovieActorAsync(new MovieActor
+                {
+                    LeadActor = formData.LeadActor,
+                    MovieActorId = formData.MovieActorId,
+                    Role = formData.Role
+                });
+
+                return RedirectToAction("movieactors", new { controller = "movies", id = formData.MovieId });
             }
-            ModelState.AddModelError("", "Could not save changes, something went wrong.");
-            return View(model);
-        } 
+
+            return View(formData);
+        }
     }
 }

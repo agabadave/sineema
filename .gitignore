@@ -293,4 +293,10 @@ __pycache__/
 ### VisualStudio Patch ###
 build/
 
+### ignore project database file ###
+*.mdf
+*.ldf
+
+deliverables/
+
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode

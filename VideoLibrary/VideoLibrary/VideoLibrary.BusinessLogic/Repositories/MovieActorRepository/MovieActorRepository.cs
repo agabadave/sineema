@@ -11,21 +11,35 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
 {
     public class MovieActorRepository : IMovieActorRepository
     {
-        public async Task AddMovieActor(MovieActor movieActor)
+        private LibraryContext _db;
+
+        public MovieActorRepository(LibraryContext context)
         {
-            using (var db = new LibraryContext())
-            {
-                db.MovieActors.Add(movieActor);
-                await db.SaveChangesAsync();
-            }
+            _db = context;
         }
 
-        public async Task<List<MovieActor>> ActorsForMovies(int movieId)
+        public async Task<IEnumerable<MovieActor>> GetMovieActorsAsync(Guid movieId)
         {
-            using (var db = new LibraryContext())
+            return await _db.MovieActors
+                .Include(movieActor => movieActor.Actor)
+                .Include(movieActor => movieActor.Movie)
+                .Where(x => x.MovieId == movieId).ToListAsync();
+        }
+
+        public async Task UpdateMovieActorAsync(MovieActor movieActor)
+        {
+            var movieActorToUpdate = await _db.MovieActors.FindAsync(movieActor.MovieActorId);
+
+            if (movieActorToUpdate == null)
             {
-                return await db.MovieActors.Include(x => x.Actor).Where(x => x.MovieId == movieId).ToListAsync();
+                throw new KeyNotFoundException($"Movie actor with record Id {movieActor.MovieActorId} was not found.");
             }
-        } 
+
+            movieActorToUpdate.Role = movieActor.Role;
+            movieActorToUpdate.LeadActor = movieActor.LeadActor;
+
+            _db.Entry(movieActorToUpdate).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+        }
     }
 }

@@ -5,6 +5,10 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Services.ClientCrudService;
+using System.Linq;
+using VideoLibrary.Models.ViewModels;
+using System;
+using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
 
 namespace VideoLibrary.Controllers
 {
@@ -13,37 +17,54 @@ namespace VideoLibrary.Controllers
         private LibraryContext db = new LibraryContext();
 
         private readonly IClientCrudService _clientCrudService;
+        private readonly IGenderRepository _genderRepository;
 
-        public ClientsController(IClientCrudService clientCrudService)
+        public ClientsController(IClientCrudService clientCrudService, IGenderRepository genderRepository)
         {
             _clientCrudService = clientCrudService;
+            _genderRepository = genderRepository;
         }
 
         // GET: Clients
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
-            return View(_clientCrudService.GetAllClients());
-        }
+            var model = (await _clientCrudService.GetAllClientsAsync())
+                .Select(client => new ClientListViewModel
+                {
+                    ClientId = client.ClientId,
+                    DateOfBirth = client.DateOfBirth == null ? string.Empty : DateTime.Parse(client.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                    Fullname = client.Fullname,
+                    Gender = client.Gender.Description
+                });
 
-        // GET: Clients/Details/5
-        public async Task<ActionResult> Details(long? id)
-        {
-            if (id == null)
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                model = model.Where(client => client.Fullname.ToLower().Contains(search.ToLower()));
+                ViewData["Search"] = search;
             }
-            Client client = await db.Clients.FindAsync(id);
-            if (client == null)
-            {
-                return HttpNotFound();
-            }
-            return View(client);
+
+            return View(model);
         }
 
         // GET: Clients/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var model = new AddClientViewModel
+            {
+                GenderSelectList = await GetGendersListAsync()
+            };
+
+            return View(model);
+        }
+
+        private async Task<System.Collections.Generic.IEnumerable<SelectListItem>> GetGendersListAsync()
+        {
+            return (await _genderRepository.GetAllGenders())
+                                .Select(gender => new SelectListItem
+                                {
+                                    Text = gender.Description,
+                                    Value = gender.GenderId.ToString()
+                                });
         }
 
         // POST: Clients/Create
@@ -51,31 +72,48 @@ namespace VideoLibrary.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,FirstName,LastName,DateOfBirth,Gender")] Client client)
+        public async Task<ActionResult> Create([Bind(Include = "Firstname,Lastname,DateOfBirth,GenderId")] AddClientViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                db.Clients.Add(client);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _clientCrudService.AddClientAsync(new Client
+                {
+                    ClientId = Guid.NewGuid(),
+                    DateOfBirth = formData.DateOfBirth,
+                    FirstName = formData.Firstname,
+                    GenderId = formData.GenderId,
+                    LastName = formData.Lastname
+                });
+
+                return RedirectToAction("index");
             }
 
-            return View(client);
+            formData.GenderSelectList = await GetGendersListAsync();
+
+            return View(formData);
         }
 
         // GET: Clients/Edit/5
-        public async Task<ActionResult> Edit(long? id)
+        public async Task<ActionResult> Edit(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Client client = await db.Clients.FindAsync(id);
+            Client client = await _clientCrudService.GetClientByIdAsync(id);
             if (client == null)
             {
                 return HttpNotFound();
             }
-            return View(client);
+
+            var model = new ClientDetailsViewModel
+            {
+                ClientId = client.ClientId,
+                DateOfBirth = client.DateOfBirth,
+                Firstname = client.FirstName,
+                GenderId = client.GenderId,
+                Lastname = client.LastName,
+                Fullname = client.Fullname,
+                GenderSelectList = await GetGendersListAsync()
+            };
+
+            return View(model);
         }
 
         // POST: Clients/Edit/5
@@ -83,50 +121,61 @@ namespace VideoLibrary.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,FirstName,LastName,DateOfBirth,Gender,IsActive,DateAdded,AddedBy")] Client client)
+        public async Task<ActionResult> Edit([Bind(Include = "ClientId,Firstname,Lastname,DateOfBirth,GenderId")] ClientDetailsViewModel formData)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(client).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _clientCrudService.UpdateClientAsync(new Client
+                {
+                    ClientId = formData.ClientId,
+                    DateOfBirth = formData.DateOfBirth,
+                    FirstName = formData.Firstname,
+                    GenderId = formData.GenderId,
+                    LastName = formData.Lastname
+                });
+
+                return RedirectToAction("index");
             }
-            return View(client);
+
+            formData.GenderSelectList = await GetGendersListAsync();
+
+            return View(formData);
         }
 
         // GET: Clients/Delete/5
-        public async Task<ActionResult> Delete(long? id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Client client = await db.Clients.FindAsync(id);
+            Client client = await _clientCrudService.GetClientByIdAsync(id);
             if (client == null)
             {
                 return HttpNotFound();
             }
-            return View(client);
+
+            var model = new ClientDeleteViewModel
+            {
+                ClientId = client.ClientId,
+                DateOfBirth = client.DateOfBirth == null ? string.Empty : DateTime.Parse(client.DateOfBirth.ToString()).ToString("dd/MM/yyyy"),
+                Firstname = client.FirstName,
+                Gender = client.Gender == null ? string.Empty : client.Gender.Description,
+                Fullname = client.Fullname,
+                Lastname = client.LastName
+            };
+
+            return View(model);
         }
 
         // POST: Clients/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(long id)
+        public async Task<ActionResult> Delete(ClientDeleteViewModel formData)
         {
-            Client client = await db.Clients.FindAsync(id);
-            db.Clients.Remove(client);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            if (ModelState.IsValid)
             {
-                db.Dispose();
+                await _clientCrudService.RemoveClientAsync(formData.ClientId);
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            
+            return View(formData);
         }
     }
 }

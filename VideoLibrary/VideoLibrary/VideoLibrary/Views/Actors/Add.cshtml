@@ -1,0 +1,81 @@
+﻿@model VideoLibrary.Models.ViewModels.AddActorViewModel
+
+@{
+    ViewBag.Title = "Add Actor";
+}
+
+<h2>Add Actor</h2>
+<hr />
+
+@using (Html.BeginForm("add", "actors", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>New actor details</strong>
+        </div>
+        <div class="panel-body">
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Firstname, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Lastname, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GenderId, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.GenderId, Model.GenderSelectList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GenreId, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.GenreId, Model.GenreSelectList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-6">
+                    <a href="@Url.RouteUrl(new { action = "index", controller = "actors" })" class="btn btn-default"><i class="fa fa-chevron-circle-left"></i>&nbsp;&nbsp;Back to List</a>
+                    <input type="submit" class="btn btn-primary" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <link href="~/Content/themes/base/all.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(function () {
+            $('#DateOfBirth').datepicker({
+                dateFormat: 'yy-mm-dd'
+            }).val('');
+        });
+    </script>
+}

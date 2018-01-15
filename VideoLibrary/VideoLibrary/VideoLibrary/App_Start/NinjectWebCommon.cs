@@ -18,21 +18,25 @@ namespace VideoLibrary.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using VideoLibrary.BusinessEntities;
+    using VideoLibrary.BusinessLogic.Repositories.BorrowedMovieRepository;
+    using VideoLibrary.BusinessLogic.Repositories.GenderRepository;
+    using VideoLibrary.BusinessLogic.Repositories.GenreRepository;
 
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
         /// Stops the application.
         /// </summary>
@@ -40,7 +44,7 @@ namespace VideoLibrary.App_Start
         {
             bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -76,6 +80,10 @@ namespace VideoLibrary.App_Start
             kernel.Bind<IClientRepository>().To<ClientRepository>();
             kernel.Bind<IClientCrudService>().To<ClientCrudService>();
             kernel.Bind<IMovieActorRepository>().To<MovieActorRepository>();
-        }        
+            kernel.Bind<IGenreRepository>().To<GenreRepository>();
+            kernel.Bind<IGenderRepository>().To<GenderRepository>();
+            kernel.Bind<IBorrowedMovieRepository>().To<BorrowedMovieRepository>();
+            kernel.Bind<LibraryContext>().ToSelf();
+        }
     }
 }

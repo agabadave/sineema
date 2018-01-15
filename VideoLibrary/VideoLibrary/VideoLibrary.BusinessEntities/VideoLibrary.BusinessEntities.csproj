@@ -72,37 +72,20 @@
     <Compile Include="Init.cs" />
     <Compile Include="IRepositoryBase.cs" />
     <Compile Include="LibraryContext.cs" />
-    <Compile Include="Migrations\201703091304022_CreateTables.cs" />
-    <Compile Include="Migrations\201703091304022_CreateTables.Designer.cs">
-      <DependentUpon>201703091304022_CreateTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703091344147_AddGenre.cs" />
-    <Compile Include="Migrations\201703091344147_AddGenre.Designer.cs">
-      <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703091355203_AddLeadActor.cs" />
-    <Compile Include="Migrations\201703091355203_AddLeadActor.Designer.cs">
-      <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.cs" />
-    <Compile Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.Designer.cs">
-      <DependentUpon>201703231214081_AddedNumberOfMoviesToActorModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705180949023_AddingMovieActorEntity.cs" />
-    <Compile Include="Migrations\201705180949023_AddingMovieActorEntity.Designer.cs">
-      <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
+    <Compile Include="Migrations\201801122309361_InitialSchemaChange_JGS.cs" />
+    <Compile Include="Migrations\201801122309361_InitialSchemaChange_JGS.Designer.cs">
+      <DependentUpon>201801122309361_InitialSchemaChange_JGS.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ModelConfig\ClientMap.cs" />
-    <Compile Include="Models\ModelConfig\MovieMap.cs" />
     <Compile Include="Models\Model\Actor.cs" />
     <Compile Include="Models\Model\AuditTrail.cs" />
+    <Compile Include="Models\Model\BorrowedMovie.cs" />
     <Compile Include="Models\Model\Client.cs" />
     <Compile Include="Models\Model\Gender.cs" />
+    <Compile Include="Models\Model\Genre.cs" />
     <Compile Include="Models\Model\ModelBase.cs" />
     <Compile Include="Models\Model\Movie.cs" />
     <Compile Include="Models\Model\MovieActor.cs" />
-    <Compile Include="Models\PartialClasses\Client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
   </ItemGroup>
@@ -114,20 +97,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201703091304022_CreateTables.resx">
-      <DependentUpon>201703091304022_CreateTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703091344147_AddGenre.resx">
-      <DependentUpon>201703091344147_AddGenre.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703091355203_AddLeadActor.resx">
-      <DependentUpon>201703091355203_AddLeadActor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703231214081_AddedNumberOfMoviesToActorModel.resx">
-      <DependentUpon>201703231214081_AddedNumberOfMoviesToActorModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705180949023_AddingMovieActorEntity.resx">
-      <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801122309361_InitialSchemaChange_JGS.resx">
+      <DependentUpon>201801122309361_InitialSchemaChange_JGS.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

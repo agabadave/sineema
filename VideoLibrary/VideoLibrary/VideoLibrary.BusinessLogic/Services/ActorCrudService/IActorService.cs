@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 
@@ -6,10 +7,14 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
 {
     public interface IActorService
     {
-        Task<List<Actor>> GetActors();
+        Task<IEnumerable<Actor>> GetActorsAsync();
 
-        Task<List<Actor>> GetActors(Gender gender);
+        Task<Actor> GetActorByIdAsync(Guid gender);
 
-        Task SaveActor(Actor model);
+        Task SaveActorAsync(Actor model);
+
+        Task UpdateActorAsync(Actor actor);
+
+        Task DeleteActorAsync(Guid actorId);
     }
 }
