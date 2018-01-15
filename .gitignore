@@ -297,4 +297,6 @@ build/
 *.mdf
 *.ldf
 
+deliverables/
+
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode
