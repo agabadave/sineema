@@ -92,6 +92,14 @@
     <Compile Include="Migrations\201705180949023_AddingMovieActorEntity.Designer.cs">
       <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801142125469_Movie Title &amp; Actor Name Required.cs" />
+    <Compile Include="Migrations\201801142125469_Movie Title &amp; Actor Name Required.Designer.cs">
+      <DependentUpon>201801142125469_Movie Title &amp; Actor Name Required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151257270_Virtual Actor In Movie.cs" />
+    <Compile Include="Migrations\201801151257270_Virtual Actor In Movie.Designer.cs">
+      <DependentUpon>201801151257270_Virtual Actor In Movie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ModelConfig\ClientMap.cs" />
     <Compile Include="Models\ModelConfig\MovieMap.cs" />
@@ -128,6 +136,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705180949023_AddingMovieActorEntity.resx">
       <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801142125469_Movie Title &amp; Actor Name Required.resx">
+      <DependentUpon>201801142125469_Movie Title &amp; Actor Name Required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151257270_Virtual Actor In Movie.resx">
+      <DependentUpon>201801151257270_Virtual Actor In Movie.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

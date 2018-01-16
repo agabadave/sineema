@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
@@ -34,45 +36,46 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 #region Loading related entities
 
                 // Lazy loading
-                movies = db.Movies.ToList(); // First get all the movies
-                foreach (var mov in movies)
-                {
-                    var actor = mov.Actor; // Database query is executed every time this line is hit
-                    actor = db.Actors.Find(mov.LeadActorId); // This is unacceptable :)
-                }
+                //movies = db.Movies.ToList(); // First get all the movies
+                //foreach (var mov in movies)
+                //{
+                //    var actor = mov.Actor; // Database query is executed every time this line is hit
+                //    actor = db.Actors.Find(mov.LeadActorId); // This is unacceptable :)
+                //}
 
-                // Eager loading
-                movies = db.Movies.Include(m => m.Actor).ToList(); // All data loaded from database
+                //// Eager loading
+                //movies = db.Movies.Include(m => m.Actor).ToList(); // All data loaded from database
 
                 #endregion
 
                 #region Minimise the Data Requested
                 // Dont do this:
-                movies = db.Movies.Include(q => q.Actor).ToList(); // Do you really need all the columns?
+                //movies = db.Movies.Include(q => q.Actor).ToList(); // Do you really need all the columns?
 
                 // Do this instead
-                movies = db.Movies.Include(q => q.Actor).Select(m => new Movie
-                {
-                    Id = m.Id,
-                    Title = m.Title,
-                    Actor = new Actor
-                    {
-                        Id = m.Actor.Id,
-                        Name = m.Actor.Name
-                    }
-                }).ToList();
+                movies = db.Movies.Include(q => q.Actor).ToList();
+                //    .Select(m => new Movie
+                //{
+                //    Id = m.Id,
+                //    Title = m.Title,
+                //    Actor = new Actor
+                //    {
+                //        Id = m.Actor.Id,
+                //        Name = m.Actor.Name
+                //    }
+                //}).ToList();
                 #endregion
 
                 #region Filter Before ToList()
 
-                movies = db.Movies.ToList().Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed too early
-                movies = db.Movies.Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed last
+                //movies = db.Movies.ToList().Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed too early
+                //movies = db.Movies.Where(m => m.IsActive && m.Duration > 1).Take(50).ToList(); // ToList() executed last
 
                 #endregion
 
                 #region Don’t Rely on Entity Framework Exclusively For Data Access
 
-                movies = db.Database.SqlQuery<Movie>("select * from movies m join actors a on m.actorId = a.id").ToList();
+                //movies = db.Database.SqlQuery<Movie>("select * from movies m join actors a on m.actorId = a.id").ToList();
 
                 #endregion
 
@@ -114,15 +117,15 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 #region Don’t Load Entities To Delete Them
 
                 // Executes a second hit to the database
-                var movie = db.Movies.Find(id);
-                if (movie != null)
-                {
-                    db.Movies.Remove(movie);
-                    db.SaveChangesAsync();
-                }
+                //var movie = db.Movies.Find(id);
+                //if (movie != null)
+                //{
+                //    db.Movies.Remove(movie);
+                //    db.SaveChangesAsync();
+                //}
 
                 // Executes a single hit to the database
-                movie = new Movie { Id = id };
+                var movie = new Movie { Id = id };
                 db.Movies.Attach(movie);
                 db.Movies.Remove(movie);
                 db.SaveChanges();
@@ -130,8 +133,19 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
                 #endregion
             }
         }
+        /// <summary>
+        /// Returns a List of movies that much the given Linq Expression (where clause)
+        /// </summary>
+        /// <param name="predicate">A Linq Expression</param>
+        /// <returns>A list of Movies</returns>
+        public async Task<List<Movie>> GetMoviesWhere(Expression<Func<Movie,bool>> predicate)
+        {
+            using (var db = new LibraryContext())
+            {
+                return await db.Movies.Where(predicate).ToListAsync();
+            }
+        }
     }
-
 
     public class MovieProjection
     {

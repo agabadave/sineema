@@ -20,7 +20,7 @@ namespace VideoLibrary.Controllers
         }
 
         // GET: Clients
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View(_clientCrudService.GetAllClients());
         }

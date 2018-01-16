@@ -9,6 +9,8 @@ namespace VideoLibrary
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -22,11 +24,16 @@ namespace VideoLibrary
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/main.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+          "~/Scripts/Highcharts-4.0.1/js/highcharts.js",
+          "~/Scripts/Highcharts-4.0.1/js/themes/grid-light.js"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/font-awesome.css",
-                      "~/Content/bootstrap.css", 
+                      "~/Content/cosmos.bootstrap.min.css", 
                       "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
+                      "~/Content/jqueryui/jquery-ui.css",
+                      "~/Content/jqueryui/theme.css"));
         }
     }
 }
