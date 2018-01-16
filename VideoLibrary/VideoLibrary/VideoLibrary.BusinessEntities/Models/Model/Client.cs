@@ -2,7 +2,7 @@
 
 namespace VideoLibrary.BusinessEntities.Models.Model
 {
-    public partial class Client : ModelBase
+    public  class Client : ModelBase
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

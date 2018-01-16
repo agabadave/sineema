@@ -21,6 +21,7 @@ namespace VideoLibrary.BusinessEntities
         public DbSet<Client> Clients { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<SystemUser> Users { get; set; }
 
         public DbSet<MovieActor> MovieActors { get; set; }
 

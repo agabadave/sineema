@@ -10,7 +10,7 @@ namespace VideoLibrary.BusinessEntities.Models.ModelConfig
             Property(p => p.FirstName).IsRequired();
             Property(p => p.LastName).IsRequired();
 
-            Ignore(p => p.Name);
+            //Ignore(p => p.Name);
         }
     }
 }
