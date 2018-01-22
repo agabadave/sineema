@@ -80,6 +80,13 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
             }
         }
 
+        public override Task<Movie> UpdateAsync<Movie>(Movie entity, bool saveNow = true)
+        {
+            MovieActorRepository.IMovieActorRepository movieActor = new MovieActorRepository.MovieActorRepository();
+          
+            return base.UpdateAsync<Movie>(entity, saveNow);
+        }
+
         public int CountMovies()
         {
             using (var db = new LibraryContext())

@@ -92,6 +92,10 @@
     <Compile Include="Migrations\201705180949023_AddingMovieActorEntity.Designer.cs">
       <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801220113416_OnUpdateCascade.cs" />
+    <Compile Include="Migrations\201801220113416_OnUpdateCascade.Designer.cs">
+      <DependentUpon>201801220113416_OnUpdateCascade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ModelConfig\ClientMap.cs" />
     <Compile Include="Models\ModelConfig\MovieMap.cs" />
@@ -128,6 +132,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705180949023_AddingMovieActorEntity.resx">
       <DependentUpon>201705180949023_AddingMovieActorEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801220113416_OnUpdateCascade.resx">
+      <DependentUpon>201801220113416_OnUpdateCascade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

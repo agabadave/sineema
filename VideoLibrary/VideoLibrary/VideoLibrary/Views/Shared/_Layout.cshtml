@@ -6,6 +6,47 @@
     <title>@ViewBag.Title - Sineema</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/Content/datatables.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.tablesorter.min.js"></script>
+    <script src="~/Scripts/datatables.min.js"></script>
+    <script language="javascript">
+
+        $(document).ready(function () {
+            $("#ListTable").DataTable();
+            $(".modal-link").on('click', function () {
+                debugger;
+                // Send an AJAX call to the server endpoint pointed by the href attribute
+                // of the anchor and inject the results of this endpoint execution inside a 
+                // DOM element with id="result"
+                $('#myModal').load(this.href);
+
+                // By returning false you are canceling the default action of the 
+                // anchor click and prevent the browser to redirect to the url pointed
+                // by the href property. This would leave enough time for your AJAX request
+                // to execute and return the results.
+                return false;
+            });
+
+        }
+    );
+
+        function fetchPartial() {
+            debugger;
+            
+            e.preventDefault();
+
+            $("#myModal").remove();
+
+            $.get($(this).attr("href"), function (data) {
+                $('<div id="myModal" class="modal fade"><div class="modal-dialog" role="document">' +
+                data + '</div></div>').modal();
+            });
+        }
+
+    </script>
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -36,8 +77,9 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+
 </body>
 </html>

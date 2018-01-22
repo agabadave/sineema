@@ -31,5 +31,11 @@ namespace VideoLibrary.BusinessLogic.Services.ActorCrudService
         {
             await _actorRepository.InsertAsync(model);
         }
+
+        public async Task DeleteActor(long? id)
+        {
+            var actor = await _actorRepository.GetById(id);
+            await _actorRepository.DeleteAsync(actor);
+        }
     }
 }
