@@ -108,25 +108,25 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("{id:int}/update")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie newMovie)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie updatedMovie)
         {
             if (ModelState.IsValid)
             {
-                Movie oldMovie = await _movieService.GetMovie(newMovie.Id);
+                Movie originalMovie = await _movieService.GetMovie(updatedMovie.Id);
 
-                await _movieService.DeleteMovie(oldMovie.Id);
-                await _actorService.DeleteActor(oldMovie.LeadActorId);
+                await _movieService.DeleteMovie(originalMovie.Id);
+                await _actorService.DeleteActor(originalMovie.LeadActorId);
 
-                oldMovie.LeadActorId = newMovie.LeadActorId;
-                oldMovie.Title = newMovie.Title;
-                oldMovie.Duration = newMovie.Duration;
-                oldMovie.Genre = newMovie.Genre;
+                originalMovie.LeadActorId = updatedMovie.LeadActorId;
+                originalMovie.Title = updatedMovie.Title;
+                originalMovie.Duration = updatedMovie.Duration;
+                originalMovie.Genre = updatedMovie.Genre;
 
-                await _movieService.InsertMovie(oldMovie);
+                await _movieService.InsertMovie(originalMovie);
                 return RedirectToAction("Index");
             }
 
-            return View(newMovie);
+            return View(updatedMovie);
         }
 
         // GET: Movies/Delete/5
