@@ -8,6 +8,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
     {
         List<Client> GetAll();
         Client GetClient(long clientId);
-        
+
+        int GetCount();
+
     }
 }

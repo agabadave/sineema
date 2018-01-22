@@ -9,6 +9,10 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
     {
         Task<List<Actor>> GetAll();
 
+        int GetCount();
+
+        Task<Actor> GetById(long? Id);
+
         Task<List<Actor>> GetAll(Gender gender);
     }
 }

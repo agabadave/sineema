@@ -20,6 +20,16 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
             }
         }
 
+        public int GetCount()
+        {
+            int count = 0;
+            using (var db = new LibraryContext())
+            {
+                count= db.MovieActors.Count();
+                return count;
+            }
+        }
+
         public async Task<List<MovieActor>> ActorsForMovies(int movieId)
         {
             using (var db = new LibraryContext())

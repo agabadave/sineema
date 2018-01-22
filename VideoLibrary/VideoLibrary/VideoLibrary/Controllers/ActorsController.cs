@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
+using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 
 namespace VideoLibrary.Controllers
 {
@@ -11,10 +12,17 @@ namespace VideoLibrary.Controllers
     {
         private LibraryContext db = new LibraryContext();
 
+        IActorService _actorsService = null;
+
+        public ActorsController(IActorService actorService)
+        {
+            _actorsService = actorService;
+        }
+
         // GET: Actors
         public async Task<ActionResult> Index()
         {
-            return View(await db.Actors.ToListAsync());
+            return View(await _actorsService.GetActors());
         }
 
         // GET: Actors/Details/5

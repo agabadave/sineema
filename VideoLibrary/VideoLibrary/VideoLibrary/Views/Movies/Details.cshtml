@@ -4,12 +4,12 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Movie Details</h2>
 
 <div class="row">
     <div class="col-md-6">
         <div>
-            <h4>Movie</h4>
+            <h4>Information</h4>
             <hr />
             <dl class="dl-horizontal">
 
@@ -55,14 +55,15 @@
 
             </dl>
         </div>
-        <p>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Back to List", "Index") |
-            @Html.ActionLink("Add Actor", "AddActorOnMovie", "MovieActor", new { id = Model.Id }, null)
-        </p>
+        <div class="row text-center">
+            <a href='@Url.Action("Index","Movies")'><input type="button" value="Back To List" class="btn btn-danger" /></a>
+            <a href='@Url.Action("Edit", "Movies", new { id = Model.Id })'><input type="button" value="Edit Details" class="btn btn-success" /></a>
+            <a href='@Url.Action("AddActorOnMovie", "MovieActor", new { id = Model.Id })'><input type="button" value="Add an Actor" class="btn btn-primary" /></a>
+
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" style="padding-top:10px">
+        <h4></h4>
         @Html.Action("Index", "MovieActor", new { id = Model.Id })
-@*        @{Html.RenderAction("Index", "MovieActor", new {id = Model.Id});}*@
     </div>
 </div>

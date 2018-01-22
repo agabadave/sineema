@@ -74,6 +74,7 @@ namespace VideoLibrary.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
             var movie = await _movieService.GetMovieDetails(id);
             if (movie == null)
             {
@@ -83,21 +84,49 @@ namespace VideoLibrary.Controllers
             return View(movie);
         }
 
+        [Route("{id:int}/partial_edit")]
+        public async Task<ActionResult> Partial_Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
+            var movie = await _movieService.GetMovieDetails(id);
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("Edit",movie);
+        }
+
         // POST: Movies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("{id:int}/update")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie newMovie)
         {
             if (ModelState.IsValid)
             {
-                await _movieService.UpdateMovie(movie);
+                Movie oldMovie = await _movieService.GetMovie(newMovie.Id);
+
+                await _movieService.DeleteMovie(oldMovie.Id);
+                await _actorService.DeleteActor(oldMovie.LeadActorId);
+
+                oldMovie.LeadActorId = newMovie.LeadActorId;
+                oldMovie.Title = newMovie.Title;
+                oldMovie.Duration = newMovie.Duration;
+                oldMovie.Genre = newMovie.Genre;
+
+                await _movieService.InsertMovie(oldMovie);
                 return RedirectToAction("Index");
             }
 
-            return View(movie);
+            return View(newMovie);
         }
 
         // GET: Movies/Delete/5
@@ -115,7 +144,7 @@ namespace VideoLibrary.Controllers
         // POST: Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Route("{id:int}/confirm/delete")]
+        [Route("{id:int}/delete")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             await _movieService.DeleteMovie(id);

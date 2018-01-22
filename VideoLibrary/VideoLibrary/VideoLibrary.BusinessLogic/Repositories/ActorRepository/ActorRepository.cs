@@ -17,11 +17,27 @@ namespace VideoLibrary.BusinessLogic.Repositories.ActorRepository
             }
         }
 
+        public async Task<Actor> GetById(long? id)
+        {
+            using (var db = new LibraryContext())
+            {
+                return await db.Actors.FirstOrDefaultAsync(p => p.Id == id);
+            }
+        }
+
         public async Task<List<Actor>> GetAll(Gender gender)
         {
             using(var db = new LibraryContext())
             {
                 return await db.Actors.Where(x => x.Gender == gender).ToListAsync();
+            }
+        }
+
+        public int GetCount()
+        {
+            using (var db = new LibraryContext())
+            {
+                return db.Actors.Count();
             }
         }
     }

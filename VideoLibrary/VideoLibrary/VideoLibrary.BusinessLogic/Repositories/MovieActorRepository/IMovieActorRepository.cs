@@ -12,6 +12,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
     {
         Task AddMovieActor(MovieActor movieActor);
 
+        int GetCount();
+
         Task<List<MovieActor>> ActorsForMovies(int movieId);
     }
 }

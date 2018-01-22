@@ -22,5 +22,13 @@ namespace VideoLibrary.BusinessLogic.Repositories.ClientRepository
                 return db.Clients.FirstOrDefault(q => q.Id == clientId);
             }
         }
+
+        public int GetCount()
+        {
+            using (var db = new LibraryContext())
+            {
+                return db.Clients.Count();
+            }
+        }
     }
 }
