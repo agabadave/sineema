@@ -16,12 +16,14 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         }
 
         [UIHint("Date")]
+        [Display(Name = "Creation Date")]
         public DateTime DateAdded
         {
             get { return _dateCreated ?? DateTime.Now; }
             set { _dateCreated = value; }
         }
 
+        [Display(Name = "Created By")]
         public int? AddedBy
         {
             get { return _addedBy ?? 1; }

@@ -6,6 +6,9 @@
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.LeadActorId)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Duration)
         </th>
         <th>
@@ -14,9 +17,6 @@
         <th>
             @Html.DisplayNameFor(model => model.DateAdded)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AddedBy)
-        </th>
         <th></th>
     </tr>
 
@@ -24,7 +24,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.ActionLink(item.Title, "Details", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeadActorId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Duration)
@@ -36,11 +39,7 @@
                 @Html.DisplayFor(modelItem => item.DateAdded)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AddedBy)
-            </td>
-            <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
             </td>
         </tr>
