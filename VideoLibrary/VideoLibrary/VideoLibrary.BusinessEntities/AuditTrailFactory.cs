@@ -1,8 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects.DataClasses;
-using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,13 +9,18 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using System.Data.Entity;
 using VideoLibrary.BusinessEntities.Models.Model;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Core.Objects.DataClasses;
 
 namespace VideoLibrary.BusinessEntities
 {
     public class AuditTrailFactory
     {
         private DbContext context;
+        private LibraryContext libraryContext;
+
         //http://www.softcodearticle.com/2013/07/entity-framework-auditing-implementation/
         //http://www.codeproject.com/Articles/34491/Implementing-Audit-Trail-using-Entity-Framework-Pa
 
@@ -26,6 +28,12 @@ namespace VideoLibrary.BusinessEntities
         {
             this.context = context;
         }
+
+        public AuditTrailFactory(LibraryContext libraryContext)
+        {
+            this.libraryContext = libraryContext;
+        }
+
         public AuditTrail GetAudit(DbEntityEntry entry)
         {
             var currentcontext = HttpContext.Current;

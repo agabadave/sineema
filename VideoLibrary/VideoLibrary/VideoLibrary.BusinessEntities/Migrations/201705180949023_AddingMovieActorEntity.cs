@@ -1,8 +1,8 @@
+using System.Data.Entity.Migrations;
+
 namespace VideoLibrary.BusinessEntities.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
+
     public partial class AddingMovieActorEntity : DbMigration
     {
         public override void Up()

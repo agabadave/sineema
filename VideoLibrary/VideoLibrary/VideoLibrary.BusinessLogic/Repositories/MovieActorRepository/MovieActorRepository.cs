@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
@@ -24,7 +21,8 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieActorRepository
         {
             using (var db = new LibraryContext())
             {
-                return await db.MovieActors.Include(x => x.Actor).Where(x => x.MovieId == movieId).ToListAsync();
+                //return await db.MovieActors.Include(x => x.Actor).Where(x => x.MovieId == movieId).ToListAsync();
+                return null;
             }
         } 
     }

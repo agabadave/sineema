@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using VideoLibrary.BusinessEntities.Models.Model;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace VideoLibrary.BusinessEntities
 {

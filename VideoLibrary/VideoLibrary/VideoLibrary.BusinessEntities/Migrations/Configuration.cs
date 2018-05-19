@@ -1,8 +1,8 @@
-using RandomNameGeneratorLibrary;
 using VideoLibrary.BusinessEntities.Models.Model;
 
 namespace VideoLibrary.BusinessEntities.Migrations
 {
+    using RandomNameGeneratorLibrary;
     using System;
     using System.Data.Entity.Migrations;
 
