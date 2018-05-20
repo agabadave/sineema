@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
@@ -63,15 +64,26 @@ namespace VideoLibrary.Tests.ControllerTests
         }
 
         [Test]
-        public void Reject_Invalid_Movie()
+        public async Task Reject_Invalid_Movie()
         {
-
+            var movie = new Movie{ Title = "", LeadActorId = 1, Duration = 100, Genre = Genre.Christian, DateAdded = DateTime.Today};
+            var result = (await _moqMovieRepository.Object.InsertAsync(movie));
+            Assert.IsNull(result);
         }
 
         [Test]
-        public void Accept_Valid_Movie()
+        public async Task Accept_Valid_Movie()
         {
+            var movie = new Movie { Title = "Yet another title", LeadActorId = 1, Duration = 100, Genre = Genre.Christian, DateAdded = DateTime.Today };
+            var result = (await _moqMovieRepository.Object.InsertAsync(movie));
+            Assert.IsNotNull(result);
+        }
 
+        public async Task Performs_Correct_Pagination()
+        {
+            var allMovies = (await _moqMovieRepository.Object.GetAll());
+            var result = (await _moviesController.Index("", "", 1)) as ViewResult;
+            //TODO
         }
     }
 }

@@ -6,8 +6,10 @@ namespace VideoLibrary.BusinessEntities.Models.Model
 {
     public class Movie : ModelBase
     {
+        [Required]
         public string Title { get; set; }
 
+        [Required]
         [Display(Name = "Duration (mins)")]
         public int Duration { get; set; }
         public Genre Genre { get; set; }
