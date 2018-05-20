@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities.Models.Model;
 using VideoLibrary.BusinessLogic.Repositories.MovieRepository;
@@ -17,6 +18,16 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         public Task<List<Movie>> GetMovies()
         {
             return _movieRepository.GetAll();
+        }
+
+        public List<Movie> GetRecent()
+        {
+            return _movieRepository.GetMostRecent();
+        }
+
+        public List<string[]> GetDistributionByGenre()
+        {
+            return _movieRepository.GetDistributionByGenre();
         }
 
         public async Task<Movie> GetMovieDetails(long? id)
@@ -44,6 +55,11 @@ namespace VideoLibrary.BusinessLogic.Services.MovieCrudService
         public async Task<Movie> UpdateMovie(Movie model)
         {
             return await _movieRepository.UpdateAsync(model);
+        }
+
+        public async Task<List<Movie>> SearchMovies(string query, string sortOrder, int itemsPerPage, int pageToDisplay)
+        {
+            return await _movieRepository.SearchMovies(query, sortOrder, itemsPerPage, pageToDisplay);
         }
     }
 }

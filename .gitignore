@@ -292,5 +292,9 @@ __pycache__/
 
 ### VisualStudio Patch ###
 build/
+VideoLibrary/VideoLibrary/VideoLibrary.Tests/VideoLibrary.Tests.csproj
+VideoLibrary/VideoLibrary/VideoLibrary/App_Data/VideoLibraryDatabase.mdf
+VideoLibrary/VideoLibrary/VideoLibrary/App_Data/VideoLibraryDatabase_log.ldf
+VideoLibrary/VideoLibrary/VideoLibrary/VideoLibrary.csproj
 
 # End of https://www.gitignore.io/api/visualstudio,visualstudiocode

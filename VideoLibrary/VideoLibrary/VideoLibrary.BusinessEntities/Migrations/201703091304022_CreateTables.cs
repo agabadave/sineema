@@ -1,7 +1,8 @@
+using System.Data.Entity.Migrations;
+
 namespace VideoLibrary.BusinessEntities.Migrations
 {
-    using System.Data.Entity.Migrations;
-    
+
     public partial class CreateTables : DbMigration
     {
         public override void Up()

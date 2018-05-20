@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Moq;
@@ -46,7 +47,7 @@ namespace VideoLibrary.Tests.ControllerTests
             //arrange...
             
             //act...
-            await _moviesController.Index();
+            await _moviesController.Index("","",1);
 
             //assert...
             _moqMovieRepository.Verify(x => x.GetAll(), Times.Once());
@@ -56,10 +57,33 @@ namespace VideoLibrary.Tests.ControllerTests
         public async Task Should_Have_Detail_View()
         {
             //act...
-            var result = (await _moviesController.Index()) as ViewResult;
+            var result = (await _moviesController.Index("","",1)) as ViewResult;
 
             //assert...
             Assert.AreEqual(string.Empty, result.ViewName);
+        }
+
+        [Test]
+        public async Task Reject_Invalid_Movie()
+        {
+            var movie = new Movie{ Title = "", LeadActorId = 1, Duration = 100, Genre = Genre.Christian, DateAdded = DateTime.Today};
+            var result = (await _moqMovieRepository.Object.InsertAsync(movie));
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public async Task Accept_Valid_Movie()
+        {
+            var movie = new Movie { Title = "Yet another title", LeadActorId = 1, Duration = 100, Genre = Genre.Christian, DateAdded = DateTime.Today };
+            var result = (await _moqMovieRepository.Object.InsertAsync(movie));
+            Assert.IsNotNull(result);
+        }
+
+        public async Task Performs_Correct_Pagination()
+        {
+            var allMovies = (await _moqMovieRepository.Object.GetAll());
+            var result = (await _moviesController.Index("", "", 1)) as ViewResult;
+            //TODO
         }
     }
 }
