@@ -134,11 +134,16 @@ namespace VideoLibrary.BusinessEntities
 
         private string GetKeyValue(DbEntityEntry entry)
         {
-            var objectStateEntry = ((IObjectContextAdapter)context).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
             string id = "0";
-            if (objectStateEntry.EntityKey.EntityKeyValues != null)
-                id = objectStateEntry.EntityKey.EntityKeyValues[0].Value.ToString();
+            try
+            {
+                var objectStateEntry = ((IObjectContextAdapter)context).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
+                if (objectStateEntry.EntityKey.EntityKeyValues != null)
+                    id = objectStateEntry.EntityKey.EntityKeyValues[0].Value.ToString();
+            } catch(Exception e)
+            {
 
+            }
             return id;
         }
 

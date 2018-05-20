@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VideoLibrary.BusinessEntities;
 using VideoLibrary.BusinessEntities.Models.Model;
+using PagedList;
 
 namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
 {
@@ -14,6 +15,62 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
             using (var db = new LibraryContext())
             {
                 return await db.Movies.ToListAsync();
+            }
+        }
+
+        public async Task<List<Movie>> SearchMovies(string query, string sortOrder, int itemsPerPage, int pageToDisplay)
+        {
+            using (var db = new LibraryContext())
+            {
+                var movies = from m in db.Movies select m;
+
+                if (!string.IsNullOrEmpty(query))
+                {
+                    movies = movies.Where(m => m.Title.Contains(query) || m.Genre.ToString() == query);
+                }
+
+                switch(sortOrder)
+                {
+                    case "title_desc":
+                        movies = movies.OrderByDescending(m => m.Title);
+                        break;
+                    case "genre":
+                        movies = movies.OrderBy(m => m.Genre);
+                        break;
+                    case "genre_desc":
+                        movies = movies.OrderByDescending(m => m.Genre);
+                        break;
+                    default:
+                        movies = movies.OrderBy(m => m.Title);
+                        break;
+                }
+                return await movies.Include(q => q.Actor).Skip((pageToDisplay - 1) * itemsPerPage).Take(itemsPerPage).ToListAsync();
+            }
+        }
+
+        public List<Movie> GetMostRecent()
+        {
+            using (var db = new LibraryContext())
+            {
+                //var movies = from m in db.Movies select m;
+
+                return db.Movies.OrderByDescending(m => m.DateAdded).Include(q => q.Actor).Take(10).ToList();
+            }
+        }
+
+        public List<string[]> GetDistributionByGenre()
+        {
+            using (var db = new LibraryContext())
+            {
+                var records = db.Movies.GroupBy(m => m.Genre);
+                var result = new List<string[]>();
+                foreach (var record in records)
+                {
+                    result.Add(new string[] { record.Key.ToString(), record.Count().ToString() });
+                }
+
+                //result = records.Select(r => new string[] { r.Key.ToString(), r.Count().ToString() }).ToList();
+                return result;
             }
         }
 

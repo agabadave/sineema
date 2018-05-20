@@ -3,24 +3,36 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Movie List</h2>
-
+<br/>
 <div class="row">
-    <div class="col-md-6">
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
+    <div class="col-md-8">
+        <div class="page-title">Movies</div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-2">
+        @Html.ActionLink("Create New", "Create","", htmlAttributes: new { @class = "btn btn-success" })
+    </div>
+    <div class="col-md-2">
         <div class="btn-group pull-right movie-options">
             <button type="button" class="btn btn-default movie-list" data-target=".movies-list"><i class="fa fa-list"></i></button>
-            <button type="button" class="btn btn-default movie-grid"  data-target=".movies-grid"><i class="fa fa-th-large"></i></button>
+            <button type="button" class="btn btn-default movie-grid" data-target=".movies-grid"><i class="fa fa-th-large"></i></button>
         </div>
     </div>
 </div>
-<br/>
 
+<hr/>
+
+@using (Html.BeginForm("Index","Movies", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-8">
+            @Html.TextBox("query", ViewBag.CurrentQuery as string, htmlAttributes: new { @class = "form-control", @placeholder = "Filter by title" })
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+        </div>
+    </div>
+}
+<br/>
 <div class="movies-list">
     @Html.Partial("_List", Model)
 </div>

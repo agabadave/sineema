@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using VideoLibrary.BusinessLogic.Services.ActorCrudService;
 using VideoLibrary.BusinessLogic.Services.MovieCrudService;
 using VideoLibrary.BusinessEntities.Models.Model;
+using PagedList;
 
 namespace VideoLibrary.Controllers
 {
@@ -21,9 +22,15 @@ namespace VideoLibrary.Controllers
 
         // GET: Movies
         [Route("")]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string query, int? page)
         {
-            return View(await _movieService.GetMovies());
+            int itemsPerPage = 15;
+            int pageToDisplay = (page ?? 1);
+
+            ViewBag.TitleSortParam = string.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.GenreSortParam = sortOrder == "genre" ? "genre_desc" : "genre";
+            ViewBag.currentQuery = string.IsNullOrEmpty(query) ? "" : query;
+            return View(await _movieService.SearchMovies(query,sortOrder, itemsPerPage, pageToDisplay));
         }
 
         // GET: Movies/Details/5
@@ -55,9 +62,6 @@ namespace VideoLibrary.Controllers
             {
 
                 await _movieService.InsertMovie(movie);
-
-
-
                 //await _movieService.InsertMovie(movie);
                 return RedirectToAction("Index");
             }
@@ -73,6 +77,8 @@ namespace VideoLibrary.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.ActorId = new SelectList(await _actorService.GetActors(), "Id", "Name");
+            var actors = await _actorService.GetActors();
 
             var movie = await _movieService.GetMovieDetails(id);
             if (movie == null)
@@ -89,7 +95,7 @@ namespace VideoLibrary.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("{id:int}/update")]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,ActorId,Genre,DateAdded,AddedBy")] Movie movie)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Duration,Genre,LeadActorId")] Movie movie)
         {
             if (ModelState.IsValid)
             {

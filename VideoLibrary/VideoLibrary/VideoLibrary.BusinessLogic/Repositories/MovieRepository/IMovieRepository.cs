@@ -9,12 +9,14 @@ namespace VideoLibrary.BusinessLogic.Repositories.MovieRepository
     {
         Task<List<Movie>> GetAll();
         Task<Movie> Get(long? id);
-
+        List<Movie> GetMostRecent();
+        List<string[]> GetDistributionByGenre();
         List<Movie> GetMovies();
         int CountMovies();
         Movie GetMovie(int id);
         string SqlQuery();
 
         void DeleteMovie(int id);
+        Task<List<Movie>> SearchMovies(string query, string sortOrder, int itemsPerPage, int pageToDisplay);
     }
 }

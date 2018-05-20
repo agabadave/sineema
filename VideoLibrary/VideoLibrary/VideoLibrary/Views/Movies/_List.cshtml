@@ -3,7 +3,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.TitleSortParam, query = ViewBag.CurrentQuery })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LeadActorId)
@@ -12,7 +12,7 @@
             @Html.DisplayNameFor(model => model.Duration)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Genre)
+            @Html.ActionLink("Genre", "Index", new { sortOrder = ViewBag.GenreSortParam, query = ViewBag.CurrentQuery })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DateAdded)
@@ -27,7 +27,7 @@
                 @Html.ActionLink(item.Title, "Details", new { id = item.Id })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LeadActorId)
+                @Html.DisplayFor(modelItem => item.Actor.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Duration)

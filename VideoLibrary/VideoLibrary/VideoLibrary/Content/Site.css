@@ -26,3 +26,10 @@ textarea {
 .thumbnail {
     margin-bottom: 15px;
 }
+
+.page-title {
+    font-weight:bold;
+    text-transform: uppercase;
+    color:#24169c;
+    font-size:30px;
+}

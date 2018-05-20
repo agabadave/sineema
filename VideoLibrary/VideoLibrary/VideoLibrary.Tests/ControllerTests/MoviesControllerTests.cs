@@ -46,7 +46,7 @@ namespace VideoLibrary.Tests.ControllerTests
             //arrange...
             
             //act...
-            await _moviesController.Index();
+            await _moviesController.Index("","",1);
 
             //assert...
             _moqMovieRepository.Verify(x => x.GetAll(), Times.Once());
@@ -56,10 +56,22 @@ namespace VideoLibrary.Tests.ControllerTests
         public async Task Should_Have_Detail_View()
         {
             //act...
-            var result = (await _moviesController.Index()) as ViewResult;
+            var result = (await _moviesController.Index("","",1)) as ViewResult;
 
             //assert...
             Assert.AreEqual(string.Empty, result.ViewName);
+        }
+
+        [Test]
+        public void Reject_Invalid_Movie()
+        {
+
+        }
+
+        [Test]
+        public void Accept_Valid_Movie()
+        {
+
         }
     }
 }

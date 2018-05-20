@@ -1,1 +1,31 @@
-﻿<h1>Dashboard</h1>
+﻿<br/>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-table"></i> Distribution by Genre</div>
+            <div class="panel-body">
+                <table class="table" id="tbGenres">
+                <tr><th>Genre</th><th># of movies</th></tr>
+                @foreach(string[] item in ViewBag.Genres)
+                {
+                    <tr><td>@item[0]</td><td>@item[1]</td></tr>
+                }
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><i class="fa fa-table"></i> Most recent movies </div>
+            <div class="panel-body">
+                <table class="table" id="tbGenres">
+                    <tr><th>Title</th><th>Creation Date</th></tr>
+                    @foreach (var movie in ViewBag.Recent)
+                    {
+                        <tr><td>@movie.Title</td><td>@movie.DateAdded</td></tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

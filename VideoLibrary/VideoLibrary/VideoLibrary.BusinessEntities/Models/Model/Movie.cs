@@ -16,6 +16,7 @@ namespace VideoLibrary.BusinessEntities.Models.Model
         public long LeadActorId { get; set; }
 
         [Display(Name = "Actor")]
+        [ForeignKey("LeadActorId")]
         public Actor Actor { get; set; }
 
         public ICollection<MovieActor> MovieActors { get; set; }
